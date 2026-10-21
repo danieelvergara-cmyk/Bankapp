@@ -15,6 +15,13 @@ namespace BankApp
         string? Status { get; set; }
         DateTime StartDate { get; set; }
 
+        static void CalculateTotalIntrest()
+        {
+        }
+
+        static void CalculateMonthlyPayment()
+        {
+        }
 
     }
 }
