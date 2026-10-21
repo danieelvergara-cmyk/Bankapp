@@ -15,7 +15,7 @@ namespace BankApp
         public string? Status { get; set; }
         public DateTime StartDate { get; set; }
 
-        public decimal CalculateTotalIntrest()
+        public decimal CalculateTotalInterest()
         {
             return TotalInterest; // Placeholder implementation
         }
