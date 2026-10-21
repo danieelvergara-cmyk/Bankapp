@@ -6,14 +6,14 @@ namespace BankApp
 {
     internal class Loan
     {
-        int LoanId { get; set; }
-        decimal Amount { get; set; }
-        decimal InterestRate { get; set; }
-        int TermMonths { get; set; }
-        decimal TotalInterest { get; set; }
-        decimal RemainingBalance { get; set; }
-        string? Status { get; set; }
-        DateTime StartDate { get; set; }
+        public int LoanId { get; set; }
+        public decimal Amount { get; set; }
+        public decimal InterestRate { get; set; }
+        public int TermMonths { get; set; }
+        public decimal TotalInterest { get; set; }
+        public decimal RemainingBalance { get; set; }
+        public string? Status { get; set; }
+        public DateTime StartDate { get; set; }
 
         public decimal CalculateTotalIntrest()
         {
