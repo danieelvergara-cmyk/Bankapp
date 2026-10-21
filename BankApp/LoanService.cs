@@ -7,7 +7,7 @@ namespace BankApp
     internal class LoanService
     {
         // String user is a placeholder until the User class is accessible
-        public Loan CreateLoan(string user, decimal Amount, int termMonths)
+        public Loan CreateLoan(string user, decimal amount, int termMonths)
         {
             return new Loan(); // Placeholder implementation
         }
