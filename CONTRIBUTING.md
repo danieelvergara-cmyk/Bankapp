@@ -1,0 +1,9 @@
+- Vi arbetar inte direkt i main 
+- Varje uppgift vi jobbar på ska utvecklas i sin egen bransch
+- Vårt namn system för branscher ska vara kort och tydligt namn, Ex: loan-system-"Namn" / loan-system-fix-"Namn" 
+- Vi gör flera små commits för varje funktion vi utvecklar i programmet, Ex: Du har skrivit klart en loop, commit. Du har skrivit en ny if-sats, commit etc.
+- Vi skriver commits tydligt så att andra ska kunna förstå
+- Vi använder pull requests för att köra in i main
+- Minst en annan gruppmedlem ska granska en pull requests innan den kan godkännas 
+- Koden ska kompileras och fungera innan den mergas till main.
+- Vid merge konflikter ska vi kommunicera med varandra och om det behövs dela sin skärm i vår hub, om det går att lösa så kan vi spara både annars behöver vi skriver över koden, det viktiga är att vi kommunicerar med varandra vart vi arbetar så vi inte ändrar kod i samma klass
