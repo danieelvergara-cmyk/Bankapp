@@ -15,6 +15,7 @@ namespace BankApp
         string? Status { get; set; }
         DateTime StartDate { get; set; }
 
+        // Might change the method to be public if we want to access it from outside the class
         static void CalculateTotalIntrest()
         {
         }
