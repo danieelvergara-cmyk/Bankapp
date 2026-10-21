@@ -15,13 +15,14 @@ namespace BankApp
         string? Status { get; set; }
         DateTime StartDate { get; set; }
 
-        public void CalculateTotalIntrest()
+        public decimal CalculateTotalIntrest()
         {
+            return TotalIntrest; // Placeholder implementation
         }
 
-        public void CalculateMonthlyPayment()
+        public decimal CalculateMonthlyPayment()
         {
+            return 0; // Placeholder implementation
         }
-
     }
 }
