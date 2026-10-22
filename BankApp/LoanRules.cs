@@ -22,14 +22,11 @@ namespace BankApp
         }
         public bool CanBorrow(decimal amount, decimal totalBalance)
         {
-            if (amount > CalculateMaxLoan(totalBalance))
+            if (amount > CalculateMaxLoan(totalBalance) || amount <= 0)
             {
                 return false;
             }
-            else if (amount <= 0)
-            {
-                return false;
-            }
+          
             else
             {
                 return true;
