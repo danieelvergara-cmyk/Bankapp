@@ -22,6 +22,7 @@ namespace BankApp
                 newLoan.Amount = amount;
                 newLoan.TermMonths = termMonths;
                 newLoan.StartDate = DateTime.Now;
+                newLoan.Status = "Active";
 
                 return newLoan; // Placeholder implementation
 
