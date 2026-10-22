@@ -11,9 +11,12 @@ namespace BankApp
 
         // String user is a placeholder until the User class is accessible
         // decimal totalBalance is a placeholder until the User class is accessible
+
+        // Checks if the user can borrow the requested amount based on the LoanRules and if the termMonths is greater than 0
+        // If the user can borrow, creates a new Loan object with the requested amount and termMonths and returns it; otherwise, returns null
         public Loan? CreateLoan(string user, decimal amount, int termMonths, decimal totalBalance)
         {
-           if (rules.CanBorrow(amount, totalBalance))
+           if (rules.CanBorrow(amount, totalBalance) && termMonths > 0)
             {
                 Loan newLoan = new Loan();
                 newLoan.Amount = amount;
