@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "/Users/camilovergara/Developer/projects/GRUPP-BANKAPP/Bankapp/BankApp/BankApp.csproj": {}
+    "C:\\Users\\willi\\source\\repos\\danieelvergara-cmyk\\Bankapp\\BankApp\\BankApp.csproj": {}
   },
   "projects": {
-    "/Users/camilovergara/Developer/projects/GRUPP-BANKAPP/Bankapp/BankApp/BankApp.csproj": {
+    "C:\\Users\\willi\\source\\repos\\danieelvergara-cmyk\\Bankapp\\BankApp\\BankApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/camilovergara/Developer/projects/GRUPP-BANKAPP/Bankapp/BankApp/BankApp.csproj",
+        "projectUniqueName": "C:\\Users\\willi\\source\\repos\\danieelvergara-cmyk\\Bankapp\\BankApp\\BankApp.csproj",
         "projectName": "BankApp",
-        "projectPath": "/Users/camilovergara/Developer/projects/GRUPP-BANKAPP/Bankapp/BankApp/BankApp.csproj",
-        "packagesPath": "/Users/camilovergara/.nuget/packages/",
-        "outputPath": "/Users/camilovergara/Developer/projects/GRUPP-BANKAPP/Bankapp/BankApp/obj/",
+        "projectPath": "C:\\Users\\willi\\source\\repos\\danieelvergara-cmyk\\Bankapp\\BankApp\\BankApp.csproj",
+        "packagesPath": "C:\\Users\\willi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\willi\\source\\repos\\danieelvergara-cmyk\\Bankapp\\BankApp\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/camilovergara/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\willi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -61,7 +67,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.400/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.402/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
