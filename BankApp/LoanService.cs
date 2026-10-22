@@ -6,6 +6,9 @@ namespace BankApp
 {
     internal class LoanService
     {
+        LoanRules rules = new LoanRules();
+
+
         // String user is a placeholder until the User class is accessible
         public Loan CreateLoan(string user, decimal amount, int termMonths)
         {
