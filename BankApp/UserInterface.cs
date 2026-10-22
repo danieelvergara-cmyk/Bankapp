@@ -23,9 +23,9 @@ namespace BankApp
             Console.WriteLine("Welcome to BankApp");
         }
 
-        public void SetColors() 
+        public void SetColors(ConsoleColor color) 
         {
-            
+            Console.ForegroundColor = color;
         }
 
         public void ShowError(string message) 
