@@ -9,7 +9,7 @@ namespace BankApp
 
         public void ShowMainMenu()
         {
-
+            Console.WriteLine("Imagine a menu here: \n1.\n2.\n3.");
         }
 
         public void ShowLoginMenu()
