@@ -8,7 +8,7 @@ namespace BankApp
     internal class LoanRules
     {
         public decimal BaseInterestRate { get; set; }
-        public decimal MaxLoanMultiplier { get; set; }
+        public decimal MaxLoanMultiplier { get; set; } = 5m; // Default value for max loan multiplier
         public decimal CreditScoreFactor { get; set; }
 
         public decimal CalculateInterestRate(int creditScore)
@@ -18,7 +18,7 @@ namespace BankApp
 
         public decimal CalculateMaxLoan(decimal totalBalance)
         {
-            return BaseInterestRate; // Placeholder implementation
+            return totalBalance * MaxLoanMultiplier;
         }
         public bool CanBorrow(decimal amount, decimal totalBalance)
         {
