@@ -15,7 +15,10 @@ namespace BankApp
         {
            if (rules.CanBorrow(amount, totalBalance))
             {
-                return new Loan(); // Placeholder implementation
+                Loan newLoan = new Loan();
+                newLoan.Amount = amount;
+         
+                return newLoan; // Placeholder implementation
 
             }
 
