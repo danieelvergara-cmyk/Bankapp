@@ -12,8 +12,17 @@ namespace BankApp
             Console.WriteLine("Imagine a menu here: \n1.\n2.\n3.");
         }
 
+        // This method is used to show the login menu and get the username and password from the user. 
+        // It will then return the username and password to the caller.
+        // The username and password are currently just placeholders and will be replaced -
+        // with actual logic to get the username and password from the user.
         public void ShowLoginMenu()
         {
+            Console.WriteLine("Enter username:");
+            string username = Console.ReadLine();
+
+            Console.WriteLine("Enter password:");
+            string userPassword = Console.ReadLine();
 
         }
 
