@@ -26,7 +26,14 @@ namespace BankApp
             {
                 return false;
             }
-            else return true;
+            else if (amount <= 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         public void UpdateInterestRules(LoanRules rules)
