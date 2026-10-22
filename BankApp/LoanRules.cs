@@ -7,7 +7,7 @@ namespace BankApp
 {
     internal class LoanRules
     {
-        public decimal BaseInterestRate { get; set; }
+        public decimal BaseInterestRate { get; set; } = 5m;
         public decimal MaxLoanMultiplier { get; set; } = 5m; // Default value for max loan multiplier
         public decimal CreditScoreFactor { get; set; }
 
