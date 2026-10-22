@@ -17,7 +17,8 @@ namespace BankApp
             {
                 Loan newLoan = new Loan();
                 newLoan.Amount = amount;
-         
+                newLoan.TermMonths = termMonths;
+
                 return newLoan; // Placeholder implementation
 
             }
