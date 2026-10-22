@@ -23,9 +23,8 @@ namespace BankApp
                 newLoan.TermMonths = termMonths;
                 newLoan.StartDate = DateTime.Now;
                 newLoan.Status = "Active";
-                newLoan.InterestRate = rules.BaseInterestRate; // Assuming a base interest rate is defined in LoanRules
+                newLoan.InterestRate = rules.BaseInterestRate; 
                 newLoan.CalculateTotalInterest(); // Calculate total interest based on the above amount, interest rate add termMonths
-                newLoan.CalculateMonthlyPayment(); // Calculate monthly payment based on the previously calculated total interest, amount and termMonths 
 
                 return newLoan; 
 
