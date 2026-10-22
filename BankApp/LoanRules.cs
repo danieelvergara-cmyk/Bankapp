@@ -20,6 +20,9 @@ namespace BankApp
         {
             return totalBalance * MaxLoanMultiplier;
         }
+
+        // Checks if user can borrow a certain amount based on their total balance and the maximum loan multiplier
+        // if the requested amount exceeds the maximum loan amount or is less than or equal to zero, return false; otherwise, return true
         public bool CanBorrow(decimal amount, decimal totalBalance)
         {
             if (amount > CalculateMaxLoan(totalBalance) || amount <= 0)
