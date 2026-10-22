@@ -15,9 +15,11 @@ namespace BankApp
         public string? Status { get; set; }
         public DateTime StartDate { get; set; }
 
+        // Calculates the total interest cost for the loan based on the amount, interest rate, and term in months
         public decimal CalculateTotalInterest()
         {
-            return TotalInterest; // Placeholder implementation
+            TotalInterest = Amount * (InterestRate / 100) * (TermMonths / 12m);
+            return TotalInterest; 
         }
 
         public decimal CalculateMonthlyPayment()

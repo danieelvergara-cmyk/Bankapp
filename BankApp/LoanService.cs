@@ -24,7 +24,7 @@ namespace BankApp
                 newLoan.StartDate = DateTime.Now;
                 newLoan.Status = "Active";
 
-                return newLoan; // Placeholder implementation
+                return newLoan; 
 
             }
 
