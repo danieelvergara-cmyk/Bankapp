@@ -21,6 +21,7 @@ namespace BankApp
                 Loan newLoan = new Loan();
                 newLoan.Amount = amount;
                 newLoan.TermMonths = termMonths;
+                newLoan.StartDate = DateTime.Now;
 
                 return newLoan; // Placeholder implementation
 
