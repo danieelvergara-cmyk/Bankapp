@@ -23,9 +23,9 @@ namespace BankApp
         }
 
         // Calculates the monthly payment for the loan based on the amount, total interest, and term in months
-        public decimal CalculateMonthlyPayment(decimal monthlyPayment)
+        public decimal CalculateMonthlyPayment()
         {
-            monthlyPayment = (Amount + TotalInterest) / TermMonths;
+            decimal monthlyPayment = (Amount + TotalInterest) / TermMonths;
             return monthlyPayment; 
         }
     }
