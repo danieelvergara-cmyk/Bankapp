@@ -22,7 +22,11 @@ namespace BankApp
         }
         public bool CanBorrow(decimal amount, decimal totalBalance)
         {
-            return true; // Placeholder implementation
+            if (amount > CalculateMaxLoan(totalBalance))
+            {
+                return false;
+            }
+            else return true;
         }
 
         public void UpdateInterestRules(LoanRules rules)
