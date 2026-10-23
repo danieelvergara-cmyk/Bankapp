@@ -11,3 +11,4 @@
 .DS_Store
 /BankApp/obj/Debug/net10.0/BankApp.AssemblyInfo.cs
 /BankApp/obj/Debug/net10.0/BankApp.AssemblyInfoInputs.cache
+/BankApp/Program.cs
