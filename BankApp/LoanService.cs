@@ -7,7 +7,7 @@ namespace BankApp
     internal class LoanService
     {
         LoanRules rules = new LoanRules();
-
+        private int nextLoanId = 1000; // Starting loan ID for new loans
 
         // String user is a placeholder until the User class is accessible
         // decimal totalBalance is a placeholder until the User class is accessible
@@ -20,6 +20,7 @@ namespace BankApp
             {
                 Loan newLoan = new Loan();
                 newLoan.Amount = amount;
+                newLoan.LoanId = nextLoanId++; // Assign a unique loan ID and increment for the next loan
                 newLoan.TermMonths = termMonths;
                 newLoan.StartDate = DateTime.Now;
                 newLoan.Status = "Active";
