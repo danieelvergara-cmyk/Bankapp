@@ -6,10 +6,16 @@ namespace BankApp
 {
     internal class LoanService
     {
-        LoanRules rules = new LoanRules();
-        private List<Loan> loans = new List<Loan>(); // List to store all loans
+        private List<Loan> loans = new List<Loan>(); // List to store all loans (placeholder until the User class is accessible)
+        private LoanRules rules; // Field to hold the loan rules for the service
         private int nextLoanId = 1000; // Starting loan ID for new loans
 
+
+        // Constructor to initialize the LoanService with the provided LoanRules
+        public LoanService(LoanRules rules)
+        {
+            this.rules = rules;
+        }
 
         // String user is a placeholder until the User class is accessible
         // decimal totalBalance is a placeholder until the User class is accessible
@@ -17,6 +23,7 @@ namespace BankApp
         // Checks if the user can borrow the requested amount based on the LoanRules and if the termMonths is greater than 0
         // If the user can borrow, a new Loan object is created with the specified amount, termMonths, and other relevant details.
         // The new Loan object is returned. If the user cannot borrow, null is returned.
+
         public Loan? CreateLoan(string user, decimal amount, int termMonths, decimal totalBalance)
         {
            if (rules.CanBorrow(amount, totalBalance) && termMonths > 0)
@@ -78,9 +85,5 @@ namespace BankApp
 
         }
 
-        public bool UpdateRules(LoanRules newRules)
-        {
-            return rules.UpdateInterestRules(newRules);
-        }
     }
 }
