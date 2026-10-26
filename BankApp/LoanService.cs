@@ -111,7 +111,7 @@ namespace BankApp
 
             if (amount <= 0)
             {
-                Console.WriteLine("Repayment amount cannot be zero or negative");
+                Console.WriteLine("Repayment amount cannot be zero or negative.");
                 return;
             }
 
@@ -127,13 +127,13 @@ namespace BankApp
                 // -----------------------------------//
                 // Placeholder:                       //
                 //                                    //
-                // Withdraw the repayment amount       //
+                // Withdraw the repayment amount      //
                 // from the user's account balance.   //
                 //                                    //
                 //------------------------------------//
                 foundLoan.RemainingBalance = 0;
                 foundLoan.Status = "Paid";
-                Console.WriteLine($"{amount} has been repaid and the loan is now paid off"); // Remember to add currency formatting later
+                Console.WriteLine($"{amount} has been repaid and the loan is now paid off."); // Remember to add currency formatting later
                 return;
             }
 
@@ -141,7 +141,7 @@ namespace BankApp
             // -----------------------------------//
             // Placeholder:                       //
             //                                    //
-            // Withdraw the repayment amount       //
+            // Withdraw the repayment amount      //
             // from the user's account balance.   //
             //                                    //
             //------------------------------------//
