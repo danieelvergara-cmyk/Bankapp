@@ -64,5 +64,10 @@ namespace BankApp
         {
 
         }
+
+        public void UpdateRules(LoanRules newRules)
+        {
+            rules.UpdateInterestRules(newRules);
+        }
     }
 }
