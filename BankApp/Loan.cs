@@ -6,14 +6,15 @@ namespace BankApp
 {
     internal class Loan
     {
-        public int LoanId { get; set; }
-        public decimal Amount { get; set; }
-        public decimal InterestRate { get; set; }
-        public int TermMonths { get; set; }
-        public decimal TotalInterest { get; set; }
-        public decimal RemainingBalance { get; set; }
-        public string? Status { get; set; }
-        public DateTime StartDate { get; set; }
+        public int LoanId { get; set; } // Unique identifier for the loan
+        public decimal Amount { get; set; } // How much the user is borrowing
+        public decimal InterestRate { get; set; } // Interest rate for the loan
+        public int TermMonths { get; set; } // Duration of the loan in months
+        public decimal TotalInterest { get; set; } // Total interest cost for the loan
+        public decimal RemainingBalance { get; set; } // Remaining balance to be paid on the loan
+        public string? Status { get; set; } // Status of the loan (e.g., Active, Paid, Denied)
+        public DateTime StartDate { get; set; } // Date when the loan was created
+
 
         // Calculates the total interest cost for the loan based on the amount, interest rate, and term in months
         public decimal CalculateTotalInterest()

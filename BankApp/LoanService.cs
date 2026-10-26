@@ -10,6 +10,7 @@ namespace BankApp
         private List<Loan> loans = new List<Loan>(); // List to store all loans
         private int nextLoanId = 1000; // Starting loan ID for new loans
 
+
         // String user is a placeholder until the User class is accessible
         // decimal totalBalance is a placeholder until the User class is accessible
 
@@ -39,7 +40,14 @@ namespace BankApp
             {
                 if (rules.CanBorrow(amount, totalBalance) == false)
                 {
-                    Console.WriteLine("Loan denied: Insufficient balance to borrow the requested amount.");
+                    if (totalBalance < amount)
+                    {
+                        Console.WriteLine("Loan denied: Insufficient balance to borrow the requested amount.");
+                    }
+                    else
+                    {
+
+                    }
                 }
                 else if (termMonths <= 0)
                 {
