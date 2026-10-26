@@ -25,6 +25,7 @@ namespace BankApp
                 newLoan.Status = "Active";
                 newLoan.InterestRate = rules.BaseInterestRate; 
                 newLoan.CalculateTotalInterest(); // Calculate total interest based on the above amount, interest rate add termMonths
+                newLoan.RemainingBalance = newLoan.Amount + newLoan.TotalInterest; // Set the remaining balance to the total amount owed 
 
                 return newLoan; 
 
@@ -39,6 +40,7 @@ namespace BankApp
 
         public Loan CalculateLoanOffer(string user, decimal amount, int termMonths)
         {
+
             return new Loan(); // Placeholder implementation
         }
 
