@@ -37,8 +37,30 @@ namespace BankApp
             }
         }
 
-        public void UpdateInterestRules(LoanRules rules)
+        // Let's Admin update the interest rules, but only if the new values are greater than zero.
+        // If the new values are less than or equal to zero, we will not update the properties.
+        public void UpdateInterestRules(LoanRules newRules)
         {
+
+            if (newRules == null)
+            {
+                return; // Not updating if newRules is null
+            }
+            
+            if (newRules.BaseInterestRate > 0)
+            {
+                BaseInterestRate = newRules.BaseInterestRate;
+            }
+
+            if (newRules.MaxLoanMultiplier > 0)
+            {
+                MaxLoanMultiplier = newRules.MaxLoanMultiplier;
+            }
+
+            if (newRules.CreditScoreFactor > 0)
+            {
+                CreditScoreFactor = newRules.CreditScoreFactor;
+            }
 
         }
 
