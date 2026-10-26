@@ -82,6 +82,71 @@ namespace BankApp
 
         public void RepayLoan(int loanId, decimal amount)
         {
+            // Looks for the user's loan id and if found, initializes the foundLoan variable with the loan object.
+            // If not found, it will print "Loan not found." and return from the method.
+            Loan? foundLoan = null;
+
+            foreach (Loan loan in loans)
+            {
+                if (loan.LoanId == loanId)
+                {
+                    foundLoan = loan;
+                    break;
+                }
+            }
+
+            // Error handling for the repayment process. If the loan is not found, if the loan is already paid off or if the repayment amount is zero or negative,
+            // it will print an appropriate message and return from the method.
+            if (foundLoan == null)
+            {
+                Console.WriteLine("Loan not found.");
+                return;
+            }
+
+            if (foundLoan.Status == "Paid")
+            {
+                Console.WriteLine("Loan is already paid off.");
+                return;
+            }
+
+            if (amount <= 0)
+            {
+                Console.WriteLine("Repayment amount cannot be zero or negative");
+                return;
+            }
+
+            // If the repayment amount is greater than or equal to the remaining balance of the loan,
+            // it will adjust the repayment amount to the remaining balance if necessary.
+            if (amount >= foundLoan.RemainingBalance)
+            {
+                if (amount > foundLoan.RemainingBalance)
+                {
+                    amount = foundLoan.RemainingBalance; // Takes only what is left on the loan
+                    Console.WriteLine("Payment amount exceeds remaining balance. Adjusting payment to remaining balance.");
+                }
+                // -----------------------------------//
+                // Placeholder:                       //
+                //                                    //
+                // Withdraw the repayment amount       //
+                // from the user's account balance.   //
+                //                                    //
+                //------------------------------------//
+                foundLoan.RemainingBalance = 0;
+                foundLoan.Status = "Paid";
+                Console.WriteLine($"{amount} has been repaid and the loan is now paid off"); // Remember to add currency formatting later
+                return;
+            }
+
+            // Partial payment 
+            // -----------------------------------//
+            // Placeholder:                       //
+            //                                    //
+            // Withdraw the repayment amount       //
+            // from the user's account balance.   //
+            //                                    //
+            //------------------------------------//
+            foundLoan.RemainingBalance -= amount;
+            Console.WriteLine($"{amount} has been repaid. Remaining balance is now {foundLoan.RemainingBalance}."); // Remember to add currency formatting later
 
         }
 
