@@ -36,24 +36,28 @@ namespace BankApp
 
             }
 
-            else 
+            // Loan denied due to insufficient balance, invalid term or invalid amount
+            else
             {
-                if (rules.CanBorrow(amount, totalBalance) == false)
+                if (amount <= 0)
                 {
-                    if (totalBalance < amount)
-                    {
-                        Console.WriteLine("Loan denied: Insufficient balance to borrow the requested amount.");
-                    }
-                    else
-                    {
+                    Console.WriteLine("Loan denied: Amount must be greater than 0.");
+                    return null;
+                }
 
-                    }
-                }
-                else if (termMonths <= 0)
+                if (termMonths <= 0)
                 {
-                    Console.WriteLine("Loan denied: Invalid term. Term must be greater than 0 months.");
+                    Console.WriteLine("Loan denied: Term must be greater than 0.");
+                    return null;
                 }
-                return null; // Loan denied due to insufficient balance or invalid term
+
+                if (!rules.CanBorrow(amount, totalBalance))
+                {
+                    Console.WriteLine("Loan denied: Insufficient balance to borrow the requested amount.");
+                    return null;
+                }
+
+                return null;
             }
         }
 
