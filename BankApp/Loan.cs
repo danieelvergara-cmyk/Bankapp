@@ -30,7 +30,7 @@ namespace BankApp
                 return 0; // Return 0 if term is 0 or negative to avoid division by zero
             }
             
-            CalculateTotalInterest(); // Ensure TotalInterest is calculated before calculating monthly payment
+            CalculateTotalInterest(); // Ensure TotalInterest is allways calculated before calculating monthly payment
             decimal monthlyPayment = (Amount + TotalInterest) / TermMonths;
             return monthlyPayment;
         }

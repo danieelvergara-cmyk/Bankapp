@@ -14,7 +14,8 @@ namespace BankApp
         // decimal totalBalance is a placeholder until the User class is accessible
 
         // Checks if the user can borrow the requested amount based on the LoanRules and if the termMonths is greater than 0
-        // If the user can borrow, creates a new Loan object with the requested amount and termMonths and returns it; otherwise, returns null
+        // If the user can borrow, a new Loan object is created with the specified amount, termMonths, and other relevant details.
+        // The new Loan object is returned. If the user cannot borrow, null is returned.
         public Loan? CreateLoan(string user, decimal amount, int termMonths, decimal totalBalance)
         {
            if (rules.CanBorrow(amount, totalBalance) && termMonths > 0)
@@ -35,6 +36,14 @@ namespace BankApp
 
             else 
             {
+                if (rules.CanBorrow(amount, totalBalance) == false)
+                {
+                    Console.WriteLine("Loan denied: Insufficient balance to borrow the requested amount.");
+                }
+                else if (termMonths <= 0)
+                {
+                    Console.WriteLine("Loan denied: Invalid term. Term must be greater than 0 months.");
+                }
                 return null; // Loan denied due to insufficient balance or invalid term
             }
         }
