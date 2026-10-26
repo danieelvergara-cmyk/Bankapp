@@ -78,9 +78,9 @@ namespace BankApp
 
         }
 
-        public void UpdateRules(LoanRules newRules)
+        public bool UpdateRules(LoanRules newRules)
         {
-            rules.UpdateInterestRules(newRules);
+            return rules.UpdateInterestRules(newRules);
         }
     }
 }
