@@ -26,7 +26,7 @@ namespace BankApp
                 newLoan.StartDate = DateTime.Now;
                 newLoan.Status = "Active";
                 newLoan.InterestRate = rules.BaseInterestRate; 
-                newLoan.CalculateTotalInterest(); // Calculate total interest based on the above amount, interest rate add termMonths
+                newLoan.CalculateTotalInterest(); // Calculate total interest based on the above amount, interest rate and termMonths
                 newLoan.RemainingBalance = newLoan.Amount + newLoan.TotalInterest; // Set the remaining balance to the total amount owed 
 
                 return newLoan;
@@ -35,7 +35,7 @@ namespace BankApp
 
             else 
             {
-                return null; // Placeholder implementation
+                return null; // Loan denied due to insufficient balance or invalid term
             }
         }
 
