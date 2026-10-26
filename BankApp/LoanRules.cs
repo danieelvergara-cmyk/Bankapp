@@ -37,30 +37,48 @@ namespace BankApp
             }
         }
 
-        // Let's Admin update the interest rules, but only if the new values are greater than zero.
-        // If the new values are less than or equal to zero, we will not update the properties.
-        public void UpdateInterestRules(LoanRules newRules)
+        // Let's Admin update the interest rules, invalid values will not be accepted and a message will be printed to the console.
+        // BaseInterestRate and MaxLoanMultiplier must be greater than 0, CreditScoreFactor must be greater than or equal to 0.
+        public bool UpdateInterestRules(LoanRules newRules)
         {
+            bool allValid = true; // Flag to track if all values are valid
 
             if (newRules == null)
             {
-                return; // Not updating if newRules is null
+                return false; // Not updating if newRules is null
             }
             
             if (newRules.BaseInterestRate > 0)
             {
                 BaseInterestRate = newRules.BaseInterestRate;
             }
+            else
+            {
+                Console.WriteLine("Base Interest Rate needs to be greater than 0.");
+                allValid = false;
+            }
 
             if (newRules.MaxLoanMultiplier > 0)
             {
                 MaxLoanMultiplier = newRules.MaxLoanMultiplier;
             }
+            else
+            {
+                Console.WriteLine("Max Loan Multiplier needs to be greater than 0.");
+                allValid = false;
+            }
 
-            if (newRules.CreditScoreFactor > 0)
+            if (newRules.CreditScoreFactor >= 0)
             {
                 CreditScoreFactor = newRules.CreditScoreFactor;
             }
+            else
+            {
+                Console.WriteLine("Credit Score Factor needs to be greater than or equal to 0.");
+                allValid = false;
+            }
+
+            return allValid; // True if all values were saved, false if at least one was rejected (valid ones are still saved)
 
         }
 
