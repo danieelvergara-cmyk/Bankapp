@@ -23,20 +23,16 @@ namespace BankApp
         }
 
         // Calculates the monthly payment for the loan based on the amount, total interest, and term in months
-        // Note: The calculation uses TotalInterest so it should be called after CalculateTotalInterest() to ensure TotalInterest is up to date
         public decimal CalculateMonthlyPayment()
         {
-            if (TermMonths > 0)
-            {
-                decimal monthlyPayment = (Amount + TotalInterest) / TermMonths;
-                return monthlyPayment;
-            }
-
-            else
+            if (TermMonths <= 0)
             {
                 return 0; // Return 0 if term is 0 or negative to avoid division by zero
             }
-
+            
+            CalculateTotalInterest(); // Ensure TotalInterest is calculated before calculating monthly payment
+            decimal monthlyPayment = (Amount + TotalInterest) / TermMonths;
+            return monthlyPayment;
         }
     }
 }
