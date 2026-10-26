@@ -7,6 +7,7 @@ namespace BankApp
     internal class LoanService
     {
         LoanRules rules = new LoanRules();
+        private List<Loan> loans = new List<Loan>(); // List to store all loans
         private int nextLoanId = 1000; // Starting loan ID for new loans
 
         // String user is a placeholder until the User class is accessible
@@ -19,8 +20,8 @@ namespace BankApp
            if (rules.CanBorrow(amount, totalBalance) && termMonths > 0)
             {
                 Loan newLoan = new Loan();
-                newLoan.Amount = amount;
                 newLoan.LoanId = nextLoanId++; // Assign a unique loan ID and increment for the next loan
+                newLoan.Amount = amount;
                 newLoan.TermMonths = termMonths;
                 newLoan.StartDate = DateTime.Now;
                 newLoan.Status = "Active";
