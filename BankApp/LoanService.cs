@@ -28,8 +28,8 @@ namespace BankApp
                 newLoan.InterestRate = rules.BaseInterestRate; 
                 newLoan.CalculateTotalInterest(); // Calculate total interest based on the above amount, interest rate add termMonths
                 newLoan.RemainingBalance = newLoan.Amount + newLoan.TotalInterest; // Set the remaining balance to the total amount owed 
-
-                return newLoan; 
+                newLoan.CalculateMonthlyPayment(); // Calculate the monthly payment based on the remaining balance and termMonths
+                return newLoan  
 
             }
 
