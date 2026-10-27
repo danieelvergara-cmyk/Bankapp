@@ -10,11 +10,11 @@ namespace BankApp
         {
 
         }
-       private void sendEmail( string customerId, string message)
+       private void SendEmail( string customerId, string message)
         {
 
         }
-        private void  sendSms(string customerId, string message)
+        private void  SendSms(string customerId, string message)
         {
 
         }
