@@ -11,21 +11,27 @@ namespace BankApp
         private int nextLoanId = 1000; // Starting loan ID for new loans
 
 
+
         // Constructor to initialize the LoanService with the provided LoanRules
         public LoanService(LoanRules rules)
         {
             this.rules = rules;
         }
 
-        // decimal totalBalance is a placeholder until the User class is accessible
 
         // Checks if the user can borrow the requested amount based on the LoanRules and if the termMonths is greater than 0
         // If the user can borrow, a new Loan object is created with the specified amount, termMonths, and other relevant details.
         // The new Loan object is returned. If the user cannot borrow, null is returned.
-
-        public Loan? CreateLoan(User user, decimal amount, int termMonths, decimal totalBalance)
+        public Loan? CreateLoan(User user, decimal amount, int termMonths)
         {
-           if (rules.CanBorrow(amount, totalBalance) && termMonths > 0)
+            decimal totalBalance = 0; // Placeholder for the user's total balance until the User class is accessible
+            // 
+            foreach (Account account in user.Accounts)
+            {
+                totalBalance += account.Balance;
+            }
+
+            if (rules.CanBorrow(amount, totalBalance) && termMonths > 0)
             {
                 Loan newLoan = new Loan();
                 newLoan.LoanId = nextLoanId++; // Assign a unique loan ID and increment for the next loan
