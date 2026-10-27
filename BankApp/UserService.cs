@@ -11,13 +11,13 @@ namespace BankApp
         public List<User> Users { get; set; } = new();
 
         // Skapar en ny användare
-        public User CreateUser(
-            string username,
-            string password,
-            string email,
-            string phone)
-        {
-        }
+        //public User CreateUser(
+        //    string username,
+        //    string password,
+        //    string email,
+        //    string phone)
+        //{
+        //}
 
         // Uppdaterar användarens kontaktuppgifter
         public void UpdateUserInfo(
@@ -28,9 +28,9 @@ namespace BankApp
         }
 
         // Beräknar kreditvärdighet
-        public int CalculateCreditScore(User user)
-        {
-        }
+        //public int CalculateCreditScore(User user)
+        //{
+        //}
 
         // Lägger till konto på användaren
         public void AddAccountToUser(
@@ -47,8 +47,8 @@ namespace BankApp
         }
 
         // Hämtar användare via ID
-        public User GetUserById(int id)
-        {
-        }
+        //public User GetUserById(int id)
+        //{
+        //}
     }
 }
