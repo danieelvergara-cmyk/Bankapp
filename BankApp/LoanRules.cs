@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BankApp
 {
-    internal class LoanRules
+    public class LoanRules
     {
         public decimal BaseInterestRate { get; set; } = 5m; // The base interest rate for loans (default value is 5%)
         public decimal MaxLoanMultiplier { get; set; } = 5m; // Maximum multiplier for the loan amount based on the user's total balance (default value is 5 times the total balance)

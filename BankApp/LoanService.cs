@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BankApp
 {
-    internal class LoanService
+    public class LoanService
     {
         private List<Loan> loans = new List<Loan>(); // List to store all loans (placeholder until the User class is accessible)
         private LoanRules rules; // Field to hold the loan rules for the service
