@@ -76,9 +76,9 @@ namespace BankApp
         }
 
 
-        public Loan CalculateLoanOffer(User user, decimal amount, int termMonths)
+        public Loan ShowLoanOffer(User user, decimal amount, int termMonths)
         {
-
+            
             return new Loan(); // Placeholder implementation
         }
 
