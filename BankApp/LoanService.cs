@@ -24,7 +24,7 @@ namespace BankApp
         // The new Loan object is returned. If the user cannot borrow, null is returned.
         public Loan? CreateLoan(User user, decimal amount, int termMonths)
         {
-            decimal totalBalance = 0; // Placeholder for the user's total balance until the User class is accessible
+            decimal totalBalance = 0;
             
             // Gather the total balance of all the user's accounts to check against the borrowing rules
             foreach (Account account in user.Accounts)
@@ -40,7 +40,7 @@ namespace BankApp
                 newLoan.TermMonths = termMonths;
                 newLoan.StartDate = DateTime.Now;
                 newLoan.Status = "Active";
-                newLoan.InterestRate = rules.BaseInterestRate; 
+                newLoan.InterestRate = rules.CalculateInterestRate(user.CreditScore); // Calculate interest rate based on the user's credit score
                 newLoan.CalculateTotalInterest(); // Calculate total interest based on the above amount, interest rate and termMonths
                 newLoan.RemainingBalance = newLoan.Amount + newLoan.TotalInterest; // Set the remaining balance to the total amount owed 
                 
