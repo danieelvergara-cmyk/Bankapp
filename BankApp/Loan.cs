@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BankApp
 {
-    internal class Loan
+    public class Loan
     {
         public int LoanId { get; set; }
         public decimal Amount { get; set; }
