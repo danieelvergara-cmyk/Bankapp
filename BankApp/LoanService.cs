@@ -25,7 +25,8 @@ namespace BankApp
         public Loan? CreateLoan(User user, decimal amount, int termMonths)
         {
             decimal totalBalance = 0; // Placeholder for the user's total balance until the User class is accessible
-            // 
+            
+            // Gather the total balance of all the user's accounts to check against the borrowing rules
             foreach (Account account in user.Accounts)
             {
                 totalBalance += account.Balance;
