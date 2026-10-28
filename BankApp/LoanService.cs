@@ -25,14 +25,22 @@ namespace BankApp
         public Loan? CreateLoan(User user, decimal amount, int termMonths)
         {
             decimal totalBalance = 0;
-            
+            decimal existingDebt = 0;
+
             // Gather the total balance of all the user's accounts to check against the borrowing rules
             foreach (Account account in user.Accounts)
             {
                 totalBalance += account.Balance;
             }
 
-            if (rules.CanBorrow(amount, totalBalance) && termMonths > 0)
+            // Gather the total existing debt from all the user's loans to check against the borrowing rules
+            foreach (Loan loan in user.Loans)
+            {
+                existingDebt += loan.RemainingBalance;
+            }
+
+
+            if (rules.CanBorrow(amount + existingDebt, totalBalance) && termMonths > 0)
             {
                 Loan newLoan = new Loan();
                 newLoan.LoanId = nextLoanId++; // Assign a unique loan ID and increment for the next loan
@@ -70,7 +78,7 @@ namespace BankApp
                     return null;
                 }
 
-                if (!rules.CanBorrow(amount, totalBalance))
+                if (!rules.CanBorrow(amount + existingDebt, totalBalance))
                 {
                     Console.WriteLine("Loan denied: Insufficient balance to borrow the requested amount.");
                     return null;
