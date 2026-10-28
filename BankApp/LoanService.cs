@@ -155,7 +155,7 @@ namespace BankApp
                 //------------------------------------//
                 foundLoan.RemainingBalance = 0;
                 foundLoan.Status = "Paid";
-                Console.WriteLine($"{amount:F2} has been repaid and the loan is now paid off."); // Remember to add currency later (Need EchangeRate to be implemented)
+                Console.WriteLine($"{amount:F2} has been repaid and the loan is now paid off."); // Remember to add currency later (the loan needs to know which account/currency it belongs to)
                 return;
             }
 
@@ -165,11 +165,10 @@ namespace BankApp
             //                                    //
             // Withdraw the repayment amount      //  Need a method to withdraw the repayment amount from the user's account balance.
             // from the user's account balance.   //  This will be implemented in the future when the UserService and AccountService are implemented.
-            // from the user's account balance.   //
             //                                    //
             //------------------------------------//
             foundLoan.RemainingBalance -= amount;
-            Console.WriteLine($"{amount:F2} has been repaid. Remaining balance is now {foundLoan.RemainingBalance:F2}."); // Remember to add currency later (Need EchangeRate to be implemented)
+            Console.WriteLine($"{amount:F2} has been repaid. Remaining balance is now {foundLoan.RemainingBalance:F2}."); // Remember to add currency later (the loan needs to know which account/currency it belongs to)
 
         }
 
