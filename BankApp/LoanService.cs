@@ -82,6 +82,7 @@ namespace BankApp
                 if (!rules.CanBorrow(amount + existingDebt, totalBalance))
                 {
                     Console.WriteLine("Loan denied: Insufficient balance to borrow the requested amount.");
+                    Console.WriteLine($"You can borrow at most {rules.CalculateMaxLoan(totalBalance):F2}.");
                     return null;
                 }
 
