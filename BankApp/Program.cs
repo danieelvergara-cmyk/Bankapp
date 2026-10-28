@@ -1,6 +1,6 @@
 namespace BankApp
 {
-    public class Program
+    interal class Program
     {
         static void Main(string[] args)
         {
