@@ -99,7 +99,7 @@ namespace BankApp
 
         public List<Loan> GetUserLoans(int userId) 
         {
-            return new List<Loan>(); // Placeholder implementation
+            return new List<Loan>(); // Placeholder implementation (Needs UserService GetUserById method to be implemented)
         }
 
         public void RepayLoan(int loanId, decimal amount)
@@ -149,13 +149,13 @@ namespace BankApp
                 // -----------------------------------//
                 // Placeholder:                       //
                 //                                    //
-                // Withdraw the repayment amount      //
-                // from the user's account balance.   //
+                // Withdraw the repayment amount      //  Need a method to withdraw the repayment amount from the user's account balance.
+                // from the user's account balance.   //  This will be implemented in the future when the UserService and AccountService are implemented.
                 //                                    //
                 //------------------------------------//
                 foundLoan.RemainingBalance = 0;
                 foundLoan.Status = "Paid";
-                Console.WriteLine($"{amount:F2} has been repaid and the loan is now paid off."); // Remember to add currency formatting later
+                Console.WriteLine($"{amount:F2} has been repaid and the loan is now paid off."); // Remember to add currency later (Need EchangeRate to be implemented)
                 return;
             }
 
@@ -163,12 +163,13 @@ namespace BankApp
             // -----------------------------------//
             // Placeholder:                       //
             //                                    //
-            // Withdraw the repayment amount      //
+            // Withdraw the repayment amount      //  Need a method to withdraw the repayment amount from the user's account balance.
+            // from the user's account balance.   //  This will be implemented in the future when the UserService and AccountService are implemented.
             // from the user's account balance.   //
             //                                    //
             //------------------------------------//
             foundLoan.RemainingBalance -= amount;
-            Console.WriteLine($"{amount:F2} has been repaid. Remaining balance is now {foundLoan.RemainingBalance:F2}."); // Remember to add currency formatting later
+            Console.WriteLine($"{amount:F2} has been repaid. Remaining balance is now {foundLoan.RemainingBalance:F2}."); // Remember to add currency later (Need EchangeRate to be implemented)
 
         }
 
