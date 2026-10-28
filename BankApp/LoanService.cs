@@ -81,11 +81,6 @@ namespace BankApp
         }
 
 
-        public void ShowLoanOffer(User user, decimal amount, int termMonths)
-        {
-            Console.WriteLine($"Borrowing {amount} to {user}, mounths to repayment will be {termMonths}");
-        }
-
         public List<Loan> GetUserLoans(int userId) 
         {
             return new List<Loan>(); // Placeholder implementation
