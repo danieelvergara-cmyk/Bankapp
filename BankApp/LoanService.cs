@@ -6,7 +6,7 @@ namespace BankApp
 {
     public class LoanService
     {
-        private List<Loan> loans = new List<Loan>(); // List to store all loans (placeholder until the User class is accessible)
+        private List<Loan> loans = new List<Loan>(); // A private list to keep track of all loans and used to find loans for repayment. (Does not conflict with the user's list of loans)
         private LoanRules rules; // Field to hold the loan rules for the service
         private int nextLoanId = 1000; // Starting loan ID for new loans
 
@@ -24,8 +24,9 @@ namespace BankApp
         // The new Loan object is returned. If the user cannot borrow, null is returned.
         public Loan? CreateLoan(User user, decimal amount, int termMonths)
         {
-            decimal totalBalance = 0;
-            decimal existingDebt = 0;
+            
+            decimal totalBalance = 0; // Balance will be added up without currency conversion until the exchange rate feature is implemented.
+            decimal existingDebt = 0; // Used to stop users from borrowing more than they are allowed. 
 
             // Gather the total balance of all the user's accounts to check against the borrowing rules
             foreach (Account account in user.Accounts)
