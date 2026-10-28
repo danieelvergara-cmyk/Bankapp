@@ -46,6 +46,11 @@ namespace BankApp
 
                 user.Loans.Add(newLoan); // Add the new loan to the user's list of loans
                 loans.Add(newLoan); // Add the new loan to a private list of loans for use in the RepayLoan method
+
+                Console.WriteLine($"You have borrowed {amount:F2} for {termMonths} months with an interest rate of {newLoan.InterestRate:P2}%");
+                Console.WriteLine($"Total interest to be paid: {newLoan.TotalInterest:F2}");
+                Console.WriteLine($"Total to pay back: {newLoan.RemainingBalance:F2}");
+
                 return newLoan;
 
             }
@@ -75,6 +80,11 @@ namespace BankApp
             }
         }
 
+
+        public void ShowLoanOffer(User user, decimal amount, int termMonths)
+        {
+            Console.WriteLine($"Borrowing {amount} to {user}, mounths to repayment will be {termMonths}");
+        }
 
         public List<Loan> GetUserLoans(int userId) 
         {
