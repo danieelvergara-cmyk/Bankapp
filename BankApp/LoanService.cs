@@ -27,7 +27,6 @@ namespace BankApp
             
             decimal totalBalance = 0; // Balance will be added up without currency conversion until the exchange rate feature is implemented.
             decimal existingDebt = 0; // Used to stop users from borrowing more than they are allowed. 
-
             // Gather the total balance of all the user's accounts to check against the borrowing rules
             foreach (Account account in user.Accounts)
             {
@@ -39,6 +38,7 @@ namespace BankApp
             {
                 existingDebt += loan.RemainingBalance;
             }
+            decimal canBorrowAmount = rules.CalculateMaxLoan(totalBalance) - existingDebt; // Calculate the maximum amount the user can borrow based on their total balance and existing debt
 
 
             if (rules.CanBorrow(amount + existingDebt, totalBalance) && termMonths > 0)
@@ -64,7 +64,7 @@ namespace BankApp
 
             }
 
-            // Loan denied due to insufficient balance, invalid term or invalid amount
+            // Loan denied due to insufficient balance, invalid term, invalid amount or existing debt.
             else
             {
                 if (amount <= 0)
@@ -79,13 +79,19 @@ namespace BankApp
                     return null;
                 }
 
-                if (!rules.CanBorrow(amount + existingDebt, totalBalance))
+                if (canBorrowAmount <= 0)
                 {
-                    Console.WriteLine("Loan denied: Insufficient balance to borrow the requested amount.");
-                    Console.WriteLine($"You can borrow at most {rules.CalculateMaxLoan(totalBalance):F2}.");
+                    Console.WriteLine("Loan denied: You have reached your borrowing limit.");
                     return null;
                 }
 
+                // If the users allready has a loan and is trying to borrow more than they are allowed, this will catch it and deny the loan.
+                if (!rules.CanBorrow(amount + existingDebt, totalBalance)) 
+                {
+                    Console.WriteLine("Loan denied: Insufficient balance to borrow the requested amount.");
+                    Console.WriteLine($"You can borrow at most {canBorrowAmount:F2}.");
+                    return null;
+                }
                 return null;
             }
         }
@@ -149,7 +155,7 @@ namespace BankApp
                 //------------------------------------//
                 foundLoan.RemainingBalance = 0;
                 foundLoan.Status = "Paid";
-                Console.WriteLine($"{amount} has been repaid and the loan is now paid off."); // Remember to add currency formatting later
+                Console.WriteLine($"{amount:F2} has been repaid and the loan is now paid off."); // Remember to add currency formatting later
                 return;
             }
 
@@ -162,7 +168,7 @@ namespace BankApp
             //                                    //
             //------------------------------------//
             foundLoan.RemainingBalance -= amount;
-            Console.WriteLine($"{amount} has been repaid. Remaining balance is now {foundLoan.RemainingBalance}."); // Remember to add currency formatting later
+            Console.WriteLine($"{amount:F2} has been repaid. Remaining balance is now {foundLoan.RemainingBalance:F2}."); // Remember to add currency formatting later
 
         }
 
