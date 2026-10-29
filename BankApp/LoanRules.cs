@@ -8,7 +8,7 @@ namespace BankApp
     {
         public decimal BaseInterestRate { get; set; } = 5m; // The base interest rate for loans (default value is 5%)
         public decimal MaxLoanMultiplier { get; set; } = 5m; // Maximum multiplier for the loan amount based on the user's total balance (default value is 5 times the total balance)
-        public decimal CreditScoreFactor { get; set; } = 1m; // Factor that adjusts the interest rate based on the user's credit score
+        public decimal CreditScoreFactor { get; set; } = 1m; // Factor that adjusts the interest rate based on the user's credit score (default value is 1% per 100 points below a perfect score of 1000)
 
         public decimal CalculateInterestRate(int creditScore)
         {
@@ -23,7 +23,8 @@ namespace BankApp
             }
 
             // Calculate the extra interest rate based on the credit score and the CreditScoreFactor
-            decimal extraRate = (1000 - creditScore) / 100m * CreditScoreFactor; 
+            // A score of 1 gives the best interest rate, and every 100 points increases the CreditScoreFactor percent
+            decimal extraRate = (creditScore - 1) / 100m * CreditScoreFactor; 
             return BaseInterestRate + extraRate; 
         }
 
