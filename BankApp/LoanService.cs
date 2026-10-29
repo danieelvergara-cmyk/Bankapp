@@ -22,13 +22,13 @@ namespace BankApp
         public Loan? CreateLoan(User user, decimal amount, int termMonths)
         {
             
-            decimal totalBalance = 0; // Balance will be added up without currency conversion until the exchange rate feature is implemented.
+            decimal totalBalance = 0; 
             decimal existingDebt = 0; // Used to stop users from borrowing more than they are allowed. 
 
             // Gather the total balance of all the user's accounts to check against the borrowing rules
             foreach (Account account in user.Accounts)
             {
-                // Only SEK accounts count until ExchangeRate can covert other currencies. 
+                // Only SEK accounts count until ExchangeRate can convert other currencies. 
                 if (account.Currency == Currency.SEK)
                 {
                     totalBalance += account.Balance; // When ExchangeRate is implemented, this will be changed to convert all currencies to SEK before adding them up.
@@ -91,7 +91,7 @@ namespace BankApp
                 if (!rules.CanBorrow(amount + existingDebt, totalBalance)) 
                 {
                     Console.WriteLine("Loan denied: Insufficient balance to borrow the requested amount.");
-                    Console.WriteLine($"You can borrow at most {canBorrowAmount:F2}.");
+                    Console.WriteLine($"You can borrow at most {canBorrowAmount:F2} SEK.");
                     return null;
                 }
                 return null;
