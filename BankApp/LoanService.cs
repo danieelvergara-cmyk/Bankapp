@@ -6,7 +6,6 @@ namespace BankApp
 {
     public class LoanService
     {
-        private List<Loan> loans = new List<Loan>(); // A private list to keep track of all loans and used to find loans for repayment. (Does not conflict with the user's list of loans)
         private LoanRules rules; // Field to hold the loan rules for the service
         private int nextLoanId = 1000; // Starting loan ID for new loans
 
@@ -52,13 +51,13 @@ namespace BankApp
                 newLoan.InterestRate = rules.CalculateInterestRate(user.CreditScore); // Calculate interest rate based on the user's credit score
                 newLoan.CalculateTotalInterest(); // Calculate total interest based on the above amount, interest rate and termMonths
                 newLoan.RemainingBalance = newLoan.Amount + newLoan.TotalInterest; // Set the remaining balance to the total amount owed 
+                newLoan.MonthlyPayment = newLoan.CalculateMonthlyPayment(); // Calculate the monthly payment based on the total amount owed and termMonths
 
                 user.Loans.Add(newLoan); // Add the new loan to the user's list of loans
-                loans.Add(newLoan); // Add the new loan to a private list of loans for use in the RepayLoan method
 
                 Console.WriteLine($"You have borrowed {amount:F2} for {termMonths} months with an interest rate of {newLoan.InterestRate}%");
-                Console.WriteLine($"Total interest to be paid: {newLoan.TotalInterest:F2}");
-                Console.WriteLine($"Total to pay back: {newLoan.RemainingBalance:F2}");
+                Console.WriteLine($"Your monthly payment will be {newLoan.MonthlyPayment:F2}");
+                Console.WriteLine($"The interest you need to pay is {newLoan.TotalInterest:F2} for a total of {newLoan.RemainingBalance:F2}");
 
                 return newLoan;
 
@@ -95,82 +94,5 @@ namespace BankApp
                 return null;
             }
         }
-
-
-        public List<Loan> GetUserLoans(int userId) 
-        {
-            return new List<Loan>(); // Placeholder implementation (Needs UserService GetUserById method to be implemented)
-        }
-
-        public void RepayLoan(int loanId, decimal amount)
-        {
-            // Looks for the user's loan id and if found, initializes the foundLoan variable with the loan object.
-            // If not found, it will print "Loan not found." and return from the method.
-            Loan? foundLoan = null;
-
-            foreach (Loan loan in loans)
-            {
-                if (loan.LoanId == loanId)
-                {
-                    foundLoan = loan;
-                    break;
-                }
-            }
-
-            // Error handling for the repayment process. If the loan is not found, if the loan is already paid off or if the repayment amount is zero or negative,
-            // it will print an appropriate message and return from the method.
-            if (foundLoan == null)
-            {
-                Console.WriteLine("Loan not found.");
-                return;
-            }
-
-            if (foundLoan.Status == "Paid")
-            {
-                Console.WriteLine("Loan is already paid off.");
-                return;
-            }
-
-            if (amount <= 0)
-            {
-                Console.WriteLine("Repayment amount cannot be zero or negative.");
-                return;
-            }
-
-            // If the repayment amount is greater than or equal to the remaining balance of the loan,
-            // it will adjust the repayment amount to the remaining balance if necessary.
-            if (amount >= foundLoan.RemainingBalance)
-            {
-                if (amount > foundLoan.RemainingBalance)
-                {
-                    amount = foundLoan.RemainingBalance; // Takes only what is left on the loan
-                    Console.WriteLine("Payment amount exceeds remaining balance. Adjusting payment to remaining balance.");
-                }
-                // -----------------------------------//
-                // Placeholder:                       //
-                //                                    //
-                // Withdraw the repayment amount      //  Need a method to withdraw the repayment amount from the user's account balance.
-                // from the user's account balance.   //  This will be implemented in the future when the UserService and AccountService are implemented.
-                //                                    //
-                //------------------------------------//
-                foundLoan.RemainingBalance = 0;
-                foundLoan.Status = "Paid";
-                Console.WriteLine($"{amount:F2} has been repaid and the loan is now paid off."); // Remember to add currency later (the loan needs to know which account/currency it belongs to)
-                return;
-            }
-
-            // Partial payment 
-            // -----------------------------------//
-            // Placeholder:                       //
-            //                                    //
-            // Withdraw the repayment amount      //  Need a method to withdraw the repayment amount from the user's account balance.
-            // from the user's account balance.   //  This will be implemented in the future when the UserService and AccountService are implemented.
-            //                                    //
-            //------------------------------------//
-            foundLoan.RemainingBalance -= amount;
-            Console.WriteLine($"{amount:F2} has been repaid. Remaining balance is now {foundLoan.RemainingBalance:F2}."); // Remember to add currency later (the loan needs to know which account/currency it belongs to)
-
-        }
-
     }
 }
