@@ -51,6 +51,7 @@ namespace BankApp
                 newLoan.InterestRate = rules.CalculateInterestRate(user.CreditScore); // Calculate interest rate based on the user's credit score
                 newLoan.CalculateTotalInterest(); // Calculate total interest based on the above amount, interest rate and termMonths
                 newLoan.RemainingBalance = newLoan.Amount + newLoan.TotalInterest; // Set the remaining balance to the total amount owed 
+                newLoan.MonthlyPayment = newLoan.CalculateMonthlyPayment(); // Calculate the monthly payment based on the total amount owed and termMonths
 
                 user.Loans.Add(newLoan); // Add the new loan to the user's list of loans
 

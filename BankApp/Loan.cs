@@ -10,6 +10,7 @@ namespace BankApp
         public decimal Amount { get; set; } // How much the user is borrowing
         public decimal InterestRate { get; set; } // Interest rate for the loan
         public int TermMonths { get; set; } // Duration of the loan in months
+        public decimal MonthlyPayment { get; set; } // Monthly payment amount for the loan
         public decimal TotalInterest { get; set; } // Total interest cost for the loan
         public decimal RemainingBalance { get; set; } // Remaining balance to be paid on the loan
         public string? Status { get; set; } // Status of the loan (e.g., Active, Paid, Denied)
@@ -33,7 +34,7 @@ namespace BankApp
             
             CalculateTotalInterest(); // Ensure TotalInterest is allways calculated before calculating monthly payment
             decimal monthlyPayment = (Amount + TotalInterest) / TermMonths;
-            return monthlyPayment;
+            return MonthlyPayment;
         }
     }
 }
