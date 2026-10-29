@@ -95,14 +95,5 @@ namespace BankApp
                 return null;
             }
         }
-
-
-        public List<Loan> GetUserLoans(int userId) 
-        {
-            return new List<Loan>(); // Placeholder implementation (Needs UserService GetUserById method to be implemented)
-        }
-
-
-
     }
 }
