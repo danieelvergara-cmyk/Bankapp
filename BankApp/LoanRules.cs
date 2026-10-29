@@ -8,7 +8,7 @@ namespace BankApp
     {
         public decimal BaseInterestRate { get; set; } = 5m; // The base interest rate for loans (default value is 5%)
         public decimal MaxLoanMultiplier { get; set; } = 5m; // Maximum multiplier for the loan amount based on the user's total balance (default value is 5 times the total balance)
-        public decimal CreditScoreFactor { get; set; } // Factor that adjusts the interest rate based on the user's credit score
+        public decimal CreditScoreFactor { get; set; } = 1m; // Factor that adjusts the interest rate based on the user's credit score
 
         public decimal CalculateInterestRate(int creditScore)
         {
