@@ -9,8 +9,6 @@ namespace BankApp
         private LoanRules rules; // Field to hold the loan rules for the service
         private int nextLoanId = 1000; // Starting loan ID for new loans
 
-
-
         // Constructor to initialize the LoanService with the provided LoanRules
         public LoanService(LoanRules rules)
         {
@@ -26,10 +24,15 @@ namespace BankApp
             
             decimal totalBalance = 0; // Balance will be added up without currency conversion until the exchange rate feature is implemented.
             decimal existingDebt = 0; // Used to stop users from borrowing more than they are allowed. 
+
             // Gather the total balance of all the user's accounts to check against the borrowing rules
             foreach (Account account in user.Accounts)
             {
-                totalBalance += account.Balance;
+                // Only SEK accounts count until ExchangeRate can covert other currencies. 
+                if (account.Currency == Currency.SEK)
+                {
+                    totalBalance += account.Balance;
+                }
             }
 
             // Gather the total existing debt from all the user's loans to check against the borrowing rules
