@@ -9,8 +9,6 @@ namespace BankApp
         private LoanRules rules; // Field to hold the loan rules for the service
         private int nextLoanId = 1000; // Starting loan ID for new loans
 
-
-
         // Constructor to initialize the LoanService with the provided LoanRules
         public LoanService(LoanRules rules)
         {
@@ -24,12 +22,17 @@ namespace BankApp
         public Loan? CreateLoan(User user, decimal amount, int termMonths)
         {
             
-            decimal totalBalance = 0; // Balance will be added up without currency conversion until the exchange rate feature is implemented.
+            decimal totalBalance = 0; 
             decimal existingDebt = 0; // Used to stop users from borrowing more than they are allowed. 
+
             // Gather the total balance of all the user's accounts to check against the borrowing rules
             foreach (Account account in user.Accounts)
             {
-                totalBalance += account.Balance;
+                // Only SEK accounts count until ExchangeRate can convert other currencies. 
+                if (account.Currency == Currency.SEK)
+                {
+                    totalBalance += account.Balance; // When ExchangeRate is implemented, this will be changed to convert all currencies to SEK before adding them up.
+                }
             }
 
             // Gather the total existing debt from all the user's loans to check against the borrowing rules
@@ -55,9 +58,9 @@ namespace BankApp
 
                 user.Loans.Add(newLoan); // Add the new loan to the user's list of loans
 
-                Console.WriteLine($"You have borrowed {amount:F2} for {termMonths} months with an interest rate of {newLoan.InterestRate}%");
-                Console.WriteLine($"Your monthly payment will be {newLoan.MonthlyPayment:F2}");
-                Console.WriteLine($"The interest you need to pay is {newLoan.TotalInterest:F2} for a total of {newLoan.RemainingBalance:F2}");
+                Console.WriteLine($"You have borrowed {amount:F2} SEK for {termMonths} months with an interest rate of {newLoan.InterestRate}%");
+                Console.WriteLine($"Your monthly payment will be {newLoan.MonthlyPayment:F2} SEK");
+                Console.WriteLine($"The interest you need to pay is {newLoan.TotalInterest:F2} SEK for a total of {newLoan.RemainingBalance:F2} SEK");
 
                 return newLoan;
 
@@ -88,7 +91,7 @@ namespace BankApp
                 if (!rules.CanBorrow(amount + existingDebt, totalBalance)) 
                 {
                     Console.WriteLine("Loan denied: Insufficient balance to borrow the requested amount.");
-                    Console.WriteLine($"You can borrow at most {canBorrowAmount:F2}.");
+                    Console.WriteLine($"You can borrow at most {canBorrowAmount:F2} SEK.");
                     return null;
                 }
                 return null;
