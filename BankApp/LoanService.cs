@@ -31,7 +31,7 @@ namespace BankApp
                 // Only SEK accounts count until ExchangeRate can covert other currencies. 
                 if (account.Currency == Currency.SEK)
                 {
-                    totalBalance += account.Balance;
+                    totalBalance += account.Balance; // When ExchangeRate is implemented, this will be changed to convert all currencies to SEK before adding them up.
                 }
             }
 
@@ -58,9 +58,9 @@ namespace BankApp
 
                 user.Loans.Add(newLoan); // Add the new loan to the user's list of loans
 
-                Console.WriteLine($"You have borrowed {amount:F2} {Currency.SEK} for {termMonths} months with an interest rate of {newLoan.InterestRate}%");
-                Console.WriteLine($"Your monthly payment will be {newLoan.MonthlyPayment:F2} {Currency.SEK}");
-                Console.WriteLine($"The interest you need to pay is {newLoan.TotalInterest:F2} {Currency.SEK} for a total of {newLoan.RemainingBalance:F2} {Currency.SEK}");
+                Console.WriteLine($"You have borrowed {amount:F2} SEK for {termMonths} months with an interest rate of {newLoan.InterestRate}%");
+                Console.WriteLine($"Your monthly payment will be {newLoan.MonthlyPayment:F2} SEK");
+                Console.WriteLine($"The interest you need to pay is {newLoan.TotalInterest:F2} SEK for a total of {newLoan.RemainingBalance:F2} SEK");
 
                 return newLoan;
 
