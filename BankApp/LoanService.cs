@@ -6,7 +6,6 @@ namespace BankApp
 {
     public class LoanService
     {
-        private List<Loan> loans = new List<Loan>(); // A private list to keep track of all loans and used to find loans for repayment. (Does not conflict with the user's list of loans)
         private LoanRules rules; // Field to hold the loan rules for the service
         private int nextLoanId = 1000; // Starting loan ID for new loans
 
@@ -54,7 +53,6 @@ namespace BankApp
                 newLoan.RemainingBalance = newLoan.Amount + newLoan.TotalInterest; // Set the remaining balance to the total amount owed 
 
                 user.Loans.Add(newLoan); // Add the new loan to the user's list of loans
-                loans.Add(newLoan); // Add the new loan to a private list of loans for use in the RepayLoan method
 
                 Console.WriteLine($"You have borrowed {amount:F2} for {termMonths} months with an interest rate of {newLoan.InterestRate}%");
                 Console.WriteLine($"Total interest to be paid: {newLoan.TotalInterest:F2}");
