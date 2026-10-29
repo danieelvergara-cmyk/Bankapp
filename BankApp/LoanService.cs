@@ -58,9 +58,9 @@ namespace BankApp
 
                 user.Loans.Add(newLoan); // Add the new loan to the user's list of loans
 
-                Console.WriteLine($"You have borrowed {amount:F2} for {termMonths} months with an interest rate of {newLoan.InterestRate}%");
-                Console.WriteLine($"Your monthly payment will be {newLoan.MonthlyPayment:F2}");
-                Console.WriteLine($"The interest you need to pay is {newLoan.TotalInterest:F2} for a total of {newLoan.RemainingBalance:F2}");
+                Console.WriteLine($"You have borrowed {amount:F2} {Currency.SEK} for {termMonths} months with an interest rate of {newLoan.InterestRate}%");
+                Console.WriteLine($"Your monthly payment will be {newLoan.MonthlyPayment:F2} {Currency.SEK}");
+                Console.WriteLine($"The interest you need to pay is {newLoan.TotalInterest:F2} {Currency.SEK} for a total of {newLoan.RemainingBalance:F2} {Currency.SEK}");
 
                 return newLoan;
 
