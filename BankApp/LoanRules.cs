@@ -12,7 +12,19 @@ namespace BankApp
 
         public decimal CalculateInterestRate(int creditScore)
         {
-            return BaseInterestRate; // Placeholder implementation
+            if (creditScore < 1)
+            {
+                creditScore = 1; // Ensure credit score is at least 1 to avoid negative interest rates
+            }
+            
+            else if (creditScore > 1000)
+            {
+                creditScore = 1000; // Cap credit score at 1000 to avoid excessively low interest rates
+            }
+
+            // Calculate the extra interest rate based on the credit score and the CreditScoreFactor
+            decimal extraRate = (1000 - creditScore) / 100m * CreditScoreFactor; 
+            return BaseInterestRate + extraRate; 
         }
 
         // Calculates the maximum loan amount a user can borrow based on their total balance and the maximum loan multiplier
