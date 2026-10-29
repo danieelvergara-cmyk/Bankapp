@@ -6,9 +6,10 @@ namespace BankApp
 {
     public class LoanService
     {
-        private List<Loan> loans = new List<Loan>(); // List to store all loans (placeholder until the User class is accessible)
+        private List<Loan> loans = new List<Loan>(); // A private list to keep track of all loans and used to find loans for repayment. (Does not conflict with the user's list of loans)
         private LoanRules rules; // Field to hold the loan rules for the service
         private int nextLoanId = 1000; // Starting loan ID for new loans
+
 
 
         // Constructor to initialize the LoanService with the provided LoanRules
@@ -17,16 +18,30 @@ namespace BankApp
             this.rules = rules;
         }
 
-        // String user is a placeholder until the User class is accessible
-        // decimal totalBalance is a placeholder until the User class is accessible
 
         // Checks if the user can borrow the requested amount based on the LoanRules and if the termMonths is greater than 0
         // If the user can borrow, a new Loan object is created with the specified amount, termMonths, and other relevant details.
         // The new Loan object is returned. If the user cannot borrow, null is returned.
-
-        public Loan? CreateLoan(string user, decimal amount, int termMonths, decimal totalBalance)
+        public Loan? CreateLoan(User user, decimal amount, int termMonths)
         {
-           if (rules.CanBorrow(amount, totalBalance) && termMonths > 0)
+            
+            decimal totalBalance = 0; // Balance will be added up without currency conversion until the exchange rate feature is implemented.
+            decimal existingDebt = 0; // Used to stop users from borrowing more than they are allowed. 
+            // Gather the total balance of all the user's accounts to check against the borrowing rules
+            foreach (Account account in user.Accounts)
+            {
+                totalBalance += account.Balance;
+            }
+
+            // Gather the total existing debt from all the user's loans to check against the borrowing rules
+            foreach (Loan loan in user.Loans)
+            {
+                existingDebt += loan.RemainingBalance;
+            }
+            decimal canBorrowAmount = rules.CalculateMaxLoan(totalBalance) - existingDebt; // Calculate the maximum amount the user can borrow based on their total balance and existing debt
+
+
+            if (rules.CanBorrow(amount + existingDebt, totalBalance) && termMonths > 0)
             {
                 Loan newLoan = new Loan();
                 newLoan.LoanId = nextLoanId++; // Assign a unique loan ID and increment for the next loan
@@ -34,16 +49,22 @@ namespace BankApp
                 newLoan.TermMonths = termMonths;
                 newLoan.StartDate = DateTime.Now;
                 newLoan.Status = "Active";
-                newLoan.InterestRate = rules.BaseInterestRate; 
+                newLoan.InterestRate = rules.CalculateInterestRate(user.CreditScore); // Calculate interest rate based on the user's credit score
                 newLoan.CalculateTotalInterest(); // Calculate total interest based on the above amount, interest rate and termMonths
                 newLoan.RemainingBalance = newLoan.Amount + newLoan.TotalInterest; // Set the remaining balance to the total amount owed 
-                
-                loans.Add(newLoan); // Add the new loan to the list of loans
+
+                user.Loans.Add(newLoan); // Add the new loan to the user's list of loans
+                loans.Add(newLoan); // Add the new loan to a private list of loans for use in the RepayLoan method
+
+                Console.WriteLine($"You have borrowed {amount:F2} for {termMonths} months with an interest rate of {newLoan.InterestRate}%");
+                Console.WriteLine($"Total interest to be paid: {newLoan.TotalInterest:F2}");
+                Console.WriteLine($"Total to pay back: {newLoan.RemainingBalance:F2}");
+
                 return newLoan;
 
             }
 
-            // Loan denied due to insufficient balance, invalid term or invalid amount
+            // Loan denied due to insufficient balance, invalid term, invalid amount or existing debt.
             else
             {
                 if (amount <= 0)
@@ -58,26 +79,27 @@ namespace BankApp
                     return null;
                 }
 
-                if (!rules.CanBorrow(amount, totalBalance))
+                if (canBorrowAmount <= 0)
                 {
-                    Console.WriteLine("Loan denied: Insufficient balance to borrow the requested amount.");
+                    Console.WriteLine("Loan denied: You have reached your borrowing limit.");
                     return null;
                 }
 
+                // If the users allready has a loan and is trying to borrow more than they are allowed, this will catch it and deny the loan.
+                if (!rules.CanBorrow(amount + existingDebt, totalBalance)) 
+                {
+                    Console.WriteLine("Loan denied: Insufficient balance to borrow the requested amount.");
+                    Console.WriteLine($"You can borrow at most {canBorrowAmount:F2}.");
+                    return null;
+                }
                 return null;
             }
         }
 
 
-        public Loan CalculateLoanOffer(string user, decimal amount, int termMonths)
-        {
-
-            return new Loan(); // Placeholder implementation
-        }
-
         public List<Loan> GetUserLoans(int userId) 
         {
-            return new List<Loan>(); // Placeholder implementation
+            return new List<Loan>(); // Placeholder implementation (Needs UserService GetUserById method to be implemented)
         }
 
         public void RepayLoan(int loanId, decimal amount)
@@ -127,13 +149,13 @@ namespace BankApp
                 // -----------------------------------//
                 // Placeholder:                       //
                 //                                    //
-                // Withdraw the repayment amount      //
-                // from the user's account balance.   //
+                // Withdraw the repayment amount      //  Need a method to withdraw the repayment amount from the user's account balance.
+                // from the user's account balance.   //  This will be implemented in the future when the UserService and AccountService are implemented.
                 //                                    //
                 //------------------------------------//
                 foundLoan.RemainingBalance = 0;
                 foundLoan.Status = "Paid";
-                Console.WriteLine($"{amount} has been repaid and the loan is now paid off."); // Remember to add currency formatting later
+                Console.WriteLine($"{amount:F2} has been repaid and the loan is now paid off."); // Remember to add currency later (the loan needs to know which account/currency it belongs to)
                 return;
             }
 
@@ -141,12 +163,12 @@ namespace BankApp
             // -----------------------------------//
             // Placeholder:                       //
             //                                    //
-            // Withdraw the repayment amount      //
-            // from the user's account balance.   //
+            // Withdraw the repayment amount      //  Need a method to withdraw the repayment amount from the user's account balance.
+            // from the user's account balance.   //  This will be implemented in the future when the UserService and AccountService are implemented.
             //                                    //
             //------------------------------------//
             foundLoan.RemainingBalance -= amount;
-            Console.WriteLine($"{amount} has been repaid. Remaining balance is now {foundLoan.RemainingBalance}."); // Remember to add currency formatting later
+            Console.WriteLine($"{amount:F2} has been repaid. Remaining balance is now {foundLoan.RemainingBalance:F2}."); // Remember to add currency later (the loan needs to know which account/currency it belongs to)
 
         }
 
