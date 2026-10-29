@@ -8,15 +8,16 @@ namespace BankApp
     {
         public decimal BaseInterestRate { get; set; } = 5m; // The base interest rate for loans (default value is 5%)
         public decimal MaxLoanMultiplier { get; set; } = 5m; // Maximum multiplier for the loan amount based on the user's total balance (default value is 5 times the total balance)
-        public decimal CreditScoreFactor { get; set; } = 1m; // Factor that adjusts the interest rate based on the user's credit score (default value is 1%)
+        public decimal CreditScoreFactor { get; set; } = 1m; // Factor that adjusts the interest rate based on the user's credit score (default value is 1% for every 100 points bellow 1000)
 
 
-        // Calculate the extra interest rate based on the credit score and the CreditScoreFactor
+
+        // Calculates the interest rate based on the credit score (1-1000). A higher credit score gives a lower interest rate.
         public decimal CalculateInterestRate(int creditScore)
         {
             if (creditScore < 1)
             {
-                creditScore = 1; // Ensure credit score is at least 1 to avoid negative interest rates
+                creditScore = 1; // Ensure credit score is at least 1 to avoid excessively high interest rates
             }
             
             else if (creditScore > 1000)
@@ -30,11 +31,13 @@ namespace BankApp
             return BaseInterestRate + extraRate; 
         }
 
+
         // Calculates the maximum loan amount a user can borrow based on their total balance and the maximum loan multiplier
         public decimal CalculateMaxLoan(decimal totalBalance)
         {
             return totalBalance * MaxLoanMultiplier;
         }
+
 
         // Checks if user can borrow a certain amount based on their total balance and the maximum loan multiplier
         // if the requested amount exceeds the maximum loan amount or is less than or equal to zero, return false; otherwise, return true
@@ -50,6 +53,7 @@ namespace BankApp
                 return true;
             }
         }
+
 
         // Let's Admin update the interest rules, invalid values will not be accepted and a message will be printed to the console.
         // BaseInterestRate and MaxLoanMultiplier must be greater than 0, CreditScoreFactor must be greater than or equal to 0.
