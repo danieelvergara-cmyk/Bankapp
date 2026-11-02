@@ -14,11 +14,12 @@ namespace BankApp
         public int FromAccountId { get; set; }
         public int ToAccountId { get; set; }
         public decimal Amount { get; set; }
+        public string Currency { get; set; }
         public string TransactionStatus { get; set; }
-       
-
-         public string TransactionType { get; set; } 
-         public string Direction { get; set; }
+        public string TransactionType { get; set; } 
+        public string Direction { get; set; }
+        public string Description { get; set; }
+        public DateTime Timestamp { get; set; }
 
 
     }
