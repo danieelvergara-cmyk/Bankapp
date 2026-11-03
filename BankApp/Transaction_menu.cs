@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using static BankApp.StatisticsService;
 
 namespace BankApp
 {
@@ -8,30 +9,43 @@ namespace BankApp
     internal class Transaction_menu
     {
 
+  
+        private readonly TransactionService transactionService;
+        private readonly StatisticsService statistics;
+        private readonly User currentUser;
 
-            private readonly TransactionService transactionService;
 
-            public Transaction_menu(TransactionService transactionService)
+        public Transaction_menu(TransactionService transactionService)
             {
                 this.transactionService = transactionService;
-            }
+                this.statistics = transactionService.GetStatisticsService();
+                //this.currentUser = currentUser;
+        }
 
         public void RunTransferMenuAsync()
 
 
         {
 
-            Console.WriteLine("1. överför pengar");
-            Console.WriteLine("2. se en logg på alla överföringar");
-            Console.Write(" välj 1 eller 2:  ");
+          
+            Console.WriteLine("1. se en logg på alla överföringar");
+            Console.WriteLine("2. Se statistik");
+            Console.WriteLine("3. överför pengar");
+            Console.Write(" välj 1, 2 eller 3:  ");
 
             string choice1 = Console.ReadLine();
-            if (choice1 == "2")
+            if (choice1 == "1")
             {
                  ShowTransactionHistory();
             }
+            else if (choice1 == "2")
+            {
+                // Show statistics, but only for an admin
+                ShowStatistics(currentUser);
+            }
 
-            else if (choice1 == "1")
+
+            else if (choice1 == "3")
             {
                 
 
@@ -65,14 +79,15 @@ namespace BankApp
 
         }
 
-
+           //Shows all transactions for one account
             private void ShowTransactionHistory()
 
             {
                   Console.Write("Ange ditt kkontonummer: ");
                   int accountId = int.Parse(Console.ReadLine());
 
-                  List<Transaction> history = transactionService.TransactionHistory(accountId);
+            // Get all transactions where this account sent or received money
+            List<Transaction> history = transactionService.TransactionHistory(accountId);
 
 
                 if (history.Count == 0)
@@ -85,7 +100,9 @@ namespace BankApp
 
                 Console.WriteLine(" Dina transaktioner: ");
 
-                foreach (Transaction transaction in history)
+
+            // Print every transaction
+            foreach (Transaction transaction in history)
                 {
                 Console.WriteLine($"{transaction.Timestamp} : {transaction.Type}) " + $" {transaction.Amount} kr - {transaction.Status}");
                 
@@ -105,7 +122,9 @@ namespace BankApp
                     Console.Write("Belopp: ");
                     decimal amount = decimal.Parse(Console.ReadLine());
 
-                    decimal newBalance = transactionService.TransferToOwnAccount(fromAccountId, toAccountId, amount);
+
+                // Make the transfer
+                decimal newBalance = transactionService.TransferToOwnAccount(fromAccountId, toAccountId, amount);
 
                     Console.WriteLine($"Överföringen lyckades. Nytt saldo: {newBalance}");
                 }
@@ -115,27 +134,57 @@ namespace BankApp
                 }
             }
 
-            private void HandleOtherAccountTransfer()
+        private void HandleOtherAccountTransfer()
+        {
+            try
             {
-                try
-                {
-                    Console.Write("Från kontonummer: ");
-                    int fromAccountId = int.Parse(Console.ReadLine());
+                Console.Write("Från kontonummer: ");
+                int fromAccountId = int.Parse(Console.ReadLine());
 
-                    Console.Write("Till kontonummer: ");
-                    int toAccountId = int.Parse(Console.ReadLine());
+                Console.Write("Till kontonummer: ");
+                int toAccountId = int.Parse(Console.ReadLine());
 
-                    Console.Write("Belopp: ");
-                    decimal amount = decimal.Parse(Console.ReadLine());
+                Console.Write("Belopp: ");
+                decimal amount = decimal.Parse(Console.ReadLine());
 
-                    decimal newBalance = transactionService.TransfertoOtherAccount( fromAccountId,  toAccountId, amount);
+                decimal newBalance = transactionService.TransfertoOtherAccount(fromAccountId, toAccountId, amount);
 
-                    Console.WriteLine($"Överföringen lyckades. Nytt saldo: {newBalance}");
-                }
-                catch (Exception error)
-                {
-                    Console.WriteLine($"Överföringen misslyckades: {error.Message}");
-                }
+                Console.WriteLine($"Överföringen lyckades. Nytt saldo: {newBalance}");
+            }
+            catch (Exception error)
+            {
+                Console.WriteLine($"Överföringen misslyckades: {error.Message}");
             }
         }
+
+
+
+        // Shows statistics, but only if the current user is an admin
+        private void ShowStatistics(User currentUser)
+             {
+
+            // Stop if the user is not an admin
+                       if (!currentUser.IsAdmin) //True if this user is the bank owner / admin public bool IsAdmin { get; set; }
+                       {
+                              Console.WriteLine("Endast bankägaren kan se statistik.");
+                              return;
+                       }
+                 // Get the five accounts that receive the most money
+                   List<StatisticsService.TopAccount> topAccounts = statistics.TopRecipientAccounts(5);
+
+                         Console.WriteLine($"Totalt överfört: {statistics.TotalTransferred()} kr");
+                         Console.WriteLine($"Genomsnittligt belopp: {statistics.AverageTransactionAmount()} kr");
+
+                         Console.WriteLine("Mest populära konton:");
+
+
+                 
+
+                         foreach (StatisticsService.TopAccount topAccount in topAccounts)
+                         {
+                              Console.WriteLine( $"Konto {topAccount.AccountId}: " + $"Skickat {topAccount.TotalSent} kr, " + $"Mottaget {topAccount.TotalReceived} kr");
+                         }
+
+             }     
     }
+}
