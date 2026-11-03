@@ -27,6 +27,80 @@ namespace BankApp
             string userPassword = Console.ReadLine();
 
         }
+        //Added Menu method to register a new user. Used do and while loop for correct input.
+        public void ShowRegisterUserMenu(UserService userService)
+        {
+            Console.WriteLine("Create new user");
+
+            string username;
+
+            do
+            {
+                Console.Write("Enter username: ");
+                username = Console.ReadLine() ?? string.Empty;
+
+                if (string.IsNullOrWhiteSpace(username))
+                {
+                    Console.WriteLine("Username cannot be empty.");
+                }
+
+            } while (string.IsNullOrWhiteSpace(username));
+
+
+            string password;
+
+            do
+            {
+                Console.Write("Enter password: ");
+                password = Console.ReadLine() ?? string.Empty;
+
+                if (string.IsNullOrWhiteSpace(password))
+                {
+                    Console.WriteLine("Password cannot be empty.");
+                }
+
+            } while (string.IsNullOrWhiteSpace(password));
+
+
+            string email;
+
+            do
+            {
+                Console.Write("Enter email: ");
+                email = Console.ReadLine() ?? string.Empty;
+
+                if (string.IsNullOrWhiteSpace(email) || !email.Contains("@"))
+                {
+                    Console.WriteLine("Invalid email address.");
+                }
+
+            } while (string.IsNullOrWhiteSpace(email) || !email.Contains("@"));
+
+
+            string phone;
+
+            do
+            {
+                Console.Write("Enter phone number: ");
+                phone = Console.ReadLine() ?? string.Empty;
+
+                if (string.IsNullOrWhiteSpace(phone) || phone.Length < 8)
+                {
+                    Console.WriteLine("Invalid phone number.");
+                }
+
+            } while (string.IsNullOrWhiteSpace(phone) || phone.Length < 8);
+
+
+            User newUser = userService.CreateUser(
+                username,
+                password,
+                email,
+                phone);
+
+            Console.WriteLine(
+                $"User {newUser.Username} was created with ID {newUser.UserId}.");
+        }
 
         // This method is used to show the logo of the application.
         // it will be called after the user has logged in successfully and will be displayed on the main menu.

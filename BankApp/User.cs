@@ -40,25 +40,26 @@ namespace BankApp
         // Uppdaterar kontaktuppgifter
         public void UpdateInfo(string email, string phone)
         {
-            // Logik läggs till senare
+            Email = email;
+            Phone = phone;
         }
 
         // Ökar antalet misslyckade inloggningar
         public void IncrementFailedLogin()
         {
-            // Logik läggs till senare
+            FailedLogins++;
         }
 
         // Nollställer antalet misslyckade inloggningar
         public void ResetFailedLogin()
         {
-            // Logik läggs till senare
+            FailedLogins = 0;
         }
 
         // Låser användarkontot
         public void LockAccount()
         {
-            // Logik läggs till senare
+            IsLocked = true;
         }
     }
 }
