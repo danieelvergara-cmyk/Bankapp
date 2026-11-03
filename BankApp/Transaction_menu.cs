@@ -58,7 +58,7 @@ namespace BankApp
 
                 switch (choice)
                 {
-                    case "1":
+                    case "1": 
                         HandleOwnAccountTransfer();
                         break;
 

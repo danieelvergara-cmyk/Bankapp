@@ -8,6 +8,7 @@ namespace BankApp
 {
     internal class Scheduler
     {
+    
         private readonly TimeSpan _processingInterval = TimeSpan.FromMinutes(15);
 
         private readonly TransactionService _transactionService;
