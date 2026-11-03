@@ -8,11 +8,11 @@ namespace BankApp
     {
         public decimal BaseInterestRate { get; set; } = 5m; // The base interest rate for loans (default value is 5%)
         public decimal MaxLoanMultiplier { get; set; } = 5m; // Maximum multiplier for the loan amount based on the user's total balance (default value is 5 times the total balance)
-        public decimal CreditScoreFactor { get; set; } = 1m; // Factor that adjusts the interest rate based on the user's credit score (default value is 1% for every 100 points bellow 1000)
+        public decimal CreditScoreFactor { get; set; } = 1m; // Factor that adjusts the interest rate based on the user's credit score (1% for every 100 points away from 500) (Default value is 1%)
 
 
 
-        // Calculates the interest rate based on the credit score (1-1000). A higher credit score gives a lower interest rate.
+        // Calculates the interest rate based on the credit score (1-1000, with 500 as the default). A higher credit score gives a lower interest rate.
         public decimal CalculateInterestRate(int creditScore)
         {
             if (creditScore < 1)
@@ -25,10 +25,17 @@ namespace BankApp
                 creditScore = 1000; // Cap credit score at 1000 to avoid excessively low interest rates
             }
 
-            // A Score of 1000 results in no extra interest, and for every 100 points below 1000,
-            // the interest rate increases by the CreditScoreFactor percent.
-            decimal extraRate = (1000 - creditScore) / 100m * CreditScoreFactor; 
-            return BaseInterestRate + extraRate; 
+            // A score of 500 is neutral and gives the BaseInterestRate. Every 100 points below 500 adds CreditScoreFactor percent,
+            // and every 100 points above 500 removes CreditScoreFactor percent.
+            decimal extraRate = (500 - creditScore) / 100m * CreditScoreFactor; // Calculate the extra interest rate based on how far the credit score is from 500
+            decimal interestRate = BaseInterestRate + extraRate; // Calculate the final interest rate by adding the base rate and the extra rate based on credit score
+            
+            if (interestRate < 1m)
+            {
+                interestRate = 1m; // Ensure the interest rate does not go below 1%
+            }
+
+            return interestRate;
         }
 
 
