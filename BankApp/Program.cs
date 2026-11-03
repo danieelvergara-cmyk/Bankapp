@@ -4,7 +4,6 @@ namespace BankApp
     {
         static void Main(string[] args)
         {
-
         }
     }
 }
