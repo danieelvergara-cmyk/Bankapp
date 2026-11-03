@@ -9,6 +9,10 @@ namespace BankApp
     {
         // Lista över alla användare
         public List<User> Users { get; set; } = new();
+        // Nästa unika användar-ID
+        private int nextUserId = 1;
+
+
 
         // Skapar en ny användare
         public User CreateUser(
@@ -17,7 +21,24 @@ namespace BankApp
             string email,
             string phone)
         {
+            User newUser = new User();
+
+            newUser.UserId = nextUserId;
+            newUser.Username = username;
+            newUser.Password = password;
+            newUser.Email = email;
+            newUser.Phone = phone;
+            newUser.CreditScore = 500;
+
+            nextUserId++;
+
+            Users.Add(newUser);
+
+            Console.WriteLine("User created successfully.");
+
+            return newUser;
         }
+
 
         // Uppdaterar användarens kontaktuppgifter
         public void UpdateUserInfo(
@@ -25,30 +46,65 @@ namespace BankApp
             string email,
             string phone)
         {
-        }
+            if (user == null)
+            {
+                Console.WriteLine("User not found.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(email) || !email.Contains("@"))
+            {
+                Console.WriteLine("Invalid email address.");
+                return;
+            }
 
-        // Beräknar kreditvärdighet
+            if (string.IsNullOrWhiteSpace(phone) || phone.Length < 8)
+            {
+                Console.WriteLine("Invalid phone number.");
+                return;
+            }
+
+            user.UpdateInfo(email, phone);
+            Console.WriteLine("User information updated successfully.");
+        }
+        // Beräknar användarens kreditvärdighet
         public int CalculateCreditScore(User user)
         {
+            int creditScore = 500;
+
+            if (user.Accounts.Count > 0)
+            {
+                creditScore += 50;
+            }
+
+            if (user.Loans.Count == 0)
+            {
+                creditScore += 50;
+            }
+
+            if (creditScore > 1000)
+            {
+                creditScore = 1000;
+            }
+
+            user.CreditScore = creditScore;
+
+            return creditScore;
         }
 
-        // Lägger till konto på användaren
-        public void AddAccountToUser(
-            User user,
-            Account account)
+        // Hämtar en användare via ID
+        public User? GetUserById(int id)
         {
-        }
+            foreach (User user in Users)
+            {
+                if (user.UserId == id)
+                {
+                    return user;
+                }
+            }
 
-        // Lägger till lån på användaren
-        public void AddLoanToUser(
-            User user,
-            Loan loan)
-        {
-        }
+            Console.WriteLine("User not found.");
 
-        // Hämtar användare via ID
-        public User GetUserById(int id)
-        {
+            return null;
         }
     }
 }
