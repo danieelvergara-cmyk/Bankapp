@@ -1,104 +1,155 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using System.Transactions;
 
 namespace BankApp
 {
     internal class TransactionService
     {
-
-        // denna gör att processa alla pending transactions, dvs de som är på hold. så att de kan gå från pending till själva transaktionen, så att lånet kan gå igenom.
-        public void ProcessPendingTransactions()
+      
+        public StatisticsService GetStatisticsService () 
         {
-            foreach (Transaction transaction in _transactions)
-            {
-                if (transaction.TransactionStatus != "Pending")
-                {
-                    continue;
-                }
+            return new StatisticsService(transactions); }
 
-                Account? fromAccount = FindAccountById(transaction.FromAccountId);
-                Account? toAccount = FindAccountById(transaction.ToAccountId);
 
-                if (fromAccount == null || toAccount == null)
-                {
-                    transaction.TransactionStatus = "Failed";
-                    continue;
-                }
+        // Stores every transfer made in the bank
+        private List<Transaction> transactions = new List<Transaction>();
 
-                if (transaction.Amount <= 0 || transaction.Amount > fromAccount.Balance)
-                {
-                    transaction.TransactionStatus = "Failed";
-                    continue;
-                }
+        //private List<Account> accounts = new List<Account>();
 
-                fromAccount.WithDraw(transaction.Amount);
-                toAccount.Deposit(transaction.Amount);
-                transaction.TransactionStatus = "Completed";
-            }
-        }
 
-        private Account? FindAccountById(int accountId)
+        // Lock object: makes sure only one thread can change balances at a time
+        private readonly object _bankLock = new object();
+
+        private Account GetAccount(int fromAccountId)
         {
-            foreach (User user in _userService.Users)
-            {
-                foreach (Account account in user.Accounts)
-                {
-                    if (account.AccountId == accountId)
-                    {
-                        return account;
-                    }
-                }
-            }
 
-            return null;
+           
+            
+                return accounts.Find(a => a.AccountId == fromAccountId);
+
+            
         }
-
-
-        public void AddPendingTransaction(Transaction transaction)
-        {
-            transaction.TransactionStatus = "Pending";
-            _transactions.Add(transaction);
-        }
-
-        private readonly UserService _userService;
-
-        public TransactionService(UserService userService)
-        {
-            _userService = userService;
-        }
-
-        private readonly List<Transaction> _transactions = new();
-
-        public void TransferToOwnAccount(int fromAccountId, int toAccountId, decimal amount)
-        {
-            Transaction transaction = new Transaction
-            {
-                FromAccountId = fromAccountId,
-                ToAccountId = toAccountId,
-                Amount = amount
-            };
-
-            AddPendingTransaction(transaction);
-        }
-
-        public void TransferToOtherAccount(int fromAccountId,int toAccountId, decimal amount)
-        {
-            Transaction transaction = new Transaction
-            {
-                FromAccountId = fromAccountId,
-                ToAccountId = toAccountId,
-                Amount = amount
-            };
-
-            AddPendingTransaction(transaction);
-        }
-
         public List<Transaction> TransactionHistory(int accountId)
         {
-            return new List<Transaction>();
+            List<Transaction> history = new List<Transaction>();
+
+            foreach (Transaction transaction in transactions)
+            {
+                // Add the transaction if this account sent or received money
+                if (transaction.FromAccountId == accountId ||
+                    transaction.ToAccountId == accountId)
+                {
+                    history.Add(transaction);
+                }
+            }
+
+            return history;
+        }
+  
+        private decimal Transfer(int fromAccountId, int toAccountId, decimal amount, TransactionType transactionType, bool SameUser)
+        {
+            // Find both accounts
+            Account fromAccount = GetAccount(fromAccountId);
+            Account toAccount = GetAccount(toAccountId);
+
+            //decimal balance = fromAccount; // connect to the users bak
+
+
+
+            // Check that the receiving account exists
+            if (fromAccount == null)
+            {
+                throw new Exception($" Kontot med Id {fromAccountId} finns inte");
+            }
+
+            if (toAccount == null)
+            {
+                throw new Exception($" Kontot med Id {toAccount} finns inte");
+
+            }
+
+            /*
+             * If this is a transfer between the same user's accounts,
+             * both accounts must belong to the same user
+             */
+            if (SameUser && fromAccount.UserId != toAccount.UserId)
+            {
+                throw new Exception($" kontona tillhör inte samma användare.");
+            }
+
+            /*  
+                If this is a transfer to another user,
+                the accounts must not belong to the same user
+             */
+            if (!SameUser && fromAccount.UserId == toAccount.UserId)
+            {
+                throw new Exception("Använd TransferToOwnAccount för egna konton.");
+            }
+
+            if (amount <= 0)
+            {
+                throw new Exception("Beloppet måste vara större än 0.");
+            }
+
+            if (fromAccount.Balance < amount)
+            {
+                throw new Exception("Betalningen misslyckades. Det finns inte tillräckligt med pengar på kontot.");
+            }
+
+
+            // Lock so two transfers cannot change the same balances at the same time
+            lock (_bankLock)
+            {
+
+                // Remove money from sender
+                fromAccount.WithDraw(amount);
+
+                // Add money to receiver
+                toAccount.Deposit(amount);
+
+
+                // Save the completed transfer
+                Transaction transaction = new Transaction
+                {
+                    
+                    FromAccountId = fromAccountId,
+                    ToAccountId = toAccountId,
+                    Amount = amount,
+                    Status = TransactionStatus.Completed,
+                    Type = TransactionType.OwnTransfer,
+                    Timestamp = DateTime.UtcNow
+                    
+                };
+
+                transactions.Add(transaction);
+
+            }
+
+            // Return the sender's new balance
+            return fromAccount.Balance;
+
         }
 
+
+        // Transfers money between two accounts owned by the same user
+        public decimal TransferToOwnAccount(int fromAccountId, int toAccountId, decimal amount)
+        {
+          var result = Transfer(fromAccountId, toAccountId, amount, TransactionType.OwnTransfer, SameUser: true);
+
+            return result;
+        }
+
+        // Transfers money to another user's account
+        public decimal TransfertoOtherAccount(int fromAccountId, int toAccountId, decimal amount)
+        {
+    
+           var result = Transfer( fromAccountId, toAccountId, amount, TransactionType.TransferToOther, SameUser: false);
+
+           return result;
+        }
 
 
     }
