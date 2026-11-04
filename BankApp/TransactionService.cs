@@ -1,135 +1,146 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
-using System.Transactions;
+
+
+
 
 namespace BankApp
 {
     internal class TransactionService
+
     {
+
+        
+        
+        private readonly List<Transaction> transactions = new List<Transaction>();  // Creat a memory list and stores every complited transfer.
+
+        private readonly object _bankLock = new object();  // "Lock" prevents data corruption and calculation errors 
+        private readonly List<Account> accounts;
+
+       
+        public TransactionService(List<Account> accounts)  // constractor that takes the account list from Account class
+        {
+            this.accounts = accounts;
+        }
+
       
-        public StatisticsService GetStatisticsService () 
+
+        private Account GetAccount(int accountId)
         {
-            return new StatisticsService(transactions); }
+            foreach (Account account in accounts)
+            {
+                if (account.AccountId == accountId)
+                {
+                    return account;
+                }
+            }
+
+            return null;
 
 
-        // Stores every transfer made in the bank
-        private List<Transaction> transactions = new List<Transaction>();
 
-        //private List<Account> accounts = new List<Account>();
-
-
-        // Lock object: makes sure only one thread can change balances at a time
-        private readonly object _bankLock = new object();
-
-        private Account GetAccount(int fromAccountId)
-        {
-
-           
-            
-                return accounts.Find(a => a.AccountId == fromAccountId);
-
-            
         }
         public List<Transaction> TransactionHistory(int accountId)
         {
             List<Transaction> history = new List<Transaction>();
-
-            foreach (Transaction transaction in transactions)
+            lock(_bankLock)  
             {
-                // Add the transaction if this account sent or received money
-                if (transaction.FromAccountId == accountId ||
-                    transaction.ToAccountId == accountId)
-                {
-                    history.Add(transaction);
-                }
-            }
 
-            return history;
+
+            
+                   foreach (Transaction transaction in transactions)
+                   {
+                    // Add the transaction if this account sent or received money
+                      if (transaction.FromAccountId == accountId ||
+                        transaction.ToAccountId == accountId) 
+                      {
+                          history.Add(transaction);
+                      }
+                   }
+            }
+                  return history;
         }
   
         private decimal Transfer(int fromAccountId, int toAccountId, decimal amount, TransactionType transactionType, bool SameUser)
         {
-            // Find both accounts
-            Account fromAccount = GetAccount(fromAccountId);
-            Account toAccount = GetAccount(toAccountId);
-
-            //decimal balance = fromAccount; // connect to the users bak
-
-
-
-            // Check that the receiving account exists
-            if (fromAccount == null)
-            {
-                throw new Exception($" Kontot med Id {fromAccountId} finns inte");
-            }
-
-            if (toAccount == null)
-            {
-                throw new Exception($" Kontot med Id {toAccount} finns inte");
-
-            }
-
-            /*
-             * If this is a transfer between the same user's accounts,
-             * both accounts must belong to the same user
-             */
-            if (SameUser && fromAccount.UserId != toAccount.UserId)
-            {
-                throw new Exception($" kontona tillhör inte samma användare.");
-            }
-
-            /*  
-                If this is a transfer to another user,
-                the accounts must not belong to the same user
-             */
-            if (!SameUser && fromAccount.UserId == toAccount.UserId)
-            {
-                throw new Exception("Använd TransferToOwnAccount för egna konton.");
-            }
+     
+           
 
             if (amount <= 0)
             {
                 throw new Exception("Beloppet måste vara större än 0.");
             }
+           
+            // Find both accounts in accountservis
+            Account fromAccount = GetAccount(fromAccountId);
+            Account toAccount = GetAccount(toAccountId);
 
-            if (fromAccount.Balance < amount)
-            {
-                throw new Exception("Betalningen misslyckades. Det finns inte tillräckligt med pengar på kontot.");
-            }
-
-
-            // Lock so two transfers cannot change the same balances at the same time
-            lock (_bankLock)
+            lock (_bankLock)   // Lock so two transfers cannot change the same balances at the same time
             {
 
-                // Remove money from sender
-                fromAccount.WithDraw(amount);
+               
 
-                // Add money to receiver
-                toAccount.Deposit(amount);
+                // Check that the receiving account exists
+                if (fromAccount == null)
+                {
+                     throw new Exception($" Kontot med Id {fromAccount} finns inte");
+                }
+
+                if (toAccount == null)
+                {
+                     throw new Exception($" Kontot med Id {toAccount} finns inte");
+
+                }
+
+              /*
+             * If this is a transfer between the same user's accounts,
+             * both accounts must belong to the same user
+               */ 
+                if (SameUser && fromAccount.OwnerId != toAccount.OwnerId)   
+                {
+                     throw new Exception($" kontona tillhör inte samma användare.");
+                }
+
+               /*  
+                If this is a transfer to another user,
+                the accounts must not belong to the same user
+               */
+                if (!SameUser && fromAccount.OwnerId == toAccount.OwnerId)
+                {
+                    throw new Exception("Använd TransferToOwnAccount för egna konton.");
+                }
+
+          
+
+                if (fromAccount.Balance < amount)
+                {
+                     throw new Exception("Betalningen misslyckades. Det finns inte tillräckligt med pengar på kontot.");
+                }
+
+
+               
+                fromAccount.WithDraw(amount); // Remove money from sender
+                toAccount.Deposit(amount); // Add money to receiver
 
 
                 // Save the completed transfer
+
                 Transaction transaction = new Transaction
                 {
-                    
                     FromAccountId = fromAccountId,
                     ToAccountId = toAccountId,
                     Amount = amount,
                     Status = TransactionStatus.Completed,
-                    Type = TransactionType.OwnTransfer,
+                    Type = transactionType,
                     Timestamp = DateTime.UtcNow
-                    
                 };
-
-                transactions.Add(transaction);
+          
+                 transactions.Add(transaction); 
 
             }
-
-            // Return the sender's new balance
-            return fromAccount.Balance;
+            decimal newBalance = fromAccount.Balance;
+            return newBalance;  // Return the sender's new balance
 
         }
 
@@ -145,7 +156,6 @@ namespace BankApp
         // Transfers money to another user's account
         public decimal TransfertoOtherAccount(int fromAccountId, int toAccountId, decimal amount)
         {
-    
            var result = Transfer( fromAccountId, toAccountId, amount, TransactionType.TransferToOther, SameUser: false);
 
            return result;
