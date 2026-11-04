@@ -33,8 +33,12 @@ namespace BankApp
         // The conversion is done by first converting the amount to SEK and then converting it to the target currency.
         public decimal Convert(decimal amount, Currency from, Currency to)
         {
-            decimal inSek = amount * GetRate(from); // Returns the exchange rate for the 'from' currency and multiplies it by the amount to get the value in SEK
-            return Math.Round(inSek / GetRate(to), 2); // Returns the exchange rate for the 'to' currency and divides the value in SEK by it to get the value in the target currency. Also rounds the result to 2 decimal places for better readability and usability in financial contexts.
+            // Returns the exchange rate for the 'from' currency and multiplies it by the amount to get the value in SEK
+            decimal inSek = amount * GetRate(from); 
+
+            // Returns the exchange rate for the 'to' currency and divides the value in SEK by it to get the value in the target currency.
+            // Also rounds the result to 2 decimal places for better readability and usability in financial contexts.
+            return Math.Round(inSek / GetRate(to), 2); 
         }
 
         // Updates the exchange rate for a specific currency (EUR or USD) and sets the UpdatedAt property to the current date.
