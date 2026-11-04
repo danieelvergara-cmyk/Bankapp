@@ -15,6 +15,8 @@ namespace BankApp
             LoanService loanService = new LoanService(loanRules);
             //TransactionService transactionService = new TransactionService(userService);
             UserInterface userInterface = new UserInterface();
+            ExchangeRate exchangeRate = new ExchangeRate(); 
+
 
             //Scheduler scheduler = new Scheduler(TransactionService);
             //_ = scheduler.RunAsync();
