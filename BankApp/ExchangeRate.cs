@@ -8,7 +8,7 @@ namespace BankApp
     {
         public decimal EurToSek { get; private set; } = 10.98m; // Default value for EUR to SEK exchange rate
         public decimal UsdToSek { get; private set; } = 9.74m; // Default value for USD to SEK exchange rate
-        public DateOnly UpdatedAt { get; private set; }
+        public DateOnly UpdatedAt { get; private set; } = DateOnly.FromDateTime(DateTime.Now); // The date when the exchange rates were last updated (default value is the current date)
 
         public decimal GetRate(Currency currency)
         {
@@ -37,17 +37,19 @@ namespace BankApp
             return inSek / GetRate(to); // Returns the exchange rate for the 'to' currency and divides the value in SEK by it to get the value in the target currency
         }
 
+        // Updates the exchange rate for a specific currency (EUR or USD) and sets the UpdatedAt property to the current date.
         public bool UpdateExchangeRate(Currency currency, decimal newRate)
         {
             if (newRate <= 0)
             {
-                return false; // Not updating if newRate is 0 or bellow
+                Console.WriteLine("Kan inte vara 0 eller negativt nummer!");
+                return false; // Not updating if newRate is 0 or below
             }
 
             switch (currency)
             {
                 case Currency.SEK:
-                    Console.WriteLine("Kan inte ändra SEK");
+                    Console.WriteLine("Kan inte ändra SEK"); // SEK is the base currency and cannot be changed
                     return false;
 
                 case Currency.EUR:
