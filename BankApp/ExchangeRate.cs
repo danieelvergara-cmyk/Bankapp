@@ -52,13 +52,13 @@ namespace BankApp
 
                 case Currency.EUR:
                     EurToSek = newRate;
-                    UpdatedAt = new DateOnly();
+                    UpdatedAt = DateOnly.FromDateTime(DateTime.Now);
                     return true;
 
 
                 case Currency.USD:
                     UsdToSek = newRate;
-                    UpdatedAt = new DateOnly();
+                    UpdatedAt = DateOnly.FromDateTime(DateTime.Now);
                     return true;
 
                 default:
