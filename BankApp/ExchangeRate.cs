@@ -4,18 +4,17 @@ using System.Text;
 
 namespace BankApp
 {
-    internal class ExchangeRate
+    public class ExchangeRate
     {
-        public decimal EurToSek { get; set; } = 10.98m; // Default value for EUR to SEK exchange rate
-        public decimal UsdToSek { get; set; } = 9.74m; // Default value for USD to SEK exchange rate
+        public decimal EurToSek { get; private set; } = 10.98m; // Default value for EUR to SEK exchange rate
+        public decimal UsdToSek { get; private set; } = 9.74m; // Default value for USD to SEK exchange rate
 
-        ExchangeRate exchangeRate = new ExchangeRate(); // Will move to main later
         public decimal GetRate(Currency currency)
         {
             switch (currency)
             {
                 case Currency.SEK:
-                    return 1m; // The Base Currency calue in SEK
+                    return 1m; // The Base Currency value in SEK
 
                 case Currency.EUR:
                     return EurToSek;
@@ -39,10 +38,30 @@ namespace BankApp
 
         public bool UpdateExchangeRate(Currency currency, decimal newRate)
         {
-            if (newRate == null || newRate <= 0)
+            if (newRate <= 0)
             {
-                return false; // Not updating if newRate is null or bellow / equall to 0
+                return false; // Not updating if newRate is 0 or bellow
             }
+
+            switch (currency)
+            {
+                case Currency.SEK:
+                    Console.WriteLine("Kan inte ändra SEK");
+                    return false;
+
+                case Currency.EUR:
+                    EurToSek = newRate;
+                    return true;
+
+
+                case Currency.USD:
+                    UsdToSek = newRate;
+                    return true;
+
+                default:
+                    return false; // This never happens, just to avoid compilation errors
+            }
+
 
         }
 
