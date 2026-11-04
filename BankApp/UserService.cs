@@ -15,12 +15,23 @@ namespace BankApp
 
 
         // Skapar en ny användare
-        public User CreateUser(
+        public User? CreateUser(
             string username,
             string password,
             string email,
             string phone)
         {
+            // Kontrollerar om användarnamnet redan finns
+            foreach (User user in Users)
+            {
+                if (user.Username == username)
+                {
+                    Console.WriteLine("Username is already taken.");
+                    return null;
+                }
+            }
+
+            // Skapar användaren
             User newUser = new User();
 
             newUser.UserId = nextUserId;
@@ -32,6 +43,7 @@ namespace BankApp
 
             nextUserId++;
 
+            // Sparar användaren i listan
             Users.Add(newUser);
 
             Console.WriteLine("User created successfully.");
