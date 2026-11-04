@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace BankApp
 {
-    internal class Program
+    internal class AccountMenu
     {
         private static int _nextUserId = 1;
 
@@ -14,7 +14,7 @@ namespace BankApp
             // I en riktig bank skulle informationen sparas i en databas.
             UserService userService = new UserService();
             AccountService accountService = new AccountService();
-            TransactionService transactionService = new TransactionService(userService);
+            TransactionService transactionService = new TransactionService(accountService);
             Scheduler scheduler = new Scheduler(transactionService);
 
             // Scheduler behandlar väntande överföringar var 15:e minut.
@@ -24,8 +24,56 @@ namespace BankApp
 
             while (programIsRunning)
             {
+                Console.WriteLine("\n=== Välkommen till banken ===");
+                Console.WriteLine("1. Logga in");
+                Console.WriteLine("2. Registrera ny användare");
+                Console.WriteLine("0. Avsluta");
+                Console.Write("Välj: ");                                                                                                    
+                string? choice = Console.ReadLine();
 
-                  private static void ShowUserMenu(
+                switch (choice)
+                {
+                    case "1":
+                        User? user = LoginUser(userService);
+                        if (user != null)
+                        {
+                            ShowUserMenu(user, userService, accountService, transactionService);
+                        }               
+                        break;
+                    case "2":
+                        Console.WriteLine("\n=== Registrera ny användare ===")
+;                        string username = ReadRequiredText("Användarnamn: ");
+                        string password = ReadRequiredText("Lösenord: ");
+                        Console.WriteLine($"Användare {username} registrerad.");        
+                        break;
+                    case "0":
+                        programIsRunning = false;   
+                        break;
+                    default:
+                        Console.WriteLine("Välj ett av alternativen i menyn.");
+                        break;          
+                }
+            }
+        }
+
+        private static User? LoginUser(UserService userService)
+        {
+            Console.WriteLine("\n=== Logga in ===");
+            Console.Write("Användarnamn: ");
+            string? username = Console.ReadLine();
+            Console.Write("Lösenord: ");
+            string? password = Console.ReadLine();
+
+            User? user = userService.AuthenticateUser(username, password);
+
+            if (user == null)
+            {
+                Console.WriteLine("Felaktigt användarnamn eller lösenord.");
+            }
+
+            return user;
+        }                                                                                                               
+        private static void ShowUserMenu(
             User user,
             UserService userService,
             AccountService accountService,
@@ -314,4 +362,4 @@ namespace BankApp
             }
         }
     }
-}
+}   
