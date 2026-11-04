@@ -8,6 +8,7 @@ namespace BankApp
     {
         public decimal EurToSek { get; private set; } = 10.98m; // Default value for EUR to SEK exchange rate
         public decimal UsdToSek { get; private set; } = 9.74m; // Default value for USD to SEK exchange rate
+        public DateOnly UpdatedAt { get; private set; }
 
         public decimal GetRate(Currency currency)
         {
@@ -51,11 +52,13 @@ namespace BankApp
 
                 case Currency.EUR:
                     EurToSek = newRate;
+                    UpdatedAt = new DateOnly();
                     return true;
 
 
                 case Currency.USD:
                     UsdToSek = newRate;
+                    UpdatedAt = new DateOnly();
                     return true;
 
                 default:
