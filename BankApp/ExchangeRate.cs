@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-
-// To convert between different currencies use the Convert() method and the amounnt of monney and the currency to convert from and to is needed.
-// Example: Convert(100, Currency.EUR, Currency.SEK) will convert 100 EUR to SEK
 namespace BankApp 
 {
+    // To convert between currencies, use Convert(amount, from, to).
+    // Example: Convert(100, Currency.EUR, Currency.SEK) converts 100 EUR to SEK.
     public class ExchangeRate
     {
         public decimal EurToSek { get; private set; } = 10.98m; // Default value for EUR to SEK exchange rate
