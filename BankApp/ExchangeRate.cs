@@ -37,5 +37,14 @@ namespace BankApp
             return inSek / GetRate(to); // Returns the exchange rate for the 'to' currency and divides the value in SEK by it to get the value in the target currency
         }
 
+        public bool UpdateExchangeRate(Currency currency, decimal newRate)
+        {
+            if (newRate == null || newRate <= 0)
+            {
+                return false; // Not updating if newRate is null or bellow / equall to 0
+            }
+
+        }
+
     }
 }
