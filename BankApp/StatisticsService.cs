@@ -56,16 +56,14 @@ namespace BankApp
 
         public List<TopAccount> TopRecipientAccounts(int count)
         {
-            Dictionary<int, TopAccount> accountStatistics =
-                new Dictionary<int, TopAccount>();
+            Dictionary<int, TopAccount> accountStatistics = new Dictionary<int, TopAccount>();
 
             foreach (Transaction transaction in transactions)
             {
                 // Pengar skickade
                 if (accountStatistics.ContainsKey(transaction.FromAccountId))
                 {
-                    accountStatistics[transaction.FromAccountId].TotalSent +=
-                        transaction.Amount;
+                    accountStatistics[transaction.FromAccountId].TotalSent +=  transaction.Amount;
                 }
                 else
                 {
@@ -80,8 +78,7 @@ namespace BankApp
                 // Pengar mottagna
                 if (accountStatistics.ContainsKey(transaction.ToAccountId))
                 {
-                    accountStatistics[transaction.ToAccountId].TotalReceived +=
-                        transaction.Amount;
+                    accountStatistics[transaction.ToAccountId].TotalReceived += transaction.Amount;
                 }
                 else
                 {
