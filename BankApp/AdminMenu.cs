@@ -162,50 +162,62 @@ namespace BankApp
             
         public void ShowLoanRulesMenu()
         {
-            Console.Clear();
-            Console.WriteLine("---- Nuvarande låneregler ----");
-            Console.WriteLine();
-            Console.WriteLine($"Basränta:             {_loanRules.BaseInterestRate}%");
-            Console.WriteLine("  Räntan för en kund med kreditvärdighet 500.");
-            Console.WriteLine();
-            Console.WriteLine($"Maxlån:               {_loanRules.MaxLoanMultiplier} gånger saldot");
-            Console.WriteLine("  Hur mycket en kund får låna jämfört med sitt saldo.");
-            Console.WriteLine();
-            Console.WriteLine($"Kreditvärdighetsfaktor: {_loanRules.CreditScoreFactor}% per 100 poäng");
-            Console.WriteLine("  Hur mycket räntan ändras per 100 poäng från 500.");
-            Console.WriteLine("------------------------------");
-            
-            Console.WriteLine();
-            Console.WriteLine("1. Ändra värden");
-            Console.WriteLine("0. Tillbaka");
+            bool isRunning = true;
 
-            string userInput = Console.ReadLine();
-
-            switch (userInput)
+            while (isRunning)
             {
-                case "1":
-                    ChangeLoanRules();
-                    Console.WriteLine("--------------- Nya regler ---------------");
-                    Console.WriteLine();
-                    Console.WriteLine($"Basränta:             {_loanRules.BaseInterestRate}%");
-                    Console.WriteLine();
-                    Console.WriteLine($"Maxlån:               {_loanRules.MaxLoanMultiplier} gånger saldot");
-                    Console.WriteLine();
-                    Console.WriteLine($"Kreditvärdighetsfaktor: {_loanRules.CreditScoreFactor}% per 100 poäng");
-                    Console.WriteLine("------------------------------------------");
-                    Console.WriteLine("\nTryck på valfri knapp för att gå tillbaka till menyn.");
+                Console.Clear();
+                Console.WriteLine("---- Nuvarande låneregler ----");
+                Console.WriteLine();
+                Console.WriteLine($"Basränta:             {_loanRules.BaseInterestRate}%");
+                Console.WriteLine("  Räntan för en kund med kreditvärdighet 500.");
+                Console.WriteLine();
+                Console.WriteLine($"Maxlån:               {_loanRules.MaxLoanMultiplier} gånger saldot");
+                Console.WriteLine("  Hur mycket en kund får låna jämfört med sitt saldo.");
+                Console.WriteLine();
+                Console.WriteLine($"Kreditvärdighetsfaktor: {_loanRules.CreditScoreFactor}% per 100 poäng");
+                Console.WriteLine("  Hur mycket räntan ändras per 100 poäng från 500.");
+                Console.WriteLine("------------------------------");
 
-                    Console.ReadKey();
-                    break;
-                case "0":
-                    break;
-                default:
+                Console.WriteLine();
+                Console.WriteLine("1. Ändra värden");
+                Console.WriteLine("0. Tillbaka");
+
+                // If there is a wrong input, show the error message at the bottom of the menu and clear it after showing it once.
+                if (errorMessage != "")
+                {
+                    Console.WriteLine();
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Ogiltig input, skriv 1 eller 0.");
+                    Console.WriteLine(errorMessage);
                     Console.ResetColor();
-                    Console.WriteLine("\nTryck på valfri knapp för att gå tillbaka till menyn.");
-                    Console.ReadKey();
-                    break;
+                    errorMessage = "";
+                }
+
+                string userInput = Console.ReadLine();
+
+                switch (userInput)
+                {
+                    case "1":
+                        ChangeLoanRules();
+                        Console.WriteLine("--------------- Nya regler ---------------");
+                        Console.WriteLine($"Basränta:             {_loanRules.BaseInterestRate}%");
+                        Console.WriteLine();
+                        Console.WriteLine($"Maxlån:               {_loanRules.MaxLoanMultiplier} gånger saldot");
+                        Console.WriteLine();
+                        Console.WriteLine($"Kreditvärdighetsfaktor: {_loanRules.CreditScoreFactor}% per 100 poäng");
+                        Console.WriteLine("------------------------------------------");
+                        Console.WriteLine("\nTryck på valfri knapp för att gå tillbaka till menyn.");
+
+                        isRunning = false;
+                        Console.ReadKey();
+                        break;
+                    case "0":
+                        isRunning = false;
+                        break;
+                    default:
+                        errorMessage = "Ogiltig input, skriv 1 eller 0."; // Set the error message to be shown in the next iteration of the loop.
+                        break;
+                }
             }
         }
 
@@ -220,21 +232,27 @@ namespace BankApp
             Console.WriteLine("Skriv in ett nytt värde för basräntan (i procent):");
             while (!decimal.TryParse(Console.ReadLine(), out newBaseInterestRate))
             {
+                    Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Ogiltigt, skriv ett tal:");
+                    Console.ResetColor();
             }
             Console.Clear();
 
             Console.WriteLine("Skriv in ett nytt värde för maxlån (i multipel av saldot):");
             while (!decimal.TryParse(Console.ReadLine(), out newMaxLoanMultiplier))
             {
+                    Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Ogiltigt, skriv ett tal:");
+                    Console.ResetColor();
             }
             Console.Clear();
 
             Console.WriteLine("Skriv in ett nytt värde för kreditvärdighetsfaktorn (i procent per 100 poäng):");
             while (!decimal.TryParse(Console.ReadLine(), out newCreditScoreFactor))
             {
+                    Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Ogiltigt, skriv ett tal:");
+                    Console.ResetColor();
             }
             Console.Clear();
 
