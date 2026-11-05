@@ -1,0 +1,69 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace BankApp
+{
+    public class AdminMenu
+    {
+        private readonly UserService _userService;
+        private readonly LoanRules _loanRules;
+        private readonly ExchangeRate _exchangeRate;
+
+        public AdminMenu(UserService userService, LoanRules loanRules, ExchangeRate exchangeRate)
+        {
+
+        }
+
+        public void ShowAdminMenu(User admin)
+        {
+            bool isRunning = true;
+
+            while (isRunning)
+            {
+                Console.Clear();
+
+                Console.WriteLine("--- Admin ---");
+                Console.WriteLine("1. Skapa ny användare");
+                Console.WriteLine("2. Ändra låneregler");
+                Console.WriteLine("3. Ändra växelkurser");
+                Console.WriteLine("0. Logga ut");
+
+                string userInput = Console.ReadLine();
+
+                switch (userInput)
+                {
+                    case "1":
+                        ShowCreateUserMenu();
+                        break;
+                    case "2":
+                        ShowLoanRulesMenu();
+                        break;
+                    case "3":
+                        ShowExchangeRateMenu();
+                        break;
+                    case "0":
+                        isRunning = false;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        public void ShowCreateUserMenu()
+        {
+
+        }
+
+        public void ShowLoanRulesMenu()
+        {
+
+        }
+
+        public void ShowExchangeRateMenu()
+        {
+
+        }
+    }
+}

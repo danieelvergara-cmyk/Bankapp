@@ -202,10 +202,6 @@ namespace BankApp
         }
 
 
-        // Changes the console text color.
-        public void SetColors(ConsoleColor color)
-        {
-            Console.ForegroundColor = color;
-        }
+       
     }
 }
