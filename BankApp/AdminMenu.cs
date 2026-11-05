@@ -190,6 +190,8 @@ namespace BankApp
             {
                 case "1":
                    ChangeLoanRules();
+                    Console.WriteLine("\nRegler har ändrats, tryck på valfri knapp för att gå tillbaka till menyn.");
+                    Console.ReadKey();
                     break;
                 case "0":
                     break;
@@ -228,6 +230,16 @@ namespace BankApp
             {
                 Console.WriteLine("Ogiltigt, skriv ett tal:");
             }
+
+            LoanRules newRules = new LoanRules
+            {
+                BaseInterestRate = newBaseInterestRate,
+                MaxLoanMultiplier = newMaxLoanMultiplier,
+                CreditScoreFactor = newCreditScoreFactor
+            };
+
+            _loanRules.UpdateInterestRules(newRules);
+
 
         }
         public void ShowExchangeRateMenu()
