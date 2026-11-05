@@ -76,24 +76,64 @@ namespace BankApp
 
         public void ShowCreateUserMenu()
         {
+            string username;
+            string password;
+            string email;
+            string phone;
+
             Console.WriteLine();
             Console.WriteLine("---- Skapa en ny användare ----");
 
-            Console.Write("Skriv Användarnamn: ");
-            string username =
-                Console.ReadLine() ?? string.Empty;
+            do
+            {
+                Console.Write("Skriv Användarnamn: ");
+                username = Console.ReadLine() ?? string.Empty;
 
-            Console.Write("Skriv Lösenord: ");
-            string password =
-                Console.ReadLine() ?? string.Empty;
+                if (string.IsNullOrWhiteSpace(username))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Användarnamn kan inte vara tomt.");
+                    Console.ResetColor();
+                }
+            } while (string.IsNullOrWhiteSpace(username));
 
-            Console.Write("Skriv Email: ");
-            string email =
-                Console.ReadLine() ?? string.Empty;
+            do
+            {
+                Console.Write("Skriv Lösenord: ");
+                password = Console.ReadLine() ?? string.Empty;
+                if (string.IsNullOrWhiteSpace(password))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Lösenordet kan inte vara tomt.");
+                    Console.ResetColor();
+                }
+            } while (string.IsNullOrWhiteSpace(password));
 
-            Console.Write("Skriv mobilnummer: ");
-            string phone =
-                Console.ReadLine() ?? string.Empty;
+
+            do
+            {
+                Console.Write("Skriv Email: ");
+                email = Console.ReadLine() ?? string.Empty;
+                if (string.IsNullOrWhiteSpace(email))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Email kan inte vara tomt.");
+                    Console.ResetColor();
+                }
+            } while (string.IsNullOrWhiteSpace(email));
+
+            do
+            {
+                Console.Write("Skriv mobilnummer: ");
+                phone = Console.ReadLine() ?? string.Empty;
+                if (string.IsNullOrWhiteSpace(phone))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Mobilnummer kan inte vara tomt.");
+                    Console.ResetColor();
+                }
+            } while (string.IsNullOrWhiteSpace(phone));
+
 
             User? newUser = _userService.CreateUser(
                 username,
@@ -105,7 +145,11 @@ namespace BankApp
             {
                 Console.WriteLine($"Användaren {newUser.Username} har skapats med ID nummer: {newUser.UserId}.");
             }
+
         }
+            
+
+           
 
         public void ShowLoanRulesMenu()
         {
