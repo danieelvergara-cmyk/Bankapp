@@ -8,7 +8,6 @@ namespace BankApp
     {
         // Displays the main menu.
         public void ShowMainMenu(
-            UserService userService,
             LoginService loginService,
             AccountMenu accountMenu,
             TransactionMenu transactionMenu,
