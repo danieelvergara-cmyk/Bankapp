@@ -47,7 +47,8 @@ namespace BankApp
             return Math.Round(inSek / GetRate(to), 2); 
         }
 
-        // Updates the exchange rate for a specific currency (EUR or USD) and sets the UpdatedAt property to the current date.
+        // Updates the exchange rate for a specific currency (EUR or USD)
+        // and sets the UpdatedAt property to the current date for the respective currency
         public bool UpdateExchangeRate(Currency currency, decimal newRate)
         {
             if (newRate <= 0)
@@ -67,7 +68,6 @@ namespace BankApp
                     EurUpdatedAt = DateOnly.FromDateTime(DateTime.Now);
                     return true;
 
-
                 case Currency.USD:
                     UsdToSek = newRate;
                     UsdUpdatedAt = DateOnly.FromDateTime(DateTime.Now);
@@ -76,8 +76,6 @@ namespace BankApp
                 default:
                     return false; // This never happens, just to avoid compilation errors
             }
-
-
         }
 
     }

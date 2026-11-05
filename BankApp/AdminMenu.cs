@@ -322,7 +322,7 @@ namespace BankApp
             decimal newRate;
 
             Console.Clear();
-            Console.WriteLine($"Skriv in en nytt kurs för {currency}:");
+            Console.WriteLine($"Skriv in en ny kurs för {currency}:");
 
             while (!decimal.TryParse(Console.ReadLine(), out newRate))
             {
@@ -349,7 +349,6 @@ namespace BankApp
 
             Console.WriteLine("\nTryck på valfri knapp för att gå tillbaka till menyn.");
             Console.ReadKey();
-            Console.Clear();
 
         }
 
