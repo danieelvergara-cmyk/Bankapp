@@ -189,8 +189,9 @@ namespace BankApp
             switch (userInput)
             {
                 case "1":
-                   ChangeLoanRules();
-                    Console.WriteLine("\nRegler har ändrats, tryck på valfri knapp för att gå tillbaka till menyn.");
+                   
+                    if (ChangeLoanRules())
+
                     Console.WriteLine("--------------- Nya regler ---------------");
                     Console.WriteLine();
                     Console.WriteLine($"Basränta:             {_loanRules.BaseInterestRate}%");
@@ -199,6 +200,8 @@ namespace BankApp
                     Console.WriteLine();
                     Console.WriteLine($"Kreditvärdighetsfaktor: {_loanRules.CreditScoreFactor}% per 100 poäng");
                     Console.WriteLine("------------------------------------------");
+                    Console.WriteLine("\nTryck på valfri knapp för att gå tillbaka till menyn.");
+
                     Console.ReadKey();
                     break;
                 case "0":
@@ -213,11 +216,12 @@ namespace BankApp
 
         }
 
-        public void ChangeLoanRules()
+        public bool ChangeLoanRules()
         {
             decimal newBaseInterestRate;
             decimal newMaxLoanMultiplier;
             decimal newCreditScoreFactor;
+            bool allValid = true;
 
             Console.Clear();
 
@@ -240,6 +244,7 @@ namespace BankApp
             {
                 Console.WriteLine("Ogiltigt, skriv ett tal:");
             }
+            Console.Clear();
 
             LoanRules newRules = new LoanRules
             {
@@ -248,7 +253,9 @@ namespace BankApp
                 CreditScoreFactor = newCreditScoreFactor
             };
 
-            _loanRules.UpdateInterestRules(newRules);
+            return _loanRules.UpdateInterestRules(newRules);
+
+            
 
 
         }
