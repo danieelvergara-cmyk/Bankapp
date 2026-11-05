@@ -275,10 +275,9 @@ namespace BankApp
                 Console.Clear();
                 Console.WriteLine("---- Nuvarande växelkurser ----");
                 Console.WriteLine();
-                Console.WriteLine($"1 EUR = {_exchangeRate.EurToSek} SEK");
-                Console.WriteLine($"1 USD = {_exchangeRate.UsdToSek} SEK");
+                Console.WriteLine($"1 EUR = {_exchangeRate.EurToSek} SEK - Senast uppdaterad: {_exchangeRate.EurUpdatedAt}");
+                Console.WriteLine($"1 USD = {_exchangeRate.UsdToSek} SEK - Senast uppdaterad: {_exchangeRate.UsdUpdatedAt}");
                 Console.WriteLine();
-                Console.WriteLine($"Senast uppdaterad: {_exchangeRate.UpdatedAt}");
                 Console.WriteLine("-------------------------------");
 
                 Console.WriteLine();
