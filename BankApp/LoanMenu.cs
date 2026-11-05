@@ -72,8 +72,24 @@ namespace BankApp
                 Console.WriteLine("Ogiltigt belopp, skriv ett heltal:");
             }
 
+            Console.Clear();
 
+            Console.WriteLine($"Du kommer låna {amount} SEK och betala av det i {termMounths} månader.");
+            Console.WriteLine("Goodkän lånet?");
+            Console.WriteLine("1. Ja\n0. Nej");
 
+            string userInput = Console.ReadLine();
+
+            if (userInput != "1" || userInput != "0")
+            {
+                Console.WriteLine("Ogiltigt input, skriv ett 1 eller 0:");
+            }
+            else if (userInput != "0")
+            {
+                Console.WriteLine("Avbryter lånet. Går tillbaka till lån menyn.");
+                Console.WriteLine("Tryk på valfri knapp för att fortsätta");
+                Console.ReadKey();
+            }
         }
 
     }
