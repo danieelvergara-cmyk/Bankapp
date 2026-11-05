@@ -6,121 +6,208 @@ namespace BankApp
 {
     public class UserInterface
     {
-        // This method is used to show the main menu of the application.
-        // The main menu is currently just a placeholder and will be replaced later
-        // The logic will be in another class later, but for now, it will just show a menu with 3 options.
-        public void ShowMainMenu()
+        // Displays the main menu.
+        public void ShowMainMenu(
+            UserService userService,
+            LoginService loginService,
+            AccountMenu accountMenu,
+            TransactionMenu transactionMenu,
+            LoanMenu loanMenu,
+            AdminMenu adminMenu)
         {
-            Console.WriteLine("Imagine a menu here: \n1.\n2.\n3.");
+            bool isRunning = true;
+
+            while (isRunning)
+            {
+                Console.WriteLine();
+                Console.WriteLine("MAIN MENU");
+                Console.WriteLine("1. Register new user");
+                Console.WriteLine("2. Log in");
+                Console.WriteLine("3. Exit");
+                Console.Write("Choose an option: ");
+
+                string choice =
+                    Console.ReadLine() ?? string.Empty;
+
+                switch (choice)
+                {
+                    case "1":
+                        ShowRegisterUserMenu(userService);
+                        break;
+
+                    case "2":
+                        ShowLoginMenu(
+                            loginService,
+                            accountMenu,
+                            transactionMenu,
+                            loanMenu,
+                            adminMenu);
+                        break;
+
+                    case "3":
+                        Console.WriteLine("Closing BankApp.");
+                        isRunning = false;
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid option.");
+                        break;
+                }
+            }
         }
 
-        // This method is used to show the login menu and get the username and password from the user. 
-        // It will then return the username and password to the caller.
-        // The username and password are currently just placeholders and will be replaced -
-        // with actual logic to get the username and password in a LoginService class later.
-        public void ShowLoginMenu()
+
+        // Collects the information required
+        // to create a new user.
+        public void ShowRegisterUserMenu(
+            UserService userService)
         {
-            Console.WriteLine("Enter username:");
-            string username = Console.ReadLine();
+            Console.WriteLine();
+            Console.WriteLine("CREATE NEW USER");
 
-            Console.WriteLine("Enter password:");
-            string userPassword = Console.ReadLine();
+            Console.Write("Enter username: ");
+            string username =
+                Console.ReadLine() ?? string.Empty;
 
-        }
-        //Added Menu method to register a new user. Used do and while loop for correct input.
-        public void ShowRegisterUserMenu(UserService userService)
-        {
-            Console.WriteLine("Create new user");
+            Console.Write("Enter password: ");
+            string password =
+                Console.ReadLine() ?? string.Empty;
 
-            string username;
+            Console.Write("Enter email: ");
+            string email =
+                Console.ReadLine() ?? string.Empty;
 
-            do
-            {
-                Console.Write("Enter username: ");
-                username = Console.ReadLine() ?? string.Empty;
+            Console.Write("Enter phone number: ");
+            string phone =
+                Console.ReadLine() ?? string.Empty;
 
-                if (string.IsNullOrWhiteSpace(username))
-                {
-                    Console.WriteLine("Username cannot be empty.");
-                }
-
-            } while (string.IsNullOrWhiteSpace(username));
-
-
-            string password;
-
-            do
-            {
-                Console.Write("Enter password: ");
-                password = Console.ReadLine() ?? string.Empty;
-
-                if (string.IsNullOrWhiteSpace(password))
-                {
-                    Console.WriteLine("Password cannot be empty.");
-                }
-
-            } while (string.IsNullOrWhiteSpace(password));
-
-
-            string email;
-
-            do
-            {
-                Console.Write("Enter email: ");
-                email = Console.ReadLine() ?? string.Empty;
-
-                if (string.IsNullOrWhiteSpace(email) || !email.Contains("@"))
-                {
-                    Console.WriteLine("Invalid email address.");
-                }
-
-            } while (string.IsNullOrWhiteSpace(email) || !email.Contains("@"));
-
-
-            string phone;
-
-            do
-            {
-                Console.Write("Enter phone number: ");
-                phone = Console.ReadLine() ?? string.Empty;
-
-                if (string.IsNullOrWhiteSpace(phone) || phone.Length < 8)
-                {
-                    Console.WriteLine("Invalid phone number.");
-                }
-
-            } while (string.IsNullOrWhiteSpace(phone) || phone.Length < 8);
-
-
-            User newUser = userService.CreateUser(
+            User? newUser = userService.CreateUser(
                 username,
                 password,
                 email,
                 phone);
 
-            Console.WriteLine(
-                $"User {newUser.Username} was created with ID {newUser.UserId}.");
+            if (newUser != null)
+            {
+                Console.WriteLine(
+                    $"User {newUser.Username} was created " +
+                    $"with ID {newUser.UserId}.");
+            }
         }
 
-        // This method is used to show the logo of the application.
-        // it will be called after the user has logged in successfully and will be displayed on the main menu.
+
+        // Collects the login credentials
+        // and sends them to LoginService.
+        public void ShowLoginMenu(
+            LoginService loginService,
+            AccountMenu accountMenu,
+            TransactionMenu transactionMenu,
+            LoanMenu loanMenu,
+            AdminMenu adminMenu)
+        {
+            Console.WriteLine();
+            Console.WriteLine("LOG IN");
+
+            Console.Write("Enter username: ");
+            string username =
+                Console.ReadLine() ?? string.Empty;
+
+            Console.Write("Enter password: ");
+            string password =
+                Console.ReadLine() ?? string.Empty;
+
+            User? loggedInUser =
+                loginService.Authenticate(
+                    username,
+                    password);
+
+            if (loggedInUser == null)
+            {
+                return;
+            }
+
+            // Opens the correct menu based on the user role.
+            if (loggedInUser is Admin)
+            {
+                adminMenu.ShowAdminMenu(loggedInUser);
+            }
+            else
+            {
+                ShowUserMenu(
+                    loggedInUser,
+                    accountMenu,
+                    transactionMenu,
+                    loanMenu);
+            }
+        }
+
+
+        // Displays the navigation menu
+        // for a regular authenticated user.
+        public void ShowUserMenu(
+            User user,
+            AccountMenu accountMenu,
+            TransactionMenu transactionMenu,
+            LoanMenu loanMenu)
+        {
+            bool isLoggedIn = true;
+
+            while (isLoggedIn)
+            {
+                Console.WriteLine();
+                Console.WriteLine($"Welcome {user.Username}");
+
+                Console.WriteLine("USER MENU");
+                Console.WriteLine("1. Accounts");
+                Console.WriteLine("2. Transactions");
+                Console.WriteLine("3. Loans");
+                Console.WriteLine("4. Log out");
+                Console.Write("Choose an option: ");
+
+                string choice =
+                    Console.ReadLine() ?? string.Empty;
+
+                switch (choice)
+                {
+                    case "1":
+                        accountMenu.ShowAccountMenu(user);
+                        break;
+
+                    case "2":
+                        transactionMenu.ShowTransactionMenu(user);
+                        break;
+
+                    case "3":
+                        loanMenu.ShowLoanMenu(user);
+                        break;
+
+                    case "4":
+                        Console.WriteLine("You have logged out.");
+                        isLoggedIn = false;
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid option.");
+                        break;
+                }
+            }
+        }
+
+
+        // Displays the application logo.
         public void ShowLogo()
         {
-            Console.WriteLine("\r\n               _.----------.               \r\n           ,-''    ,ooo.    `--.           \r\n        ,-'       _¥$$$£..      `-.        \r\n      ,'      ,_o$$$''$$$$o_       `.      \r\n    ,'      ,o$$$$,o$$$$o.88o.       `.    \r\n   /       ,$$$,d$$$$¥¥$$$£888£.       \\   \r\n  /        d$£d$$$¥'    ¥$£d888'        \\  \r\n ;         ¥$$$$$.      '\"'88£'          : \r\n ;          ¥$'¥$$o_     '¥£'            : \r\n;            '¥8¥$$$£.                    :\r\n|              `\"'¥$$$$o.                 |\r\n:                  '`¥$$$$o.              ;\r\n :                    '`¥$$$.            ; \r\n :           _.          '$$£.           ; \r\n  \\        _.88.        ,$$$££          /  \r\n   \\      ,88._8£oooooo$$$£'8£         /   \r\n    `.    '¥888.$$$$$$$$£'88£        ,'    \r\n      `.    `\"'8'',o.o.'8£\"'       ,'      \r\n        `-.     ''Y888£         ,-'        \r\n           `--.    ¥££'     _.-'           \r\n               `----------''               \r\n");
+            Console.WriteLine("============================");
+            Console.WriteLine("          BANKAPP");
+            Console.WriteLine("============================");
             Console.WriteLine("Welcome to BankApp");
         }
 
-        // This method is used to set the color of the console text.
-        // It takes a ConsoleColor as a parameter and sets the ForegroundColor of the console to that color.
-        public void SetColors(ConsoleColor color) 
+
+        // Changes the console text color.
+        public void SetColors(ConsoleColor color)
         {
             Console.ForegroundColor = color;
         }
-
-        public void ShowError(string message) 
-        {
-
-        }
-
     }
 }
