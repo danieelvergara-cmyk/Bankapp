@@ -10,7 +10,6 @@ namespace BankApp
         // They are readonly because they should not be modified after initialization.3
         private readonly LoanService _loanService;
         private readonly LoanRules _loanRules;
-        private readonly 
 
         // This constructor initializes the LoanMenu with the provided LoanService and LoanRules instances.
         public LoanMenu(LoanService loanService, LoanRules loanRules)
@@ -36,7 +35,7 @@ namespace BankApp
 
                 string userInput = Console.ReadLine();
 
-                switch (userInput) 
+                switch (userInput)
                 {
                     case "1":
                         ShowTakeLoanMenu(user);
@@ -103,8 +102,10 @@ namespace BankApp
 
                 }
             }
-            }
+
+
         }
 
     }
 }
+
