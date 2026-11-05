@@ -76,7 +76,37 @@ namespace BankApp
 
         public void ShowCreateUserMenu()
         {
+            Console.WriteLine();
+            Console.WriteLine("---- Skapa en ny användare ----");
 
+            Console.Write("Skriv Användarnamn: ");
+            string username =
+                Console.ReadLine() ?? string.Empty;
+
+            Console.Write("Skriv Lösenord: ");
+            string password =
+                Console.ReadLine() ?? string.Empty;
+
+            Console.Write("Skriv Email: ");
+            string email =
+                Console.ReadLine() ?? string.Empty;
+
+            Console.Write("Skriv mobilnummer: ");
+            string phone =
+                Console.ReadLine() ?? string.Empty;
+
+            User? newUser = _userService.CreateUser(
+                username,
+                password,
+                email,
+                phone);
+
+            if (newUser != null)
+            {
+                Console.WriteLine(
+                    $"User {newUser.Username} was created " +
+                    $"with ID {newUser.UserId}.");
+            }
         }
 
         public void ShowLoanRulesMenu()

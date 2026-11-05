@@ -21,9 +21,8 @@ namespace BankApp
             {
                 Console.WriteLine();
                 Console.WriteLine("MAIN MENU");
-                Console.WriteLine("1. Register new user"); // Needs to be in Admin Menu
-                Console.WriteLine("2. Log in");
-                Console.WriteLine("3. Exit");
+                Console.WriteLine("1. Log in");
+                Console.WriteLine("2. Exit");
                 Console.Write("Choose an option: ");
 
                 string choice =
@@ -32,19 +31,15 @@ namespace BankApp
                 switch (choice)
                 {
                     case "1":
-                        ShowRegisterUserMenu(userService);
+                        ShowLoginMenu(
+                           loginService,
+                           accountMenu,
+                           transactionMenu,
+                           loanMenu,
+                           adminMenu);
                         break;
 
                     case "2":
-                        ShowLoginMenu(
-                            loginService,
-                            accountMenu,
-                            transactionMenu,
-                            loanMenu,
-                            adminMenu);
-                        break;
-
-                    case "3":
                         Console.WriteLine("Closing BankApp.");
                         isRunning = false;
                         break;
@@ -57,42 +52,12 @@ namespace BankApp
         }
 
 
-        // Collects the information required
-        // to create a new user.
+        // ShowRegisterUserMenu has been moved to AdminMenu.cs,
+        // as it requires admin privileges to create new users.
         public void ShowRegisterUserMenu(
             UserService userService)
         {
-            Console.WriteLine();
-            Console.WriteLine("CREATE NEW USER");
-
-            Console.Write("Enter username: ");
-            string username =
-                Console.ReadLine() ?? string.Empty;
-
-            Console.Write("Enter password: ");
-            string password =
-                Console.ReadLine() ?? string.Empty;
-
-            Console.Write("Enter email: ");
-            string email =
-                Console.ReadLine() ?? string.Empty;
-
-            Console.Write("Enter phone number: ");
-            string phone =
-                Console.ReadLine() ?? string.Empty;
-
-            User? newUser = userService.CreateUser(
-                username,
-                password,
-                email,
-                phone);
-
-            if (newUser != null)
-            {
-                Console.WriteLine(
-                    $"User {newUser.Username} was created " +
-                    $"with ID {newUser.UserId}.");
-            }
+           
         }
 
 
