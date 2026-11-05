@@ -26,7 +26,7 @@ namespace BankApp
             {
                 if (user.Username == username)
                 {
-                    Console.WriteLine("Användarnamnet är redan taget");
+                    Console.WriteLine("Användarnamnet är redan taget.");
                     return null;
                 }
             }

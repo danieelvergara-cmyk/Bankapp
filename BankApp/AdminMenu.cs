@@ -124,7 +124,7 @@ namespace BankApp
                 if (string.IsNullOrWhiteSpace(email) || !email.Contains("@"))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Email kan inte vara tomt.");
+                    Console.WriteLine("Ogiltig email, den måste innehålla @.");
                     Console.ResetColor();
                 }
             } while (string.IsNullOrWhiteSpace(email) || !email.Contains("@"));
@@ -138,7 +138,7 @@ namespace BankApp
                 if (string.IsNullOrWhiteSpace(phone) || phone.Length < 8)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Mobilnummer kan inte vara tomt.");
+                    Console.WriteLine("Ogiltigt mobilnummer, det måste vara minst 8 tecken.");
                     Console.ResetColor();
                 }
             } while (string.IsNullOrWhiteSpace(phone) || phone.Length < 8);
@@ -153,10 +153,10 @@ namespace BankApp
             if (newUser != null)
             {
                 Console.WriteLine($"Användaren {newUser.Username} har skapats med ID nummer: {newUser.UserId}.");
-
-                Console.WriteLine("\nTryck på valfri knapp för att gå tillbaka till menyn.");
-                Console.ReadKey();
             }
+
+            Console.WriteLine("\nTryck på valfri knapp för att gå tillbaka till menyn.");
+            Console.ReadKey();
         }
             
         public void ShowLoanRulesMenu()
@@ -169,6 +169,7 @@ namespace BankApp
 
         }
 
+        // Will be implemented later when the StatisticsService is implemented.
         public void ShowStatisticsMenu()
         {
 

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BankApp
 {
-    internal class LoanMenu
+    public class LoanMenu
     {
         // Private fields to hold the LoanService and LoanRules instances.
         // They are readonly because they should not be modified after initialization.
