@@ -191,6 +191,14 @@ namespace BankApp
                 case "1":
                    ChangeLoanRules();
                     Console.WriteLine("\nRegler har ändrats, tryck på valfri knapp för att gå tillbaka till menyn.");
+                    Console.WriteLine("--------------- Nya regler ---------------");
+                    Console.WriteLine();
+                    Console.WriteLine($"Basränta:             {_loanRules.BaseInterestRate}%");
+                    Console.WriteLine();
+                    Console.WriteLine($"Maxlån:               {_loanRules.MaxLoanMultiplier} gånger saldot");
+                    Console.WriteLine();
+                    Console.WriteLine($"Kreditvärdighetsfaktor: {_loanRules.CreditScoreFactor}% per 100 poäng");
+                    Console.WriteLine("------------------------------------------");
                     Console.ReadKey();
                     break;
                 case "0":
@@ -210,6 +218,8 @@ namespace BankApp
             decimal newBaseInterestRate;
             decimal newMaxLoanMultiplier;
             decimal newCreditScoreFactor;
+
+            Console.Clear();
 
             Console.WriteLine("Skriv in ett nytt värde för basräntan (i procent):");
             while (!decimal.TryParse(Console.ReadLine(), out newBaseInterestRate))
