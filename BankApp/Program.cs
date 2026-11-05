@@ -9,10 +9,15 @@ namespace BankApp
         {
             // Services, created once and shared
             UserService userService = new UserService();
+
             LoginService loginService = new LoginService(userService);
+
             AccountService accountService = new AccountService();
+
             LoanRules loanRules = new LoanRules();
+
             LoanService loanService = new LoanService(loanRules);
+
             //TransactionService transactionService = new TransactionService(userService);
             UserInterface userInterface = new UserInterface();
             ExchangeRate exchangeRate = new ExchangeRate(); 
