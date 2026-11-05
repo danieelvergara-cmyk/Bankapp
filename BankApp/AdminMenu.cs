@@ -159,7 +159,9 @@ namespace BankApp
             Console.WriteLine("\nTryck på valfri knapp för att gå tillbaka till menyn.");
             Console.ReadKey();
         }
-            
+
+
+        // Opens the loan rules menu where the admin can view and change the loan rules for the bank.
         public void ShowLoanRulesMenu()
         {
             bool isRunning = true;
@@ -220,7 +222,7 @@ namespace BankApp
                 }
             }
         }
-
+        // Is called from ShowLoanRulesMenu() and asks the admin for new values for the loan rules, then updates them.
         private bool ChangeLoanRules()
         {
             decimal newBaseInterestRate;
@@ -266,6 +268,7 @@ namespace BankApp
             return _loanRules.UpdateInterestRules(newRules);
         }
 
+        // Opens the exchange rate menu where the admin can view and change the exchange rates for EUR and USD.
         public void ShowExchangeRateMenu()
         {
             bool isRunning = true;
