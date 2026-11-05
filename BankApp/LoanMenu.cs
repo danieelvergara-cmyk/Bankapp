@@ -104,9 +104,9 @@ namespace BankApp
                 switch (userInput)
                 {
                     case "1":
-                        Console.Clear();
-                        _loanService.CreateLoan(user, amount, termMonths);
                         isConfirming = false;
+                        _loanService.CreateLoan(user, amount, termMonths);
+                        Console.ReadKey();
                         break;
                     case "0":
                         isConfirming = false;

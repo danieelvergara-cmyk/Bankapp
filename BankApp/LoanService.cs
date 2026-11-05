@@ -58,13 +58,14 @@ namespace BankApp
 
                 user.Loans.Add(newLoan); // Add the new loan to the user's list of loans
 
+                Console.Clear();
+
                 Console.WriteLine($"Du har lånat {amount:F2} SEK under {termMonths} månader, med ränta på {newLoan.InterestRate}%");
                 Console.WriteLine($"Ditt månads belopp kommer bli {newLoan.MonthlyPayment:F2} SEK");
                 Console.WriteLine($"Räntan du kommer behöva betalla är {newLoan.TotalInterest:F2} SEK, och den totala mängden är {newLoan.RemainingBalance:F2} SEK");
-                
+
                 Console.WriteLine("\nTryck på valfri knapp för att gå tillbaka till menyn.");
-                Console.ReadKey();
-                Console.Clear();
+
 
                 return newLoan;
             }
