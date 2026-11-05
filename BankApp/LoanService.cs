@@ -50,7 +50,7 @@ namespace BankApp
                 newLoan.Amount = amount;
                 newLoan.TermMonths = termMonths;
                 newLoan.StartDate = DateTime.Now;
-                newLoan.Status = "Active";
+                newLoan.Status = "Aktiv";
                 newLoan.InterestRate = rules.CalculateInterestRate(user.CreditScore); // Calculate interest rate based on the user's credit score
                 newLoan.CalculateTotalInterest(); // Calculate total interest based on the above amount, interest rate and termMonths
                 newLoan.RemainingBalance = newLoan.Amount + newLoan.TotalInterest; // Set the remaining balance to the total amount owed 
@@ -58,12 +58,14 @@ namespace BankApp
 
                 user.Loans.Add(newLoan); // Add the new loan to the user's list of loans
 
-                Console.WriteLine($"You have borrowed {amount:F2} SEK for {termMonths} months with an interest rate of {newLoan.InterestRate}%");
-                Console.WriteLine($"Your monthly payment will be {newLoan.MonthlyPayment:F2} SEK");
-                Console.WriteLine($"The interest you need to pay is {newLoan.TotalInterest:F2} SEK for a total of {newLoan.RemainingBalance:F2} SEK");
+
+                Console.WriteLine($"Du har lånat {amount:F2} SEK under {termMonths} månader, med ränta på {newLoan.InterestRate}%");
+                Console.WriteLine($"Ditt månadsbelopp kommer bli {newLoan.MonthlyPayment:F2} SEK");
+                Console.WriteLine($"Räntan du kommer behöva betala är {newLoan.TotalInterest:F2} SEK, och den totala mängden är {newLoan.RemainingBalance:F2} SEK");
+
+
 
                 return newLoan;
-
             }
 
             // Loan denied due to insufficient balance, invalid term, invalid amount or existing debt.
@@ -71,27 +73,27 @@ namespace BankApp
             {
                 if (amount <= 0)
                 {
-                    Console.WriteLine("Loan denied: Amount must be greater than 0.");
+                    Console.WriteLine("Lån nekat: Beloppet måste vara högre än 0.");
                     return null;
                 }
 
                 if (termMonths <= 0)
                 {
-                    Console.WriteLine("Loan denied: Term must be greater than 0.");
+                    Console.WriteLine("Lån nekat: Måste vara högre än 0 månader.");
                     return null;
                 }
 
                 if (canBorrowAmount <= 0)
                 {
-                    Console.WriteLine("Loan denied: You have reached your borrowing limit.");
+                    Console.WriteLine("Lån nekat: Du har nått din lånegräns.");
                     return null;
                 }
 
                 // If the users allready has a loan and is trying to borrow more than they are allowed, this will catch it and deny the loan.
                 if (!rules.CanBorrow(amount + existingDebt, totalBalance)) 
                 {
-                    Console.WriteLine("Loan denied: Insufficient balance to borrow the requested amount.");
-                    Console.WriteLine($"You can borrow at most {canBorrowAmount:F2} SEK.");
+                    Console.WriteLine("Lån nekat: Otillräckligt saldo för att låna det begärda beloppet.");
+                    Console.WriteLine($"Du kan låna som mest {canBorrowAmount:F2} SEK.");
                     return null;
                 }
                 return null;
