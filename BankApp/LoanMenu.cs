@@ -33,6 +33,19 @@ namespace BankApp
 
                 string userInput = Console.ReadLine();
 
+                switch (userInput) 
+                {
+                    case "1":
+                        break;
+                    case "2":
+                        break;
+                    case "0":
+                        isRunning = false;
+                        break;
+                    default:
+                        break;
+                }
+
             }
         }
 
