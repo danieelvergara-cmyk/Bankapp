@@ -162,8 +162,6 @@ namespace BankApp
             
         public void ShowLoanRulesMenu()
         {
-            
-
             Console.Clear();
             Console.WriteLine("---- Ändra låneregler ----");
 
@@ -189,9 +187,8 @@ namespace BankApp
             switch (userInput)
             {
                 case "1":
-                   
-                    if (ChangeLoanRules())
 
+                    ChangeLoanRules();
                     Console.WriteLine("--------------- Nya regler ---------------");
                     Console.WriteLine();
                     Console.WriteLine($"Basränta:             {_loanRules.BaseInterestRate}%");
