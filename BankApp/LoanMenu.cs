@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-// kom igåg innan du pushar!
-// git update-index --no-skip-worktree BankApp/Program.cs BankApp/Scheduler.cs BankApp/Transaction_menu.cs
+
 namespace BankApp
 {
     internal class LoanMenu
