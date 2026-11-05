@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading;
+using System.Threading; //Needed for Interlocked
 
 
 namespace BankApp
 {
-    public enum TransactionType
+    public enum TransactionType // Defines a fixed list of possible TransactionType
     {
         OwnTransfer,
         TransferToOther,
@@ -14,7 +14,7 @@ namespace BankApp
         Withdrawal
     }
 
-    public enum TransactionStatus
+    public enum TransactionStatus //Defines the possible states of a transaction
     {
         Pending,
         Completed,
@@ -27,11 +27,14 @@ namespace BankApp
     public class Transaction
     {
         // The first ID track and generate unique auto-incrementing identifiers 
-        private static int _nextId = 1;
+        private static int _nextId = 0;
 
         public Transaction()
-        {
-            TransactionId = Interlocked.Increment(ref _nextId);
+
+        {    /*Interlocked.Increment is used atomicly  instead of _nextId++,
+              * if two threads create transactions at once, they cannot receive the same ID */
+
+            TransactionId = Interlocked.Increment(ref _nextId);   
             Timestamp = DateTime.UtcNow;
         }
 
@@ -60,7 +63,7 @@ namespace BankApp
         public int FromAccountId { get; set; }
         public int ToAccountId { get; set; }
         public decimal Amount { get; set; }
-        public TransactionStatus Status { get; set; }
+        public TransactionStatus Status { get; set; } 
         public TransactionType Type { get; set; }
         public DateTime Timestamp { get; set; } 
 

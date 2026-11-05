@@ -49,20 +49,25 @@ namespace BankApp
 
 
             
-                   foreach (Transaction transaction in transactions)
-                   {
-                    // Add the transaction if this account sent or received money
-                      if (transaction.FromAccountId == accountId ||
-                        transaction.ToAccountId == accountId) 
-                      {
-                          history.Add(transaction);
-                      }
-                   }
+                foreach (Transaction transaction in transactions)
+                {
+                // Add the transaction if this account sent or received money
+                    if (transaction.FromAccountId == accountId ||
+                    transaction.ToAccountId == accountId) 
+                    {
+                        history.Add(transaction);
+                    }
+                }
             }
-                  return history;
+                return history;
         }
   
-        private decimal Transfer(int fromAccountId, int toAccountId, decimal amount, TransactionType transactionType, bool SameUser)
+        private decimal Transfer(
+            int fromAccountId, 
+            int toAccountId, 
+            decimal amount,
+            TransactionType transactionType,
+            bool SameUser)
         {
      
            
@@ -92,6 +97,12 @@ namespace BankApp
                      throw new Exception($" Kontot med Id {toAccount} finns inte");
 
                 }
+
+                if (fromAccount == toAccount)
+                {
+                    throw new Exception($"kan inte övervföra till samma konto");
+                }
+
 
               /*
              * If this is a transfer between the same user's accounts,
@@ -148,15 +159,28 @@ namespace BankApp
         // Transfers money between two accounts owned by the same user
         public decimal TransferToOwnAccount(int fromAccountId, int toAccountId, decimal amount)
         {
-          var result = Transfer(fromAccountId, toAccountId, amount, TransactionType.OwnTransfer, SameUser: true);
+          var result = Transfer(
+                fromAccountId,
+                toAccountId,
+                amount,
+                TransactionType.OwnTransfer,
+                SameUser: true);
 
             return result;
         }
 
         // Transfers money to another user's account
-        public decimal TransfertoOtherAccount(int fromAccountId, int toAccountId, decimal amount)
+        public decimal TransfertoOtherAccount(
+            int fromAccountId,
+            int toAccountId, 
+            decimal amount)
         {
-           var result = Transfer( fromAccountId, toAccountId, amount, TransactionType.TransferToOther, SameUser: false);
+           var result = Transfer( 
+               fromAccountId, 
+               toAccountId, 
+               amount, 
+               TransactionType.TransferToOther, 
+               SameUser: false);
 
            return result;
         }
