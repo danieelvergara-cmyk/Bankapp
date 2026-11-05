@@ -87,6 +87,7 @@ namespace BankApp
             do
             {
                 Console.Write("Skriv Användarnamn: ");
+
                 username = Console.ReadLine() ?? string.Empty;
 
                 if (string.IsNullOrWhiteSpace(username))
@@ -100,7 +101,9 @@ namespace BankApp
             do
             {
                 Console.Write("Skriv Lösenord: ");
+
                 password = Console.ReadLine() ?? string.Empty;
+
                 if (string.IsNullOrWhiteSpace(password))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -113,26 +116,30 @@ namespace BankApp
             do
             {
                 Console.Write("Skriv Email: ");
+
                 email = Console.ReadLine() ?? string.Empty;
-                if (string.IsNullOrWhiteSpace(email))
+
+                if (string.IsNullOrWhiteSpace(email) || !email.Contains("@"))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Email kan inte vara tomt.");
                     Console.ResetColor();
                 }
-            } while (string.IsNullOrWhiteSpace(email));
+            } while (string.IsNullOrWhiteSpace(email) || !email.Contains("@"));
 
             do
             {
                 Console.Write("Skriv mobilnummer: ");
+
                 phone = Console.ReadLine() ?? string.Empty;
-                if (string.IsNullOrWhiteSpace(phone))
+
+                if (string.IsNullOrWhiteSpace(phone) || phone.Length < 8)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Mobilnummer kan inte vara tomt.");
                     Console.ResetColor();
                 }
-            } while (string.IsNullOrWhiteSpace(phone));
+            } while (string.IsNullOrWhiteSpace(phone) || phone.Length < 8);
 
 
             User? newUser = _userService.CreateUser(
@@ -144,6 +151,9 @@ namespace BankApp
             if (newUser != null)
             {
                 Console.WriteLine($"Användaren {newUser.Username} har skapats med ID nummer: {newUser.UserId}.");
+
+                Console.WriteLine("\nTryck på valfri knapp för att gå tillbaka till menyn.");
+                Console.ReadKey();
             }
 
         }
