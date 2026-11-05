@@ -8,7 +8,7 @@ using System.Collections.Generic; // Gives access to List<T>
 namespace BankApp
 {
     
-    internal class Transaction_menu
+    internal class TransactionMenu
     {
         /*Dependency injection through a constructor.It lets Transaction_menu use a TransactionService object.
            Instead of creating its own service, the menu asks for one from the outside.
@@ -22,7 +22,7 @@ namespace BankApp
 
         /*2.  A field that stores a TransactionService object. 
               The menu tells the program: "I cannot start without this service..*/
-        public Transaction_menu(TransactionService transactionService) 
+        public TransactionMenu(TransactionService transactionService) 
         {
             /* 3. We take the service that was just delivered to us (right side)
                  and lock it into our private toolbox (left side) so the rest of the menu can use it.*/
