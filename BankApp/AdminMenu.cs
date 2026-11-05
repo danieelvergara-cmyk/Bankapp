@@ -103,9 +103,7 @@ namespace BankApp
 
             if (newUser != null)
             {
-                Console.WriteLine(
-                    $"User {newUser.Username} was created " +
-                    $"with ID {newUser.UserId}.");
+                Console.WriteLine($"Användaren {newUser.Username} har skapats med ID nummer: {newUser.UserId}.");
             }
         }
 
