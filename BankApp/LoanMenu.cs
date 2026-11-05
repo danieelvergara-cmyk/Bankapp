@@ -19,7 +19,7 @@ namespace BankApp
             _loanService = loanService;
         }
 
-        public void ShowLoanMenu()
+        public void ShowLoanMenu(User user)
         {
             bool isRunning = true;
 
@@ -39,6 +39,7 @@ namespace BankApp
                 switch (userInput) 
                 {
                     case "1":
+                        ShowTakeLoanMenu(user);
                         break;
                     case "2":
                         break;
