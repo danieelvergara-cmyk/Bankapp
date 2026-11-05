@@ -105,7 +105,9 @@ namespace BankApp
                 {
                     case "1":
                         isConfirming = false;
+                        Console.Clear();
                         _loanService.CreateLoan(user, amount, termMonths);
+                        Console.WriteLine("\nTryck på valfri knapp för att gå tillbaka till menyn.");
                         Console.ReadKey();
                         break;
                     case "0":
@@ -144,7 +146,7 @@ namespace BankApp
                 {
                     Console.WriteLine("-----------------------------");
                     Console.WriteLine($"Lån Nr: {loan.LoanId}");
-                    Console.WriteLine($"Datum: {loan.StartDate}");
+                    Console.WriteLine($"Datum: {loan.StartDate:yyyy-MM-dd}");
                     Console.WriteLine($"Belopp: {loan.Amount:F2} SEK, Löptid: {loan.TermMonths} månader");
                     Console.WriteLine($"Månadsbelopp: {loan.MonthlyPayment:F2} SEK");
                     Console.WriteLine($"Kvar att betala: {loan.RemainingBalance:F2} SEK");

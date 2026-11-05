@@ -58,13 +58,11 @@ namespace BankApp
 
                 user.Loans.Add(newLoan); // Add the new loan to the user's list of loans
 
-                Console.Clear();
 
                 Console.WriteLine($"Du har lånat {amount:F2} SEK under {termMonths} månader, med ränta på {newLoan.InterestRate}%");
-                Console.WriteLine($"Ditt månads belopp kommer bli {newLoan.MonthlyPayment:F2} SEK");
-                Console.WriteLine($"Räntan du kommer behöva betalla är {newLoan.TotalInterest:F2} SEK, och den totala mängden är {newLoan.RemainingBalance:F2} SEK");
+                Console.WriteLine($"Ditt månadsbelopp kommer bli {newLoan.MonthlyPayment:F2} SEK");
+                Console.WriteLine($"Räntan du kommer behöva betala är {newLoan.TotalInterest:F2} SEK, och den totala mängden är {newLoan.RemainingBalance:F2} SEK");
 
-                Console.WriteLine("\nTryck på valfri knapp för att gå tillbaka till menyn.");
 
 
                 return newLoan;
@@ -75,7 +73,7 @@ namespace BankApp
             {
                 if (amount <= 0)
                 {
-                    Console.WriteLine("Lån nekat: Bellopet måste vara högre än 0.");
+                    Console.WriteLine("Lån nekat: Beloppet måste vara högre än 0.");
                     return null;
                 }
 
@@ -87,7 +85,7 @@ namespace BankApp
 
                 if (canBorrowAmount <= 0)
                 {
-                    Console.WriteLine("Lån nekat: Du har nått din låne gränss.");
+                    Console.WriteLine("Lån nekat: Du har nått din lånegräns.");
                     return null;
                 }
 
