@@ -80,6 +80,7 @@ namespace BankApp
             while (isConfirming)
             {
                 Console.WriteLine($"Du kommer låna {amount} SEK och betala av det i {termMonths} månader.");
+                Console.WriteLine($"Du kommer har {_loanRules.CalculateInterestRate(user.CreditScore)}% ränta.");
                 Console.WriteLine("Goodkän lånet?");
                 Console.WriteLine("1. Ja\n0. Nej");
 
