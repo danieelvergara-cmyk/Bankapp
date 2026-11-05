@@ -51,6 +51,7 @@ namespace BankApp
                         break;
                 }
 
+                Console.Clear();
             }
         }
 
@@ -112,15 +113,18 @@ namespace BankApp
 
         public void ShowMyLoansMenu(User user) 
         {
+            Console.Clear();
+
             Console.WriteLine($"\n---{user.Username}'s lån---");
 
             foreach (Loan loan in user.Loans)
             {
-                Console.WriteLine("----");
-                Console.WriteLine($"Lån ID:{loan.LoanId} - {loan.StartDate}");
-                Console.WriteLine($"Antal:{loan.Amount}, Månader kvar: {loan.TermMonths}, Kvar att betala {loan.RemainingBalance}");
-                Console.WriteLine($"Ränta: {loan.InterestRate}");
-                Console.WriteLine("----");
+                Console.WriteLine("-----------------------------");
+                Console.WriteLine($"Lån Nr: {loan.LoanId}\nDatum: {loan.StartDate}");
+                Console.WriteLine($"Antal: {loan.Amount}, Månader kvar: {loan.TermMonths}");
+                Console.WriteLine($"Kvar att betala: {loan.RemainingBalance:F2} SEK");
+                Console.WriteLine($"Ränta: {loan.InterestRate}%");
+                Console.WriteLine("-----------------------------");
             }
             Console.WriteLine("Tryck på valfri knapp för att gå tillbaka till menyn.");
             Console.ReadKey();
