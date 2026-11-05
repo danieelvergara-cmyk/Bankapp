@@ -19,9 +19,14 @@ namespace BankApp
             LoanService loanService = new LoanService(loanRules);
 
             //TransactionService transactionService = new TransactionService(userService);
+
             UserInterface userInterface = new UserInterface();
+
             ExchangeRate exchangeRate = new ExchangeRate();
+
             LoanMenu loanMenu = new LoanMenu(loanService, loanRules);
+
+            AdminMenu adminMenu = new AdminMenu(userService, loanRules, exchangeRate);
 
 
             //Scheduler scheduler = new Scheduler(TransactionService);
