@@ -22,16 +22,29 @@ namespace BankApp
         public void ShowLoanMenu(User user)
         {
             bool isRunning = true;
+            string errorMessage = "";
 
             Console.Clear();
 
             while (isRunning)
             {
+                Console.Clear();
+
                 Console.WriteLine("--- Lån ---");
                 Console.WriteLine("Välj ett alternativ:");
                 Console.WriteLine("1. Skapa ett nytt lån");
                 Console.WriteLine("2. Visa mina lån");
                 Console.WriteLine("0. Tillbaka till Huvudmeny");
+
+                // If there is a wrong input, show the error message at the bottom of the menu and clear it after showing it once.
+                if (errorMessage != "")
+                {
+                    Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(errorMessage);
+                    Console.ResetColor();
+                    errorMessage = "";
+                }
 
                 string userInput = Console.ReadLine();
 
@@ -47,6 +60,7 @@ namespace BankApp
                         isRunning = false;
                         break;
                     default:
+                        errorMessage = "Ogiltig input, skriv ett heltal."; // Set the error message to be shown in the next iteration of the loop.
                         break;
                 }
                
@@ -116,9 +130,11 @@ namespace BankApp
 
             if (user.Loans.Count == 0)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("---------------");
                 Console.WriteLine("Du har inga lån");
                 Console.WriteLine("---------------");
+                Console.ResetColor();
             }
             else
             {
@@ -127,8 +143,10 @@ namespace BankApp
                 foreach (Loan loan in user.Loans)
                 {
                     Console.WriteLine("-----------------------------");
-                    Console.WriteLine($"Lån Nr: {loan.LoanId}\nDatum: {loan.StartDate}");
-                    Console.WriteLine($"Belopp: {loan.Amount:F2}, Månader kvar: {loan.TermMonths}");
+                    Console.WriteLine($"Lån Nr: {loan.LoanId}");
+                    Console.WriteLine($"Datum: {loan.StartDate}");
+                    Console.WriteLine($"Belopp: {loan.Amount:F2}, Löptid: {loan.TermMonths} månader");
+                    Console.WriteLine($"Månadsbelopp: {loan.MonthlyPayment:F2} SEK");
                     Console.WriteLine($"Kvar att betala: {loan.RemainingBalance:F2} SEK");
                     Console.WriteLine($"Ränta: {loan.InterestRate}%");
                     Console.WriteLine("-----------------------------");
