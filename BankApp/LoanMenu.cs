@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+// kom igåg innan du pushar!
+// git update-index --no-skip-worktree BankApp/Program.cs BankApp/Scheduler.cs BankApp/Transaction_menu.cs
 namespace BankApp
 {
     internal class LoanMenu
@@ -111,7 +112,18 @@ namespace BankApp
 
         public void ShowMyLoansMenu(User user) 
         {
+            Console.WriteLine($"\n---{user.Username}'s lån---");
 
+            foreach (Loan loan in user.Loans)
+            {
+                Console.WriteLine("----");
+                Console.WriteLine($"Lån ID:{loan.LoanId} - {loan.StartDate}");
+                Console.WriteLine($"Antal:{loan.Amount}, Månader kvar: {loan.TermMonths}, Kvar att betala {loan.RemainingBalance}");
+                Console.WriteLine($"Ränta: {loan.InterestRate}");
+                Console.WriteLine("----");
+            }
+            Console.WriteLine("Tryck på valfri knapp för att gå tillbaka till menyn.");
+            Console.ReadKey();
         }
 
     }
