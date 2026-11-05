@@ -11,9 +11,14 @@ namespace BankApp
         private readonly ExchangeRate _exchangeRate;
         private readonly StatisticsService _statisticsService;
 
-        public AdminMenu(UserService userService, LoanRules loanRules, ExchangeRate exchangeRate, StatisticsService statisticsService)
+        // This constructor initializes the AdminMenu with the provided UserService, LoanRules, and ExchangeRate instances.
+        // The StatisticsService is commented out for now, but can be added later.
+        public AdminMenu(UserService userService, LoanRules loanRules, ExchangeRate exchangeRate) //, StatisticsService statisticsService) add later
         {
-
+            _userService = userService;
+            _loanRules = loanRules;
+            _exchangeRate = exchangeRate;
+            //_statisticsService = statisticsService;
         }
 
         public void ShowAdminMenu(User admin)
