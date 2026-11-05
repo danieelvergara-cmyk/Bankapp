@@ -17,5 +17,15 @@ namespace BankApp
             _loanRules = loanRules;
             _loanService = loanService;
         }
+
+        public void ShowLoanMenu()
+        {
+            Console.WriteLine("\n--- Lån ---");
+            Console.WriteLine("Välj ett alternativ:");
+            Console.WriteLine("1. Skapa ett nytt lån");
+            Console.WriteLine("2. Visa mina lån");
+            Console.WriteLine("0. Tillbaka till Huvudmeny");
+        }
+
     }
 }
