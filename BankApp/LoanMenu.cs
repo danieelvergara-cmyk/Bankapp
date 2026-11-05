@@ -93,6 +93,8 @@ namespace BankApp
                         break;
                     case "0":
                         isConfirming = false;
+                        Console.WriteLine("Avbryter lånet, tryck på valfri knapp för att fortsätta.");
+                        Console.ReadKey();
                         break;
                     default:
                         Console.WriteLine("Ogiltig input, skriv 1 eller 0.");
