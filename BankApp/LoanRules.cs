@@ -80,7 +80,7 @@ namespace BankApp
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nBasräntorna måste vara större än 0.");
+                Console.WriteLine("\nBasräntan måste vara större än 0.");
                 Console.ResetColor();
                 allValid = false;
             }
@@ -92,7 +92,7 @@ namespace BankApp
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nMax Loan Multiplier måste vara större än 0.");
+                Console.WriteLine("\nMaxlånefaktorn måste vara större än 0.");
                 Console.ResetColor();
                 allValid = false;
             }

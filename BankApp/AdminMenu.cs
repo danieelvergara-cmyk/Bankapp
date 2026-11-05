@@ -163,9 +163,6 @@ namespace BankApp
         public void ShowLoanRulesMenu()
         {
             Console.Clear();
-            Console.WriteLine("---- Ändra låneregler ----");
-
-            Console.WriteLine();
             Console.WriteLine("---- Nuvarande låneregler ----");
             Console.WriteLine();
             Console.WriteLine($"Basränta:             {_loanRules.BaseInterestRate}%");
@@ -187,7 +184,6 @@ namespace BankApp
             switch (userInput)
             {
                 case "1":
-
                     ChangeLoanRules();
                     Console.WriteLine("--------------- Nya regler ---------------");
                     Console.WriteLine();
@@ -207,18 +203,17 @@ namespace BankApp
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Ogiltig input, skriv 1 eller 0.");
                     Console.ResetColor();
+                    Console.WriteLine("\nTryck på valfri knapp för att gå tillbaka till menyn.");
+                    Console.ReadKey();
                     break;
             }
-
-
         }
 
-        public bool ChangeLoanRules()
+        private bool ChangeLoanRules()
         {
             decimal newBaseInterestRate;
             decimal newMaxLoanMultiplier;
             decimal newCreditScoreFactor;
-            bool allValid = true;
 
             Console.Clear();
 
@@ -251,11 +246,8 @@ namespace BankApp
             };
 
             return _loanRules.UpdateInterestRules(newRules);
-
-            
-
-
         }
+
         public void ShowExchangeRateMenu()
         {
 
