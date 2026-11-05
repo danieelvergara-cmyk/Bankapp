@@ -8,7 +8,7 @@ namespace BankApp
     internal class LoanMenu
     {
         // Private fields to hold the LoanService and LoanRules instances.
-        // They are readonly because they should not be modified after initialization.3
+        // They are readonly because they should not be modified after initialization.
         private readonly LoanService _loanService;
         private readonly LoanRules _loanRules;
 
@@ -60,7 +60,7 @@ namespace BankApp
                         isRunning = false;
                         break;
                     default:
-                        errorMessage = "Ogiltig input, skriv ett heltal."; // Set the error message to be shown in the next iteration of the loop.
+                        errorMessage = "Ogiltig input, skriv 1, 2 eller 0."; // Set the error message to be shown in the next iteration of the loop.
                         break;
                 }
                
@@ -85,7 +85,7 @@ namespace BankApp
             Console.WriteLine($"Hur många månader vill du betala av ditt lån?");
             while (!int.TryParse(Console.ReadLine(), out termMonths))
             {
-                Console.WriteLine("Ogiltigt belopp, skriv ett heltal:");
+                Console.WriteLine("Ogiltig input, skriv ett heltal:");
             }
 
             Console.Clear();
@@ -94,9 +94,9 @@ namespace BankApp
 
             while (isConfirming)
             {
-                Console.WriteLine($"Du kommer låna {amount} SEK och betala av det i {termMonths} månader.");
-                Console.WriteLine($"Du kommer har {_loanRules.CalculateInterestRate(user.CreditScore)}% ränta.");
-                Console.WriteLine("Goodkän lånet?");
+                Console.WriteLine($"Du kommer låna {amount:F2} SEK och betala av det i {termMonths} månader.");
+                Console.WriteLine($"Du kommer att ha {_loanRules.CalculateInterestRate(user.CreditScore)}% ränta.");
+                Console.WriteLine("Godkänn lånet?");
                 Console.WriteLine("1. Ja\n0. Nej");
 
                 string userInput = Console.ReadLine();
@@ -145,7 +145,7 @@ namespace BankApp
                     Console.WriteLine("-----------------------------");
                     Console.WriteLine($"Lån Nr: {loan.LoanId}");
                     Console.WriteLine($"Datum: {loan.StartDate}");
-                    Console.WriteLine($"Belopp: {loan.Amount:F2}, Löptid: {loan.TermMonths} månader");
+                    Console.WriteLine($"Belopp: {loan.Amount:F2} SEK, Löptid: {loan.TermMonths} månader");
                     Console.WriteLine($"Månadsbelopp: {loan.MonthlyPayment:F2} SEK");
                     Console.WriteLine($"Kvar att betala: {loan.RemainingBalance:F2} SEK");
                     Console.WriteLine($"Ränta: {loan.InterestRate}%");
