@@ -26,7 +26,7 @@ namespace BankApp
             {
                 if (user.Username == username)
                 {
-                    Console.WriteLine("Username is already taken.");
+                    Console.WriteLine("Användarnamnet är redan taget");
                     return null;
                 }
             }
@@ -45,8 +45,6 @@ namespace BankApp
 
             // Sparar användaren i listan
             Users.Add(newUser);
-
-            Console.WriteLine("User created successfully.");
 
             return newUser;
         }
