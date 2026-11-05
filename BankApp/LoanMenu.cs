@@ -41,6 +41,7 @@ namespace BankApp
                         ShowTakeLoanMenu(user);
                         break;
                     case "2":
+                        ShowMyLoansMenu(user);
                         break;
                     case "0":
                         isRunning = false;
@@ -105,6 +106,11 @@ namespace BankApp
                 }
             }
 
+
+        }
+
+        public void ShowMyLoansMenu(User user) 
+        {
 
         }
 
