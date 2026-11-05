@@ -61,9 +61,12 @@ namespace BankApp
                 Console.WriteLine($"You have borrowed {amount:F2} SEK for {termMonths} months with an interest rate of {newLoan.InterestRate}%");
                 Console.WriteLine($"Your monthly payment will be {newLoan.MonthlyPayment:F2} SEK");
                 Console.WriteLine($"The interest you need to pay is {newLoan.TotalInterest:F2} SEK for a total of {newLoan.RemainingBalance:F2} SEK");
+                
+                Console.WriteLine("\nTryck på valfri knapp för att gå tillbaka till menyn.");
+                Console.ReadKey();
+                Console.Clear();
 
                 return newLoan;
-
             }
 
             // Loan denied due to insufficient balance, invalid term, invalid amount or existing debt.

@@ -27,8 +27,7 @@ namespace BankApp
 
             while (isRunning)
             {
-
-                Console.WriteLine("\n--- Lån ---");
+                Console.WriteLine("--- Lån ---");
                 Console.WriteLine("Välj ett alternativ:");
                 Console.WriteLine("1. Skapa ett nytt lån");
                 Console.WriteLine("2. Visa mina lån");
@@ -50,8 +49,7 @@ namespace BankApp
                     default:
                         break;
                 }
-
-                Console.Clear();
+               
             }
         }
 
@@ -92,6 +90,7 @@ namespace BankApp
                 switch (userInput)
                 {
                     case "1":
+                        Console.Clear();
                         _loanService.CreateLoan(user, amount, termMonths);
                         isConfirming = false;
                         break;
@@ -115,19 +114,30 @@ namespace BankApp
         {
             Console.Clear();
 
-            Console.WriteLine($"\n---{user.Username}'s lån---");
-
-            foreach (Loan loan in user.Loans)
+            if (user.Loans.Count == 0)
             {
-                Console.WriteLine("-----------------------------");
-                Console.WriteLine($"Lån Nr: {loan.LoanId}\nDatum: {loan.StartDate}");
-                Console.WriteLine($"Antal: {loan.Amount}, Månader kvar: {loan.TermMonths}");
-                Console.WriteLine($"Kvar att betala: {loan.RemainingBalance:F2} SEK");
-                Console.WriteLine($"Ränta: {loan.InterestRate}%");
-                Console.WriteLine("-----------------------------");
+                Console.WriteLine("---------------");
+                Console.WriteLine("Du har inga lån");
+                Console.WriteLine("---------------");
+            }
+            else
+            {
+                Console.WriteLine($"\n---{user.Username}'s lån---");
+
+                foreach (Loan loan in user.Loans)
+                {
+                    Console.WriteLine("-----------------------------");
+                    Console.WriteLine($"Lån Nr: {loan.LoanId}\nDatum: {loan.StartDate}");
+                    Console.WriteLine($"Belopp: {loan.Amount:F2}, Månader kvar: {loan.TermMonths}");
+                    Console.WriteLine($"Kvar att betala: {loan.RemainingBalance:F2} SEK");
+                    Console.WriteLine($"Ränta: {loan.InterestRate}%");
+                    Console.WriteLine("-----------------------------");
+                }
+
             }
             Console.WriteLine("Tryck på valfri knapp för att gå tillbaka till menyn.");
             Console.ReadKey();
+            Console.Clear();
         }
 
     }
