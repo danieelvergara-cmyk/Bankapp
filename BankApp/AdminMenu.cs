@@ -9,8 +9,9 @@ namespace BankApp
         private readonly UserService _userService;
         private readonly LoanRules _loanRules;
         private readonly ExchangeRate _exchangeRate;
+        private readonly StatisticsService _statisticsService;
 
-        public AdminMenu(UserService userService, LoanRules loanRules, ExchangeRate exchangeRate)
+        public AdminMenu(UserService userService, LoanRules loanRules, ExchangeRate exchangeRate, StatisticsService statisticsService)
         {
 
         }
@@ -27,6 +28,7 @@ namespace BankApp
                 Console.WriteLine("1. Skapa ny användare");
                 Console.WriteLine("2. Ändra låneregler");
                 Console.WriteLine("3. Ändra växelkurser");
+                Console.WriteLine("4. Visa statistik");
                 Console.WriteLine("0. Logga ut");
 
                 string userInput = Console.ReadLine();
@@ -41,6 +43,9 @@ namespace BankApp
                         break;
                     case "3":
                         ShowExchangeRateMenu();
+                        break;
+                    case "4":
+                        ShowStatisticsMenu();
                         break;
                     case "0":
                         isRunning = false;
@@ -62,6 +67,11 @@ namespace BankApp
         }
 
         public void ShowExchangeRateMenu()
+        {
+
+        }
+
+        public void ShowStatisticsMenu()
         {
 
         }
