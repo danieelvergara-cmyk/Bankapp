@@ -333,8 +333,24 @@ namespace BankApp
             }
             Console.Clear();
 
-            _exchangeRate.UpdateExchangeRate(currency, newRate);
+            if (_exchangeRate.UpdateExchangeRate(currency, newRate))
+            {
+                rateChanged = true;
 
+            }
+            
+            if (rateChanged)
+            {
+                Console.WriteLine($"Växelkursen för {currency} har uppdaterats till {newRate} SEK.");
+            }
+            else
+            {
+                Console.WriteLine($"Växelkursen för {currency} kunde inte uppdateras.");
+            }
+
+            Console.WriteLine("\nTryck på valfri knapp för att gå tillbaka till menyn.");
+            Console.ReadKey();
+            Console.Clear();
 
         }
 
