@@ -21,7 +21,7 @@ namespace BankApp
             {
                 Console.WriteLine();
                 Console.WriteLine("MAIN MENU");
-                Console.WriteLine("1. Register new user");
+                Console.WriteLine("1. Register new user"); // Needs to be in Admin Menu
                 Console.WriteLine("2. Log in");
                 Console.WriteLine("3. Exit");
                 Console.Write("Choose an option: ");
@@ -197,9 +197,7 @@ namespace BankApp
         // Displays the application logo.
         public void ShowLogo()
         {
-            Console.WriteLine("============================");
-            Console.WriteLine("          BANKAPP");
-            Console.WriteLine("============================");
+            Console.WriteLine("\r\n               _.----------.               \r\n           ,-''    ,ooo.    `--.           \r\n        ,-'       _¥$$$£..      `-.        \r\n      ,'      ,_o$$$''$$$$o_       `.      \r\n    ,'      ,o$$$$,o$$$$o.88o.       `.    \r\n   /       ,$$$,d$$$$¥¥$$$£888£.       \\   \r\n  /        d$£d$$$¥'    ¥$£d888'        \\  \r\n ;         ¥$$$$$.      '\"'88£'          : \r\n ;          ¥$'¥$$o_     '¥£'            : \r\n;            '¥8¥$$$£.                    :\r\n|              `\"'¥$$$$o.                 |\r\n:                  '`¥$$$$o.              ;\r\n :                    '`¥$$$.            ; \r\n :           _.          '$$£.           ; \r\n  \\        _.88.        ,$$$££          /  \r\n   \\      ,88._8£oooooo$$$£'8£         /   \r\n    `.    '¥888.$$$$$$$$£'88£        ,'    \r\n      `.    `\"'8'',o.o.'8£\"'       ,'      \r\n        `-.     ''Y888£         ,-'        \r\n           `--.    ¥££'     _.-'           \r\n               `----------''               \r\n");
             Console.WriteLine("Welcome to BankApp");
         }
 
