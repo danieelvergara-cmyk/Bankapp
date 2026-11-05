@@ -24,6 +24,7 @@ namespace BankApp
         public void ShowAdminMenu(User admin)
         {
             bool isRunning = true;
+            string errorMessage = "";
 
             while (isRunning)
             {
@@ -35,6 +36,17 @@ namespace BankApp
                 Console.WriteLine("3. Ändra växelkurser");
                 Console.WriteLine("4. Visa statistik");
                 Console.WriteLine("0. Logga ut");
+
+                // If there is a wrong input, show the error message at the bottom of the menu and clear it after showing it once.
+                if (errorMessage != "")
+                {
+                    Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(errorMessage);
+                    Console.ResetColor();
+                    errorMessage = "";
+                }
+
 
                 string userInput = Console.ReadLine();
 
@@ -56,6 +68,7 @@ namespace BankApp
                         isRunning = false;
                         break;
                     default:
+                        errorMessage = "Ogiltig input, skriv ett tall mellan 0-4."; // Set the error message to be shown in the next iteration of the loop.
                         break;
                 }
             }
