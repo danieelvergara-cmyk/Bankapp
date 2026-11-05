@@ -57,8 +57,14 @@ namespace BankApp
             Console.WriteLine("Hur mycket vill du låna?");
             while (!decimal.TryParse(Console.ReadLine(), out amount))
             {
+                Console.WriteLine("Ogiltigt belopp, skriv ett tal:");
+            }
+            Console.WriteLine($"Hur många månader vill du betala av ditt lån?");
+            while (!int.TryParse(Console.ReadLine(), out termMounths))
+            {
                 Console.WriteLine("Ogiltigt belopp, skriv ett heltal:");
             }
+
 
         }
 
