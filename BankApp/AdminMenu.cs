@@ -319,7 +319,22 @@ namespace BankApp
         // Asks for a new rate for the chosen currency and updates it.
         private void ChangeExchangeRate(Currency currency)
         {
-            
+            bool rateChanged = false;
+            decimal newRate;
+
+            Console.Clear();
+            Console.WriteLine($"Skriv in en nytt kurs för {currency}:");
+
+            while (!decimal.TryParse(Console.ReadLine(), out newRate))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Ogiltigt, skriv ett tal:");
+                Console.ResetColor();
+            }
+            Console.Clear();
+
+            _exchangeRate.UpdateExchangeRate(currency, newRate);
+
 
         }
 
