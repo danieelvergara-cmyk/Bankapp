@@ -23,6 +23,8 @@ namespace BankApp
 
         public void ShowAdminMenu(User admin)
         {
+            Console.Clear();
+
             bool isRunning = true;
             string errorMessage = "";
 
@@ -155,12 +157,8 @@ namespace BankApp
                 Console.WriteLine("\nTryck på valfri knapp för att gå tillbaka till menyn.");
                 Console.ReadKey();
             }
-
         }
             
-
-           
-
         public void ShowLoanRulesMenu()
         {
 
