@@ -11,6 +11,8 @@ namespace BankApp
         private readonly ExchangeRate _exchangeRate;
         private readonly StatisticsService _statisticsService;
 
+        string errorMessage = "";
+
         // This constructor initializes the AdminMenu with the provided UserService, LoanRules, and ExchangeRate instances.
         // The StatisticsService is commented out for now, but can be added later.
         public AdminMenu(UserService userService, LoanRules loanRules, ExchangeRate exchangeRate) //, StatisticsService statisticsService) add later
@@ -26,7 +28,6 @@ namespace BankApp
             Console.Clear();
 
             bool isRunning = true;
-            string errorMessage = "";
 
             while (isRunning)
             {
@@ -161,13 +162,12 @@ namespace BankApp
             
         public void ShowLoanRulesMenu()
         {
+            
+
             Console.Clear();
             Console.WriteLine("---- Ändra låneregler ----");
 
             Console.WriteLine();
-            Console.WriteLine("Vilken regel ");
-            Console.WriteLine();
-
             Console.WriteLine("---- Nuvarande låneregler ----");
             Console.WriteLine();
             Console.WriteLine($"Basränta:             {_loanRules.BaseInterestRate}%");
@@ -179,11 +179,57 @@ namespace BankApp
             Console.WriteLine($"Kreditvärdighetsfaktor: {_loanRules.CreditScoreFactor}% per 100 poäng");
             Console.WriteLine("  Hur mycket räntan ändras per 100 poäng från 500.");
             Console.WriteLine("------------------------------");
+            
+            Console.WriteLine();
+            Console.WriteLine("1. Ändra värden");
+            Console.WriteLine("0. Tillbaka");
 
+            string userInput = Console.ReadLine();
+
+            switch (userInput)
+            {
+                case "1":
+                   ChangeLoanRules();
+                    break;
+                case "0":
+                    break;
+                default:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Ogiltig input, skriv 1 eller 0.");
+                    Console.ResetColor();
+                    break;
+            }
 
 
         }
 
+        public void ChangeLoanRules()
+        {
+            decimal newBaseInterestRate;
+            decimal newMaxLoanMultiplier;
+            decimal newCreditScoreFactor;
+
+            Console.WriteLine("Skriv in ett nytt värde för basräntan (i procent):");
+            while (!decimal.TryParse(Console.ReadLine(), out newBaseInterestRate))
+            {
+                Console.WriteLine("Ogiltigt, skriv ett tal:");
+            }
+            Console.Clear();
+
+            Console.WriteLine("Skriv in ett nytt värde för maxlån (i multipel av saldot):");
+            while (!decimal.TryParse(Console.ReadLine(), out newMaxLoanMultiplier))
+            {
+                Console.WriteLine("Ogiltigt, skriv ett tal:");
+            }
+            Console.Clear();
+
+            Console.WriteLine("Skriv in ett nytt värde för kreditvärdighetsfaktorn (i procent per 100 poäng):");
+            while (!decimal.TryParse(Console.ReadLine(), out newCreditScoreFactor))
+            {
+                Console.WriteLine("Ogiltigt, skriv ett tal:");
+            }
+
+        }
         public void ShowExchangeRateMenu()
         {
 

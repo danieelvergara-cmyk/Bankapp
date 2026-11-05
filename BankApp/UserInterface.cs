@@ -51,6 +51,7 @@ namespace BankApp
         }
 
 
+
         // ShowRegisterUserMenu has been moved to AdminMenu.cs,
         // as it requires admin privileges to create new users.
         public void ShowRegisterUserMenu(
