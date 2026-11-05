@@ -10,6 +10,7 @@ namespace BankApp
         // They are readonly because they should not be modified after initialization.3
         private readonly LoanService _loanService;
         private readonly LoanRules _loanRules;
+        private readonly 
 
         // This constructor initializes the LoanMenu with the provided LoanService and LoanRules instances.
         public LoanMenu(LoanService loanService, LoanRules loanRules)
@@ -51,10 +52,10 @@ namespace BankApp
             }
         }
 
-        public void ShowTakeLoanMenu()
+        public void ShowTakeLoanMenu(User user)
         {
             decimal amount;
-            int termMounths;
+            int termMonths;
 
             Console.Clear();
 
@@ -67,28 +68,38 @@ namespace BankApp
             Console.Clear();
 
             Console.WriteLine($"Hur många månader vill du betala av ditt lån?");
-            while (!int.TryParse(Console.ReadLine(), out termMounths))
+            while (!int.TryParse(Console.ReadLine(), out termMonths))
             {
                 Console.WriteLine("Ogiltigt belopp, skriv ett heltal:");
             }
 
             Console.Clear();
 
-            Console.WriteLine($"Du kommer låna {amount} SEK och betala av det i {termMounths} månader.");
-            Console.WriteLine("Goodkän lånet?");
-            Console.WriteLine("1. Ja\n0. Nej");
+            bool isConfirming = true;
 
-            string userInput = Console.ReadLine();
-
-            if (userInput != "1" || userInput != "0")
+            while (isConfirming)
             {
-                Console.WriteLine("Ogiltigt input, skriv ett 1 eller 0:");
+                Console.WriteLine($"Du kommer låna {amount} SEK och betala av det i {termMonths} månader.");
+                Console.WriteLine("Goodkän lånet?");
+                Console.WriteLine("1. Ja\n0. Nej");
+
+                string userInput = Console.ReadLine();
+
+                switch (userInput)
+                {
+                    case "1":
+                        _loanService.CreateLoan(user, amount, termMonths);
+                        isConfirming = false;
+                        break;
+                    case "0":
+                        isConfirming = false;
+                        break;
+                    default:
+                        Console.WriteLine("Ogiltig input, skriv 1 eller 0.");
+                        break;
+
+                }
             }
-            else if (userInput != "0")
-            {
-                Console.WriteLine("Avbryter lånet. Går tillbaka till lån menyn.");
-                Console.WriteLine("Tryk på valfri knapp för att fortsätta");
-                Console.ReadKey();
             }
         }
 
