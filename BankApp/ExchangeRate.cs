@@ -15,7 +15,6 @@ namespace BankApp
         public DateOnly EurUpdatedAt { get; private set; } = DateOnly.FromDateTime(DateTime.Now); 
         public DateOnly UsdUpdatedAt { get; private set; } = DateOnly.FromDateTime(DateTime.Now);
 
-
         public decimal GetRate(Currency currency)
         {
             switch (currency)
@@ -48,7 +47,7 @@ namespace BankApp
         }
 
         // Updates the exchange rate for a specific currency (EUR or USD)
-        // and sets the UpdatedAt property to the current date for the respective currency
+        // and sets EurUpdatedAt or UsdUpdatedAt to the current date
         public bool UpdateExchangeRate(Currency currency, decimal newRate)
         {
             if (newRate <= 0)
