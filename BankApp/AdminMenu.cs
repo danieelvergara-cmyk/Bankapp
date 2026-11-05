@@ -268,6 +268,58 @@ namespace BankApp
 
         public void ShowExchangeRateMenu()
         {
+            bool isRunning = true;
+
+            while (isRunning)
+            {
+                Console.Clear();
+                Console.WriteLine("---- Nuvarande växelkurser ----");
+                Console.WriteLine();
+                Console.WriteLine($"1 EUR = {_exchangeRate.EurToSek} SEK");
+                Console.WriteLine($"1 USD = {_exchangeRate.UsdToSek} SEK");
+                Console.WriteLine();
+                Console.WriteLine($"Senast uppdaterad: {_exchangeRate.UpdatedAt}");
+                Console.WriteLine("-------------------------------");
+
+                Console.WriteLine();
+                Console.WriteLine("1. Ändra EUR");
+                Console.WriteLine("2. Ändra USD");
+                Console.WriteLine("0. Tillbaka");
+
+                // If there is a wrong input, show the error message at the bottom of the menu and clear it after showing it once.
+                if (errorMessage != "")
+                {
+                    Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(errorMessage);
+                    Console.ResetColor();
+                    errorMessage = "";
+                }
+
+                string userInput = Console.ReadLine();
+
+                switch (userInput)
+                {
+                    case "1":
+                        ChangeExchangeRate(Currency.EUR);
+                        break;
+                    case "2":
+                        ChangeExchangeRate(Currency.USD);
+                        break;
+                    case "0":
+                        isRunning = false;
+                        break;
+                    default:
+                        errorMessage = "Ogiltig input, skriv 1, 2 eller 0."; // Set the error message to be shown in the next iteration of the loop.
+                        break;
+                }
+            }
+        }
+
+        // Asks for a new rate for the chosen currency and updates it.
+        private void ChangeExchangeRate(Currency currency)
+        {
+            
 
         }
 
