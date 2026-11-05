@@ -161,6 +161,26 @@ namespace BankApp
             
         public void ShowLoanRulesMenu()
         {
+            Console.Clear();
+            Console.WriteLine("---- Ändra låneregler ----");
+
+            Console.WriteLine();
+            Console.WriteLine("Vilken regel ");
+            Console.WriteLine();
+
+            Console.WriteLine("---- Nuvarande låneregler ----");
+            Console.WriteLine();
+            Console.WriteLine($"Basränta:             {_loanRules.BaseInterestRate}%");
+            Console.WriteLine("  Räntan för en kund med kreditvärdighet 500.");
+            Console.WriteLine();
+            Console.WriteLine($"Maxlån:               {_loanRules.MaxLoanMultiplier} gånger saldot");
+            Console.WriteLine("  Hur mycket en kund får låna jämfört med sitt saldo.");
+            Console.WriteLine();
+            Console.WriteLine($"Kreditvärdighetsfaktor: {_loanRules.CreditScoreFactor}% per 100 poäng");
+            Console.WriteLine("  Hur mycket räntan ändras per 100 poäng från 500.");
+            Console.WriteLine("------------------------------");
+
+
 
         }
 
