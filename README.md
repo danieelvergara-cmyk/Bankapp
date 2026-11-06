@@ -20,7 +20,7 @@
 
 ## About the Project
 
-This project is a console-based banking application that allows users to create accounts, perform transactions and loans, and manageing through a admin interface.
+This project is a console-based banking application that allows users to create accounts, perform transactions and loans, and manage the bank through an admin interface.
 The goal of the project is to practice object-oriented programming (OOP) principles, collaboration using Git and GitHub, and to create a functional banking application with a user-friendly interface.
 
 **Built with:**
@@ -50,7 +50,8 @@ The goal of the project is to practice object-oriented programming (OOP) princip
 
 ### Prerequisites
 
-- [.NET SDK 10.0.403](https://dotnet.microsoft.com/download)
+- [.NET SDK 10.0 or later](https://dotnet.microsoft.com/download)
+- [Git](https://git-scm.com/downloads)
 
 ### Run the app
 
@@ -65,12 +66,14 @@ dotnet run --project BankApp
 | Role     | Username | Password |
 |----------|----------|----------|
 | Admin    | `[admin]`| `[admin]`|
+| Customer | `[...]`  | `[...]`  |
 
 
 ---
 
 ## UML Diagram
 
+![UML diagram](docs/uml.png)
 
 <!-- Or link to it if it lives somewhere else: -->
 <!-- [View the UML diagram](https://link-to-diagram) -->
@@ -115,6 +118,14 @@ Bankapp/
 
 A rough explanation of the main classes and objects in the source code.
 
+<!-- Fill in one sentence per class you wrote: what it is responsible for. -->
+
+### Program
+
+| Class | Responsibility |
+|-------|----------------|
+| `Program` | `[...]` |
+
 ### Models
 
 | Class | Responsibility |
@@ -124,9 +135,11 @@ A rough explanation of the main classes and objects in the source code.
 | `Account` | `[...]` |
 | `SavingsAccount` | `[...]` |
 | `Transaction` | `[...]` |
-| `Loan` | `[...]` |
-| `ExchangeRate` | `[...]` |
+| `Loan` | `[Stores a `Loan` object with details about the loan amount, interest rate, and monthly payment. Aswell as methods to calculate the total amount to be paid and the monthly payment based on the loan amount and interest rate.]` |
+| `ExchangeRate` | `[Calulates the exchange rate between two currencies and provides methods to convert amounts between them.]` |
 | `Currency` (enum) | `[...]` |
+| `TransactionType` (enum) | `[...]` |
+| `TransactionStatus` (enum) | `[...]` |
 
 ### Services
 
@@ -136,16 +149,17 @@ A rough explanation of the main classes and objects in the source code.
 | `LoginService` | `[...]` |
 | `UserService` | `[...]` |
 | `TransactionService` | `[...]` |
-| `LoanService` | `[...]` |
+| `LoanService` | `[Creates the `Loan` object and calculates the necessary values for the loan based on the amount, interest rate, and term.]` |
 | `NotificationService` | `[...]` |
 | `StatisticsService` | `[...]` |
+| `TopAccount` (inside `StatisticsService`) | `[...]` |
 | `Scheduler` | `[...]` |
 
 ### Rules
 
 | Class | Responsibility |
 |-------|----------------|
-| `LoanRules` | `[...]` |
+| `LoanRules` | `[Store the properties and methods for evaluating loan applications based on the user's account balance, credit score, and other factors. An admin can modify the rules through the admin menu. |]` | 
 
 ### UI
 
@@ -153,8 +167,8 @@ A rough explanation of the main classes and objects in the source code.
 |-------|----------------|
 | `UserInterface` | `[...]` |
 | `AccountMenu` | `[...]` |
-| `AdminMenu` | `[...]` |
-| `LoanMenu` | `[...]` |
+| `AdminMenu` | `[Admin menu for creating users, viewing statistics, change exchange rates and loan rules.]` |  
+| `LoanMenu` | `[Loan creating new loans and viewing existing ones. ]` |
 | `TransactionMenu` | `[...]` |
 
 ### Relationships
@@ -186,8 +200,8 @@ A rough explanation of the main classes and objects in the source code.
 
 - **Planning:** `[Trello, user stories, backlog, excalidraw]`
 - **Branching:** One feature branch per feature, merged into `dev` via pull requests.
-- **Code review:** `[Least one other team member reviews each PR]`
-- **Communication:** `[Initally weekly meetings in Discord hub, (Last week daily)]`
+- **Code review:** `[At least one other team member reviews each PR]`
+- **Communication:** `[Initially weekly meetings in Discord hub, (Last week daily)]`
 - **Conventions:** English for code and documentation, business logic kept out of `Main`, `.vs/`, `bin/` and `obj/` ignored via `.gitignore`.
 
 ---
