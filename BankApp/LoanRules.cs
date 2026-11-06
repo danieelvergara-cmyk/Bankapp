@@ -79,7 +79,9 @@ namespace BankApp
             }
             else
             {
-                Console.WriteLine("Base Interest Rate needs to be greater than 0.");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\nBasräntan måste vara större än 0.");
+                Console.ResetColor();
                 allValid = false;
             }
 
@@ -89,7 +91,9 @@ namespace BankApp
             }
             else
             {
-                Console.WriteLine("Max Loan Multiplier needs to be greater than 0.");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\nMaxlånefaktorn måste vara större än 0.");
+                Console.ResetColor();
                 allValid = false;
             }
 
@@ -99,8 +103,19 @@ namespace BankApp
             }
             else
             {
-                Console.WriteLine("Credit Score Factor needs to be greater than or equal to 0.");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\nKreditvärdighetsfaktor måste vara större än eller lika med 0.");
+                Console.ResetColor();
                 allValid = false;
+            }
+
+            if (allValid)
+            {
+                Console.WriteLine("Räntereglerna har uppdaterats.");
+            }
+            else
+            {
+                Console.WriteLine("\nVissa värden var ogiltiga och uppdaterades inte.");
             }
 
             return allValid; // True if all values were saved, false if at least one was rejected (valid ones are still saved)

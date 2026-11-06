@@ -1,9 +1,9 @@
-- Vi arbetar inte direkt i main 
-- Varje uppgift vi jobbar på ska utvecklas i sin egen bransch
-- Vårt namn system för branscher ska vara kort och tydligt namn, Ex: loan-system-"Namn" / loan-system-fix-"Namn" 
-- Vi gör flera små commits för varje funktion vi utvecklar i programmet, Ex: Du har skrivit klart en loop, commit. Du har skrivit en ny if-sats, commit etc.
-- Vi skriver commits tydligt så att andra ska kunna förstå
-- Vi använder pull requests för att köra in i main
-- Minst en annan gruppmedlem ska granska en pull requests innan den kan godkännas 
-- Koden ska kompileras och fungera innan den mergas till main.
-- Vid merge konflikter ska vi kommunicera med varandra och om det behövs dela sin skärm i vår hub, om det går att lösa så kan vi spara både annars behöver vi skriver över koden, det viktiga är att vi kommunicerar med varandra vart vi arbetar så vi inte ändrar kod i samma klass
+- We never work directly in `main`.
+- Every task we work on is developed in its own branch.
+- Branch names should be short and clear, e.g. `system-loan-Name` / `fix-loan-Name`.
+- We make several small commits for each feature we build, e.g. when you finish a loop, commit; when you write a if statement, commit, and so on.
+- We write clear commit messages so that others can understand them.
+- We use pull requests to merge into `dev`.
+- At least one other group member must review a pull request before it can be approved.
+- The code must compile and work before it is merged from `dev` into `main`.
+- If there is a merge conflict, we talk to each other and share our screens in our hub if needed. If possible we keep both changes; otherwise one has to overwrite the other. The most important thing is to tell each other where we are working, so we don't change code in the same class.
