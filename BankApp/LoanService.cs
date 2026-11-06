@@ -31,11 +31,7 @@ namespace BankApp
             // Gather the total balance of all the user's accounts to check against the borrowing rules
             foreach (Account account in user.Accounts)
             {
-                // Only SEK accounts count until ExchangeRate can convert other currencies. 
-                if (account.Currency == Currency.SEK)
-                {
-                    totalBalance += account.Balance; // When ExchangeRate is implemented, this will be changed to convert all currencies to SEK before adding them up.
-                }
+                totalBalance += _exchangeRate.Convert(account.Balance, account.Currency, Currency.SEK); // Convert each account balance to SEK for comparison
             }
 
             // Gather the total existing debt from all the user's loans to check against the borrowing rules

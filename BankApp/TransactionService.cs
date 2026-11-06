@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BankApp
 {
-    internal class TransactionService
+    public class TransactionService
 
     {
 
