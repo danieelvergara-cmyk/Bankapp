@@ -78,9 +78,7 @@ dotnet run --project BankApp
 
 ## UML Diagram
 
-
-<!-- Or link to it if it lives somewhere else: -->
-<!-- [View the UML diagram](https://link-to-diagram) -->
+![BankApp class diagram](docs/BankApp.excalidraw.svg)
 
 ---
 
@@ -215,7 +213,7 @@ A rough explanation of the main classes and objects in the source code.
 | Name | GitHub | Main responsibilities |
 |------|--------|-----------------------|
 | William Ekman | [@TheOakMan](https://github.com/theoakman) | Loans (`Loan`, `LoanRules`, `LoanService`), logo (`UserInterface`), menus (`AdminMenu`, `LoanMenu`), exchange rates (`ExchangeRate`) |
-| `[Name]` | `[@handle]` | `[...]` |
+| Daniél V | @danieelvergara-cmyk | `[...]` |
 | `[Name]` | `[@handle]` | `[...]` |
 | `[Name]` | `[@handle]` | `[...]` |
 
