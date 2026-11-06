@@ -215,7 +215,7 @@ A rough explanation of the main classes and objects in the source code.
 | Name | GitHub | Main responsibilities |
 |------|--------|-----------------------|
 | William Ekman | [@TheOakMan](https://github.com/theoakman) | Loans (`Loan`, `LoanRules`, `LoanService`), logo (`UserInterface`), menus (`AdminMenu`, `LoanMenu`), exchange rates (`ExchangeRate`) |
-| `[Name]` | `[@handle]` | `[...]` |
+| Daniél V | @danieelvergara-cmyk | `[...]` |
 | `[Name]` | `[@handle]` | `[...]` |
 | `[Name]` | `[@handle]` | `[...]` |
 
