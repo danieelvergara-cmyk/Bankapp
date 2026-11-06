@@ -6,13 +6,16 @@ namespace BankApp
 {
     public class LoanService
     {
-        private LoanRules rules; // Field to hold the loan rules for the service
+        private LoanRules _rules; // Field to hold the loan rules for the service
+        private ExchangeRate _exchangeRate; // Field to hold the exchange rate service for currency conversion
         private int nextLoanId = 1000; // Starting loan ID for new loans
 
-        // Constructor to initialize the LoanService with the provided LoanRules
-        public LoanService(LoanRules rules)
+
+        // Constructor to initialize the LoanService with the provided LoanRules and ExchangeRate services
+        public LoanService(LoanRules rules, ExchangeRate exchangeRate)
         {
-            this.rules = rules;
+            _rules = rules;
+            _exchangeRate = exchangeRate;
         }
 
 
@@ -40,10 +43,10 @@ namespace BankApp
             {
                 existingDebt += loan.RemainingBalance;
             }
-            decimal canBorrowAmount = rules.CalculateMaxLoan(totalBalance) - existingDebt; // Calculate the maximum amount the user can borrow based on their total balance and existing debt
+            decimal canBorrowAmount = _rules.CalculateMaxLoan(totalBalance) - existingDebt; // Calculate the maximum amount the user can borrow based on their total balance and existing debt
 
 
-            if (rules.CanBorrow(amount + existingDebt, totalBalance) && termMonths > 0)
+            if (_rules.CanBorrow(amount + existingDebt, totalBalance) && termMonths > 0)
             {
                 Loan newLoan = new Loan();
                 newLoan.LoanId = nextLoanId++; // Assign a unique loan ID and increment for the next loan
@@ -51,7 +54,7 @@ namespace BankApp
                 newLoan.TermMonths = termMonths;
                 newLoan.StartDate = DateTime.Now;
                 newLoan.Status = "Aktiv";
-                newLoan.InterestRate = rules.CalculateInterestRate(user.CreditScore); // Calculate interest rate based on the user's credit score
+                newLoan.InterestRate = _rules.CalculateInterestRate(user.CreditScore); // Calculate interest rate based on the user's credit score
                 newLoan.CalculateTotalInterest(); // Calculate total interest based on the above amount, interest rate and termMonths
                 newLoan.RemainingBalance = newLoan.Amount + newLoan.TotalInterest; // Set the remaining balance to the total amount owed 
                 newLoan.MonthlyPayment = newLoan.CalculateMonthlyPayment(); // Calculate the monthly payment based on the total amount owed and termMonths
@@ -90,7 +93,7 @@ namespace BankApp
                 }
 
                 // If the users allready has a loan and is trying to borrow more than they are allowed, this will catch it and deny the loan.
-                if (!rules.CanBorrow(amount + existingDebt, totalBalance)) 
+                if (!_rules.CanBorrow(amount + existingDebt, totalBalance)) 
                 {
                     Console.WriteLine("Lån nekat: Otillräckligt saldo för att låna det begärda beloppet.");
                     Console.WriteLine($"Du kan låna som mest {canBorrowAmount:F2} SEK.");
