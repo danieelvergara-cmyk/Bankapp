@@ -52,14 +52,18 @@ namespace BankApp
         {
             if (newRate <= 0)
             {
-                Console.WriteLine("Kan inte vara 0 eller negativt nummer!");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Kan inte vara 0 eller negativt nummer.");
+                Console.ResetColor();
                 return false; // Not updating if newRate is 0 or below
             }
 
             switch (currency)
             {
                 case Currency.SEK:
-                    Console.WriteLine("Kan inte ändra SEK"); // SEK is the base currency and cannot be changed
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Kan inte ändra SEK."); // SEK is the base currency and cannot be changed
+                    Console.ResetColor();
                     return false;
 
                 case Currency.EUR:

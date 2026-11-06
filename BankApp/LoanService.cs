@@ -6,8 +6,8 @@ namespace BankApp
 {
     public class LoanService
     {
-        private LoanRules _rules; // Field to hold the loan rules for the service
-        private ExchangeRate _exchangeRate; // Field to hold the exchange rate service for currency conversion
+        private readonly LoanRules _rules; // Field to hold the loan rules for the service
+        private readonly ExchangeRate _exchangeRate; // Field to hold the exchange rate service for currency conversion
         private int nextLoanId = 1000; // Starting loan ID for new loans
 
 
@@ -24,7 +24,6 @@ namespace BankApp
         // The new Loan object is returned. If the user cannot borrow, null is returned.
         public Loan? CreateLoan(User user, decimal amount, int termMonths)
         {
-            
             decimal totalBalance = 0; 
             decimal existingDebt = 0; // Used to stop users from borrowing more than they are allowed. 
 
@@ -72,27 +71,35 @@ namespace BankApp
             {
                 if (amount <= 0)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Lån nekat: Beloppet måste vara högre än 0.");
+                    Console.ResetColor();
                     return null;
                 }
 
                 if (termMonths <= 0)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Lån nekat: Måste vara högre än 0 månader.");
+                    Console.ResetColor();
                     return null;
                 }
 
                 if (canBorrowAmount <= 0)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Lån nekat: Du har nått din lånegräns.");
+                    Console.ResetColor();
                     return null;
                 }
 
                 // If the users allready has a loan and is trying to borrow more than they are allowed, this will catch it and deny the loan.
                 if (!_rules.CanBorrow(amount + existingDebt, totalBalance)) 
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Lån nekat: Otillräckligt saldo för att låna det begärda beloppet.");
                     Console.WriteLine($"Du kan låna som mest {canBorrowAmount:F2} SEK.");
+                    Console.ResetColor();
                     return null;
                 }
                 return null;
