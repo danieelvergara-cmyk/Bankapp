@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading; // This is for the scheduler to run every 15 minutes
 using System.Threading.Tasks; // This is for the scheduler to run every 15 minutes
 
@@ -24,11 +22,11 @@ namespace BankApp
             _transactionService.ProcessPendingTransactions();
         }
 
-    public async Task RunAsync()
+    public async Task RunAsync(CancellationToken cancellationToken)
         {
-            while (true)
+            while (!cancellationToken.IsCancellationRequested)
             {
-                await Task.Delay(_processingInterval);
+                await Task.Delay(_processingInterval, cancellationToken);
                 RunOnce();
             }
         }
