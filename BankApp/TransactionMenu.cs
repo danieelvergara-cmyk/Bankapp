@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Collections.Generic; // Gives access to List<T>
+using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates; // Gives access to List<T>
 
 
 /* to call in man Transaction_menu menu = new Transaction_menu(transactionService);
@@ -7,7 +8,7 @@ using System.Collections.Generic; // Gives access to List<T>
 
 namespace BankApp
 {
-    
+
     internal class TransactionMenu
     {
         /*Dependency injection through a constructor.It lets Transaction_menu use a TransactionService object.
@@ -22,42 +23,72 @@ namespace BankApp
 
         /*2.  A field that stores a TransactionService object. 
               The menu tells the program: "I cannot start without this service..*/
-        public TransactionMenu(TransactionService transactionService) 
+        public TransactionMenu(TransactionService transactionService)
         {
             /* 3. We take the service that was just delivered to us (right side)
                  and lock it into our private toolbox (left side) so the rest of the menu can use it.*/
-            this.transactionService = transactionService; 
+            this.transactionService = transactionService;
 
         }
 
         public void RunTransferMenu()
 
         {
+            bool isValidChoice = false;
 
-            Console.WriteLine("1. Se en logg på alla överföringar");
-            Console.WriteLine("2. Överför pengar");
-            Console.Write("Välj 1 eller 2:");
-
-
-            string choice1 = Console.ReadLine() ?? string.Empty; // for posibel null
-
-
-            if (choice1 == "1")
+            do
             {
-                    ShowTransactionHistory();
-            } 
-            else if (choice1 == "2")
-            {
+
+
+
+
+                Console.WriteLine("1. Se en logg på alla överföringar");
+                Console.WriteLine("2. Överför pengar");
+                Console.Write("Välj 1 eller 2:");
+
+
+                string choice = Console.ReadLine() ?? string.Empty; // // pssible null value
+
+
+                switch (choice)
+                {
+                    case "1":
                 
+                    ShowTransactionHistory();
+                        break;
+
+                    case "2":
+
+                
+                    TransfeerTo();
+                        break;
+
+
+                    default:
+                        Console.WriteLine("Ogiltigt val. Vänligen välj 1 eller 2.");
+                        break;
+                }
+
+            } while (!isValidChoice);
+        }
+
+        public void TransfeerTo()
+
+        {
+            bool isValidChoice2 = false;
+
+            do
+            {
+
 
                 Console.WriteLine("Vill du överföra pengar till:");
                 Console.WriteLine("1. Eget konto");
                 Console.WriteLine("2. Annan person");
                 Console.Write("Välj 1 eller 2: ");
 
-                string choice = Console.ReadLine() ?? string.Empty; //
+                string choice2 = Console.ReadLine() ?? string.Empty;
 
-                switch (choice)
+                switch (choice2)
                 {
                     case "1":
                         HandleOwnAccountTransfer();
@@ -71,13 +102,7 @@ namespace BankApp
                         Console.WriteLine("Ogiltigt val. Vänligen välj 1 eller 2.");
                         break;
                 }
-
-            } 
-            else
-            {
-                Console.WriteLine("Ogiltigt val. Skriv siffran 1 eller 2");
-            }
-
+            } while (!isValidChoice2);
         }
 
         //Shows all transactions for one account
