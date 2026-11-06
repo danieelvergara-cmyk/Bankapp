@@ -39,7 +39,7 @@ namespace BankApp
             Console.Write("Välj 1 eller 2:");
 
 
-            string choice1 = Console.ReadLine();
+            string choice1 = Console.ReadLine() ?? string.Empty; // for posibel null
 
 
             if (choice1 == "1")
@@ -55,7 +55,7 @@ namespace BankApp
                 Console.WriteLine("2. Annan person");
                 Console.Write("Välj 1 eller 2: ");
 
-                string choice = Console.ReadLine();
+                string choice = Console.ReadLine() ?? string.Empty; //
 
                 switch (choice)
                 {
@@ -75,7 +75,7 @@ namespace BankApp
             } 
             else
             {
-                Console.WriteLine("Ogiltigt val.");
+                Console.WriteLine("Ogiltigt val. Skriv siffran 1 eller 2");
             }
 
         }
