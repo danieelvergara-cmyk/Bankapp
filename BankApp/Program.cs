@@ -8,6 +8,9 @@ namespace BankApp
         static void Main(string[] args)
         {
             // Services, created once and shared
+
+            ExchangeRate exchangeRate = new ExchangeRate();
+
             UserService userService = new UserService();
 
             LoginService loginService = new LoginService(userService);
@@ -16,13 +19,12 @@ namespace BankApp
 
             LoanRules loanRules = new LoanRules();
 
-            LoanService loanService = new LoanService(loanRules);
+            LoanService loanService = new LoanService(loanRules, exchangeRate);
 
             //TransactionService transactionService = new TransactionService(userService);
 
             UserInterface userInterface = new UserInterface();
 
-            ExchangeRate exchangeRate = new ExchangeRate();
 
             LoanMenu loanMenu = new LoanMenu(loanService, loanRules);
 
