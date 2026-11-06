@@ -88,7 +88,7 @@ namespace BankApp
                 int accountId = int.Parse(Console.ReadLine());
 
                 // Get all transactions where this account sent or received money
-                List<Transaction> history = transactionService.TransactionHistory(accountId);
+                List<Transaction> history = transactionService.GetTransactionHistory(accountId);
 
 
             if (history.Count == 0)
