@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace BankApp
 {
-    internal class AccountMenu
+    public class AccountMenu
     {
         private readonly AccountService _accountService;
 
@@ -13,7 +13,7 @@ namespace BankApp
             _accountService = accountService;
         }
 
-        public void Run(User user)
+        public void ShowAccountMenu(User user)
         {
             bool isRunning = true;
 

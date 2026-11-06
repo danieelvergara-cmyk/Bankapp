@@ -30,8 +30,7 @@ namespace BankApp
 
         }
 
-        public void RunTransferMenu()
-
+        public void ShowTransactionMenu(User user)
         {
 
             Console.WriteLine("1. Se en logg på alla överföringar");
