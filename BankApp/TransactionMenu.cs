@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Collections.Generic; // Gives access to List<T>
+using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates; // Gives access to List<T>
 
 
 /* to call in man Transaction_menu menu = new Transaction_menu(transactionService);
@@ -22,72 +23,101 @@ namespace BankApp
 
         /*2.  A field that stores a TransactionService object. 
               The menu tells the program: "I cannot start without this service..*/
-        public TransactionMenu(TransactionService transactionService) 
+        public TransactionMenu(TransactionService transactionService)
         {
             /* 3. We take the service that was just delivered to us (right side)
                  and lock it into our private toolbox (left side) so the rest of the menu can use it.*/
-            this.transactionService = transactionService; 
+            this.transactionService = transactionService;
 
         }
 
         public void ShowTransactionMenu(User user)
         {
+            bool isValidChoice = false;
 
-            Console.WriteLine("1. Se en logg på alla överföringar");
-            Console.WriteLine("2. Överför pengar");
-            Console.Write("Välj 1 eller 2:");
-
-
-            string choice1 = Console.ReadLine();
-
-
-            if (choice1 == "1")
+            do
             {
-                    ShowTransactionHistory();
-            } 
-            else if (choice1 == "2")
-            {
-                
 
-                Console.WriteLine("Vill du överföra pengar till:");
-                Console.WriteLine("1. Eget konto");
-                Console.WriteLine("2. Annan person");
-                Console.Write("Välj 1 eller 2: ");
+                Console.WriteLine("1. Se en logg på alla överföringar");
+                Console.WriteLine("2. Överför pengar");
+                Console.Write("Välj 1 eller 2:");
 
-                string choice = Console.ReadLine();
+
+                string choice = Console.ReadLine() ?? string.Empty; // // pssible null value
+
 
                 switch (choice)
                 {
                     case "1":
-                        HandleOwnAccountTransfer();
+                        ShowTransactionHistory();
                         break;
 
                     case "2":
-                        HandleOtherAccountTransfer();
+                        TransfarTo();
                         break;
+
+                    case "3":
+                        continue; 
 
                     default:
                         Console.WriteLine("Ogiltigt val. Vänligen välj 1 eller 2.");
                         break;
                 }
 
-            } 
-            else
-            {
-                Console.WriteLine("Ogiltigt val.");
-            }
+            } while (!isValidChoice);
+        }
 
+            public void TransfarTo()
+
+            {
+                bool isValidChoice2 = false;
+
+                do
+                {
+
+
+                    Console.WriteLine("Vill du överföra pengar till:");
+                    Console.WriteLine("1. Eget konto");
+                    Console.WriteLine("2. Annan person");
+                    Console.Write("Välj 1 eller 2: ");
+
+                    string choice2 = Console.ReadLine() ?? string.Empty;
+
+                    switch (choice2)
+                    {
+                        case "1":
+                            HandleOwnAccountTransfer();
+                            break;
+
+                        case "2":
+                            HandleOtherAccountTransfer();
+                            break;
+
+                        case "3":
+                            continue;
+
+                    default:
+                            Console.WriteLine("Ogiltigt val. Vänligen välj 1 eller 2.");
+                            break;
+                    }
+                } while (!isValidChoice2);
         }
 
         //Shows all transactions for one account
         private void ShowTransactionHistory()
 
         {
-                Console.Write("Ange ditt kontonummer: ");  // i need try catch
-                int accountId = int.Parse(Console.ReadLine());
+              Console.Write("Ange ditt kontonummer: "); 
+            
+              string accountIdInput = Console.ReadLine() ?? string.Empty;
+
+            if (!int.TryParse(accountIdInput, out int accountId))
+            {
+                Console.WriteLine("Ogiltigt kontonummer. Ange bara siffror.");
+            }
 
                 // Get all transactions where this account sent or received money
-                List<Transaction> history = transactionService.TransactionHistory(accountId);
+                List<Transaction> history = transactionService.GetTransactionHistory(accountId);
 
 
             if (history.Count == 0)
@@ -118,13 +148,33 @@ namespace BankApp
             try
             {
                 Console.Write("Från kontonummer: ");
-                int fromAccountId = int.Parse(Console.ReadLine());
+                string fromaccountIdInput = Console.ReadLine() ?? string.Empty;
+
+                if (!int.TryParse(fromaccountIdInput, out int fromAccountId))
+                    
+                {
+                    Console.WriteLine("Ogiltigt kontonummer");
+                    return;
+                }
+
 
                 Console.Write("Till kontonummer: ");
-                int toAccountId = int.Parse(Console.ReadLine());
+                string toaccountInput = Console.ReadLine() ?? string.Empty;
 
-                Console.Write("Belopp: ");
-                decimal amount = decimal.Parse(Console.ReadLine());
+                if (!int.TryParse(toaccountInput, out int toAccountId))
+
+                {
+                    Console.WriteLine("Ogiltigt kontonummer");
+                    return;
+                }
+               
+
+                string amountInput = Console.ReadLine() ?? string.Empty;
+
+                if (!int.TryParse(amountInput, out int amount))
+                {
+                    Console.Write("Belopp: ");
+                }
 
 
             // Make the transfer
@@ -146,15 +196,35 @@ namespace BankApp
             try
             {
                 Console.Write("Från kontonummer: ");
-                int fromAccountId = int.Parse(Console.ReadLine());
+                string fromaccountIdInput = Console.ReadLine() ?? string.Empty;
+
+                if (!int.TryParse(fromaccountIdInput, out int fromAccountId))
+
+                {
+                    Console.WriteLine("Ogiltigt kontonummer");
+                    return;
+                }
+
 
                 Console.Write("Till kontonummer: ");
-                int toAccountId = int.Parse(Console.ReadLine());
+                string toaccountInput = Console.ReadLine() ?? string.Empty;
 
-                Console.Write("Belopp: ");
-                decimal amount = decimal.Parse(Console.ReadLine());
+                if (!int.TryParse(toaccountInput, out int toAccountId))
 
-               // Make the transfer
+                {
+                    Console.WriteLine("Ogiltigt kontonummer");
+                    return;
+                }
+
+
+                string amountInput = Console.ReadLine() ?? string.Empty;
+
+                if (!int.TryParse(amountInput, out int amount))
+                {
+                    Console.Write("Belopp: ");
+                }
+
+                // Make the transfer
                 decimal newBalance = transactionService.TransfertoOtherAccount(
                         
                     fromAccountId,
