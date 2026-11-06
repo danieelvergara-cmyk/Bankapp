@@ -2,8 +2,6 @@
 
 > A console-based banking application built in C#/.NET as a group project at Chas Academy.
 
-<!-- One or two sentences on what the app does and who it is for. -->
-
 ---
 
 ## Table of Contents
@@ -22,11 +20,12 @@
 
 ## About the Project
 
-<!-- Describe the purpose of the app and the goals of the project, e.g. practising OOP, collaboration with Git, etc. -->
+This project is a console-based banking application that allows users to create accounts, perform transactions and loans, and manageing through a admin interface.
+The goal of the project is to practice object-oriented programming (OOP) principles, collaboration using Git and GitHub, and to create a functional banking application with a user-friendly interface.
 
 **Built with:**
-- C# / .NET `[version]`
-- Visual Studio `[version]`
+- C# 14 / .NET 10 (net10.0)
+- Visual Studio Community 2026 
 - Git & GitHub
 
 ---
@@ -43,7 +42,7 @@
 - Loans with interest and monthly-payment calculation
 - Colored console menus and ASCII logo
 
-<!-- Remove what you didn't finish and add anything missing. -->
+<!--and add anything missing. -->
 
 ---
 
@@ -51,28 +50,27 @@
 
 ### Prerequisites
 
-- [.NET SDK `[version]`](https://dotnet.microsoft.com/download)
+- [.NET SDK 10.0.403](https://dotnet.microsoft.com/download)
 
 ### Run the app
 
 ```bash
-git clone https://github.com/[org-or-user]/[repo-name].git
-cd [repo-name]
-dotnet run --project [ProjectName]
+git clone https://github.com/danieelvergara-cmyk/Bankapp.git
+cd Bankapp
+dotnet run --project BankApp
 ```
 
 ### Test accounts
 
 | Role     | Username | Password |
 |----------|----------|----------|
-| Admin    | `[admin]` | `[password]` |
-| Customer | `[user]`  | `[password]` |
+| Admin    | `[admin]`| `[admin]`|
+
 
 ---
 
 ## UML Diagram
 
-![UML diagram](docs/uml.png)
 
 <!-- Or link to it if it lives somewhere else: -->
 <!-- [View the UML diagram](https://link-to-diagram) -->
@@ -82,28 +80,34 @@ dotnet run --project [ProjectName]
 ## Project Structure
 
 ```
-[ProjectName]/
-├── Program.cs              # Entry point – starts the app, no business logic
-├── Models/
-│   ├── User.cs
-│   ├── Customer.cs
-│   ├── Admin.cs
-│   ├── Account.cs
-│   ├── SavingsAccount.cs
-│   ├── Transaction.cs
-│   └── Loan.cs
-├── Services/
-│   ├── BankService.cs
-│   ├── TransferService.cs
-│   ├── CurrencyService.cs
-│   └── LoanService.cs
-├── Rules/
-│   └── LoanRules.cs
-└── UI/
-    └── UserInterface.cs
+Bankapp/
+├── BankApp.sln
+└── BankApp/
+    ├── BankApp.csproj
+    ├── Program.cs              # Entry point – starts the app, no business logic
+    ├── Account.cs
+    ├── AccountMenu.cs
+    ├── AccountService.cs
+    ├── Admin.cs
+    ├── AdminMenu.cs
+    ├── Currency.cs
+    ├── ExchangeRate.cs
+    ├── Loan.cs
+    ├── LoanMenu.cs
+    ├── LoanRules.cs
+    ├── LoanService.cs
+    ├── LogInService.cs
+    ├── NotificationService.cs
+    ├── SavingsAccount.cs
+    ├── Scheduler.cs
+    ├── StatisticsService.cs
+    ├── Transaction.cs
+    ├── TransactionMenu.cs
+    ├── TransactionService.cs
+    ├── User.cs
+    ├── UserInterface.cs
+    └── UserService.cs
 ```
-
-<!-- Update the tree to match your actual folders and file names. -->
 
 ---
 
@@ -115,62 +119,75 @@ A rough explanation of the main classes and objects in the source code.
 
 | Class | Responsibility |
 |-------|----------------|
-| `User` | Base class for everyone who can log in. Holds username, password and role. |
-| `Customer` | A bank customer. Owns one or more accounts and loans. |
-| `Admin` | Can create users, update exchange rates, `[...]`. |
-| `Account` | A bank account with an account number, balance and currency. |
-| `SavingsAccount` | Inherits from `Account`. Adds interest on the balance. |
-| `Transaction` | One transfer/deposit/withdrawal: amount, sender, receiver, timestamp. |
-| `Loan` | A loan taken by a customer: amount, interest rate, monthly payment, remaining balance. |
+| `User` | `[...]` |
+| `Admin` | `[...]` |
+| `Account` | `[...]` |
+| `SavingsAccount` | `[...]` |
+| `Transaction` | `[...]` |
+| `Loan` | `[...]` |
+| `ExchangeRate` | `[...]` |
+| `Currency` (enum) | `[...]` |
 
 ### Services
 
 | Class | Responsibility |
 |-------|----------------|
-| `BankService` | `[...]` |
-| `TransferService` | Handles transfers and the queue that is processed every 15 minutes. |
-| `CurrencyService` | Holds exchange rates and converts between currencies. |
-| `LoanService` | Validates loan requests, calculates interest and monthly payments, and creates `Loan` objects. |
+| `AccountService` | `[...]` |
+| `LoginService` | `[...]` |
+| `UserService` | `[...]` |
+| `TransactionService` | `[...]` |
+| `LoanService` | `[...]` |
+| `NotificationService` | `[...]` |
+| `StatisticsService` | `[...]` |
+| `Scheduler` | `[...]` |
 
 ### Rules
 
 | Class | Responsibility |
 |-------|----------------|
-| `LoanRules` | Constants and rules for loans – e.g. 5% base interest rate and a maximum loan of 5× the customer's balance. |
+| `LoanRules` | `[...]` |
 
 ### UI
 
 | Class | Responsibility |
 |-------|----------------|
-| `UserInterface` | Draws the menus, ASCII logo and colors, and reads user input. Calls the services – contains no business logic. |
+| `UserInterface` | `[...]` |
+| `AccountMenu` | `[...]` |
+| `AdminMenu` | `[...]` |
+| `LoanMenu` | `[...]` |
+| `TransactionMenu` | `[...]` |
 
 ### Relationships
 
-<!-- Short description of how the classes connect, e.g.: -->
-- `Customer` and `Admin` inherit from `User`.
-- A `Customer` has a list of `Account` and a list of `Loan`.
-- `SavingsAccount` inherits from `Account`.
-- `UserInterface` talks to the services; the services work with the models.
+- `Admin` inherits from `User`, and `SavingsAccount` inherits from `Account`.
+- A `User` has a list of `Account` and a list of `Loan`.
+- `UserService` holds all users, and `LoginService` uses it to authenticate them.
+- `LoanService` uses `LoanRules` and `ExchangeRate` to evaluate loan applications.
+- `TransactionService` handles transfers between accounts, and the `Scheduler` uses it to process the queue.
+- `Program` creates the services and passes them to the menus. The menus talk to the services, and the services work with the models.
 
 ---
 
 ## How It Works
 
-<!-- Describe a typical flow through the app, e.g.: -->
-1. The user logs in or creates an account.
-2. Depending on role, a customer or admin menu is shown.
-3. A customer can view accounts, make transfers, open a savings account or apply for a loan.
-4. Transfers are placed in a queue and executed every 15 minutes.
-5. All transactions are saved in the transaction log.
+1. The user is prompted to log in and is authenticated via the `LoginService`.
+2. Depending on the role:
+ - A customer can view accounts, make transfers, open a savings account or apply for a loan.
+ - An admin can create new user accounts for customers, view statistics and manage rules and exchange rates.
+3. New accounts and savings accounts are created via the `AccountService`. When the user deposits to a savings account, they are shown the expected interest after a year before the deposit is made.
+4. A loan application is evaluated based on the rules in `LoanRules` and either approved or denied.
+5. Transactions are created and managed via the `TransactionService`, which handles transfers and transaction history.
+6. All transfers are placed in a queue and executed all at once every 15 minutes by the `Scheduler` service.
+7. All transactions are saved in the transaction log.
 
 ---
 
 ## Our Workflow
 
-- **Planning:** `[e.g. Trello / GitHub Projects / Kanban board, user stories, backlog]`
-- **Branching:** One feature branch per feature, merged into `main` via pull requests.
-- **Code review:** `[e.g. at least one other team member reviews each PR]`
-- **Communication:** `[e.g. daily stand-ups, Discord/Slack]`
+- **Planning:** `[Trello, user stories, backlog, excalidraw]`
+- **Branching:** One feature branch per feature, merged into `dev` via pull requests.
+- **Code review:** `[Least one other team member reviews each PR]`
+- **Communication:** `[Initally weekly meetings in Discord hub, (Last week daily)]`
 - **Conventions:** English for code and documentation, business logic kept out of `Main`, `.vs/`, `bin/` and `obj/` ignored via `.gitignore`.
 
 ---
@@ -179,16 +196,9 @@ A rough explanation of the main classes and objects in the source code.
 
 | Name | GitHub | Main responsibilities |
 |------|--------|-----------------------|
-| William Ekman | [@theoakman](https://github.com/theoakman) | Loans (`Loan`, `LoanRules`, `LoanService`), `UserInterface` |
+| William Ekman | [@TheOakMan](https://github.com/theoakman) | Loans (`Loan`, `LoanRules`, `LoanService`), Logo `UserInterface` Menus (`AdminMenu`, `LoanMenu`), Exchange Rate `ExchangeRate` |
 | `[Name]` | `[@handle]` | `[...]` |
 | `[Name]` | `[@handle]` | `[...]` |
 | `[Name]` | `[@handle]` | `[...]` |
 
 ---
-
-## Future Improvements
-
-- Profile updates
-- Transaction statistics
-- Notifications for large transactions
-- Credit-based interest rates for loans
