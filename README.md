@@ -78,7 +78,7 @@ dotnet run --project BankApp
 
 ## UML Diagram
 
-[View the UML diagram][(https://excalidraw.com/#json=55B9lHZyFEU_XJ66MJOdU,bBKlaVobvyuwXs_NEda0Lg)]
+View the UML diagram https://excalidraw.com/#json=55B9lHZyFEU_XJ66MJOdU,bBKlaVobvyuwXs_NEda0Lg
 
 ---
 
