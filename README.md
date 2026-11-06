@@ -32,7 +32,7 @@ The goal of the project is to practice object-oriented programming (OOP) princip
 
 ## Features
 
-- User login and account creation
+- User login menu with authentication
 - Separate roles for **customers** and **admins**
 - Checking and savings accounts with balances
 - Multiple currencies and exchange rates
@@ -41,6 +41,11 @@ The goal of the project is to practice object-oriented programming (OOP) princip
 - Transaction log / history
 - Loans with interest and monthly-payment calculation
 - Colored console menus and ASCII logo
+- Credit score evaluation for loan applications
+- Admin functions:
+  - Create new users
+  - View statistics (top accounts, total transferred, average transaction)
+  - Change exchange rates and loan rules
 
 <!--and add anything missing. -->
 
@@ -65,7 +70,7 @@ dotnet run --project BankApp
 
 | Role     | Username | Password |
 |----------|----------|----------|
-| Admin    | `[admin]`| `[admin]`|
+| Admin    | `admin`  | `admin`  |
 | Customer | `[...]`  | `[...]`  |
 
 
@@ -73,7 +78,6 @@ dotnet run --project BankApp
 
 ## UML Diagram
 
-![UML diagram](docs/uml.png)
 
 <!-- Or link to it if it lives somewhere else: -->
 <!-- [View the UML diagram](https://link-to-diagram) -->
@@ -135,8 +139,8 @@ A rough explanation of the main classes and objects in the source code.
 | `Account` | `[...]` |
 | `SavingsAccount` | `[...]` |
 | `Transaction` | `[...]` |
-| `Loan` | `[Stores a `Loan` object with details about the loan amount, interest rate, and monthly payment. Aswell as methods to calculate the total amount to be paid and the monthly payment based on the loan amount and interest rate.]` |
-| `ExchangeRate` | `[Calulates the exchange rate between two currencies and provides methods to convert amounts between them.]` |
+| `Loan` | Stores a `Loan` object with details about the loan amount, interest rate, and monthly payment, as well as methods to calculate the total amount to be paid and the monthly payment based on the loan amount and interest rate. |
+| `ExchangeRate` | Stores the exchange rates for different currencies and provides methods to convert between them. |
 | `Currency` (enum) | `[...]` |
 | `TransactionType` (enum) | `[...]` |
 | `TransactionStatus` (enum) | `[...]` |
@@ -149,7 +153,7 @@ A rough explanation of the main classes and objects in the source code.
 | `LoginService` | `[...]` |
 | `UserService` | `[...]` |
 | `TransactionService` | `[...]` |
-| `LoanService` | `[Creates the `Loan` object and calculates the necessary values for the loan based on the amount, interest rate, and term.]` |
+| `LoanService` | Creates the `Loan` object and calculates the necessary values for the loan based on the amount, interest rate, and term. |
 | `NotificationService` | `[...]` |
 | `StatisticsService` | `[...]` |
 | `TopAccount` (inside `StatisticsService`) | `[...]` |
@@ -159,7 +163,7 @@ A rough explanation of the main classes and objects in the source code.
 
 | Class | Responsibility |
 |-------|----------------|
-| `LoanRules` | `[Store the properties and methods for evaluating loan applications based on the user's account balance, credit score, and other factors. An admin can modify the rules through the admin menu. |]` | 
+| `LoanRules` | Stores the properties and methods for evaluating loan applications based on the user's account balance, credit score, and other factors. An admin can modify the rules through the admin menu. |
 
 ### UI
 
@@ -167,8 +171,8 @@ A rough explanation of the main classes and objects in the source code.
 |-------|----------------|
 | `UserInterface` | `[...]` |
 | `AccountMenu` | `[...]` |
-| `AdminMenu` | `[Admin menu for creating users, viewing statistics, change exchange rates and loan rules.]` |  
-| `LoanMenu` | `[Loan creating new loans and viewing existing ones. ]` |
+| `AdminMenu` | Admin menu for creating users, viewing statistics, and changing exchange rates and loan rules. |
+| `LoanMenu` | Menu for creating new loans and viewing existing ones. |
 | `TransactionMenu` | `[...]` |
 
 ### Relationships
@@ -186,8 +190,8 @@ A rough explanation of the main classes and objects in the source code.
 
 1. The user is prompted to log in and is authenticated via the `LoginService`.
 2. Depending on the role:
- - A customer can view accounts, make transfers, open a savings account or apply for a loan.
- - An admin can create new user accounts for customers, view statistics and manage rules and exchange rates.
+   - A customer can view accounts, make transfers, open a savings account or apply for a loan.
+   - An admin can create new user accounts for customers, view statistics and manage rules and exchange rates.
 3. New accounts and savings accounts are created via the `AccountService`. When the user deposits to a savings account, they are shown the expected interest after a year before the deposit is made.
 4. A loan application is evaluated based on the rules in `LoanRules` and either approved or denied.
 5. Transactions are created and managed via the `TransactionService`, which handles transfers and transaction history.
@@ -198,10 +202,10 @@ A rough explanation of the main classes and objects in the source code.
 
 ## Our Workflow
 
-- **Planning:** `[Trello, user stories, backlog, excalidraw]`
+- **Planning:** Trello, user stories, backlog, Excalidraw
 - **Branching:** One feature branch per feature, merged into `dev` via pull requests.
-- **Code review:** `[At least one other team member reviews each PR]`
-- **Communication:** `[Initially weekly meetings in Discord hub, (Last week daily)]`
+- **Code review:** At least one other team member reviews each PR.
+- **Communication:** Initially weekly meetings in our Discord hub, daily during the last week.
 - **Conventions:** English for code and documentation, business logic kept out of `Main`, `.vs/`, `bin/` and `obj/` ignored via `.gitignore`.
 
 ---
@@ -210,7 +214,7 @@ A rough explanation of the main classes and objects in the source code.
 
 | Name | GitHub | Main responsibilities |
 |------|--------|-----------------------|
-| William Ekman | [@TheOakMan](https://github.com/theoakman) | Loans (`Loan`, `LoanRules`, `LoanService`), Logo `UserInterface` Menus (`AdminMenu`, `LoanMenu`), Exchange Rate `ExchangeRate` |
+| William Ekman | [@TheOakMan](https://github.com/theoakman) | Loans (`Loan`, `LoanRules`, `LoanService`), logo (`UserInterface`), menus (`AdminMenu`, `LoanMenu`), exchange rates (`ExchangeRate`) |
 | `[Name]` | `[@handle]` | `[...]` |
 | `[Name]` | `[@handle]` | `[...]` |
 | `[Name]` | `[@handle]` | `[...]` |
