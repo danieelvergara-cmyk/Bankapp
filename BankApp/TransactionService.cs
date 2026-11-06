@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace BankApp
 {
-    internal class TransactionService
+    public class TransactionService
 
     {
 
