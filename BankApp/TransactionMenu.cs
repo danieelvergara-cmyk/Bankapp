@@ -40,7 +40,7 @@ namespace BankApp
 
                 Console.WriteLine("1. Se en logg på alla överföringar");
                 Console.WriteLine("2. Överför pengar");
-                Console.Write("Välj 1 eller 2:");
+                Console.Write("Välj 1, 2 eller 3:");
 
 
                 string choice = Console.ReadLine() ?? string.Empty; // // pssible null value
@@ -57,6 +57,8 @@ namespace BankApp
                         break;
 
                     case "3":
+                        isValidChoice = true;
+
                         continue; 
 
                     default:
@@ -79,7 +81,9 @@ namespace BankApp
                     Console.WriteLine("Vill du överföra pengar till:");
                     Console.WriteLine("1. Eget konto");
                     Console.WriteLine("2. Annan person");
-                    Console.Write("Välj 1 eller 2: ");
+                    Console.Write("3.Exit ");
+                    Console.Write("Välj 1, 2 eller 3:");
+                   
 
                     string choice2 = Console.ReadLine() ?? string.Empty;
 
@@ -94,7 +98,8 @@ namespace BankApp
                             break;
 
                         case "3":
-                            continue;
+                            isValidChoice2 = true;
+                            break;
 
                     default:
                             Console.WriteLine("Ogiltigt val. Vänligen välj 1 eller 2.");
