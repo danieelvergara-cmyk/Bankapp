@@ -32,7 +32,7 @@ namespace BankApp
                 Console.WriteLine("0. Avsluta Programet");
                 Console.WriteLine("\nVälj ett alternativ:");
 
-                ShowErrorMessage(errorMessage);
+                errorMessage = ShowErrorMessage(errorMessage);
 
                 string choice =
                     Console.ReadLine() ?? string.Empty;
@@ -73,13 +73,15 @@ namespace BankApp
         {
             Console.Clear();
             Console.WriteLine();
-            Console.WriteLine("LOG IN");
+            Console.WriteLine("LOGGA IN");
 
-            Console.Write("Enter username: ");
+            Console.Write("Skriv användarnamn: ");
             string username =
                 Console.ReadLine() ?? string.Empty;
 
-            Console.Write("Enter password: ");
+            Console.Clear();
+
+            Console.Write("Skriv lösenord: ");
             string password =
                 Console.ReadLine() ?? string.Empty;
 
@@ -123,15 +125,18 @@ namespace BankApp
 
             while (isLoggedIn)
             {
+                Console.Clear();
                 Console.WriteLine();
-                Console.WriteLine($"Welcome {user.Username}");
+                Console.WriteLine($"Vällkomen {user.Username}!");
 
-                Console.WriteLine("USER MENU");
-                Console.WriteLine("1. Accounts");
-                Console.WriteLine("2. Transactions");
-                Console.WriteLine("3. Loans");
-                Console.WriteLine("4. Log out");
-                Console.Write("Choose an option: ");
+                Console.WriteLine("\nAnvändar Meny");
+                Console.WriteLine("\n1. Konton");
+                Console.WriteLine("2. Transaktioner");
+                Console.WriteLine("3. Lån");
+                Console.WriteLine("0. Logga ut");
+                Console.WriteLine("\nVälj ett alternativ:");
+
+                errorMessage = ShowErrorMessage(errorMessage);
 
                 string choice =
                     Console.ReadLine() ?? string.Empty;
@@ -150,13 +155,13 @@ namespace BankApp
                         loanMenu.ShowLoanMenu(user);
                         break;
 
-                    case "4":
-                        Console.WriteLine("You have logged out.");
+                    case "0":
+                        Console.WriteLine("Loggar ut...");
                         isLoggedIn = false;
                         break;
 
                     default:
-                        Console.WriteLine("Invalid option.");
+                        errorMessage = "\nOgiltig input. Skriv in ett tal mellan 0-3.";
                         break;
                 }
             }
@@ -178,7 +183,7 @@ namespace BankApp
             Console.ReadKey();
         }
 
-        public void ShowErrorMessage(string errorMessage)
+        public string ShowErrorMessage(string errorMessage)
         {
 
             // If there is a wrong input, show the error message at the bottom of the menu and clear it after showing it once.
@@ -188,8 +193,10 @@ namespace BankApp
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(errorMessage);
                 Console.ResetColor();
-                errorMessage = "";
             }
+
+            // Always return an empty string so the caller can clear its errorMessage.
+            return "";
         }
 }
 }
