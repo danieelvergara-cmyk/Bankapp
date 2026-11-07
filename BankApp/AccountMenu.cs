@@ -106,6 +106,7 @@ namespace BankApp
             if (savingsAccount == null) return;
 
             Console.Clear();
+            savingsAccount.PrintAccount();
             decimal amount = ReadPositiveAmount("Hur mycket vill du sätta in? ");
             _accountService.DepositToSavingsAccount(savingsAccount, amount);
             Console.WriteLine("Tryck på valfri knapp för att fortsätta.");
@@ -136,6 +137,7 @@ namespace BankApp
 
         private static Currency ReadCurrency()
         {
+            Console.Clear();
             while (true)
             {
                 Console.WriteLine("Välj valuta: 1. SEK  2. EUR  3. USD");
@@ -147,6 +149,7 @@ namespace BankApp
                     case "2": return Currency.EUR;
                     case "3": return Currency.USD;
                     default:
+                        Console.Clear();
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Välj 1, 2 eller 3.");
                         Console.ResetColor();
@@ -183,8 +186,10 @@ namespace BankApp
                 {
                     return amount;
                 }
-
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Ange ett belopp som är större än noll.");
+                Console.ResetColor();
             }
         }
         // Reads a number within a specified range. And if you put number outside the range it will ask you to put a number within the range.

@@ -51,6 +51,8 @@ namespace BankApp
             userService.Users.Add(admin);
             userService.Users.Add(testUser);
 
+            //userInterface.ShowUserMenu(testUser, accountMenu, transactionMenu, loanMenu); for quick testing of the user menu without login.
+
             userInterface.ShowMainMenu(loginService,accountMenu,transactionMenu,loanMenu, adminMenu);
         }
             
