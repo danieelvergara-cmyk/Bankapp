@@ -132,8 +132,8 @@ A rough explanation of the main classes and objects in the source code.
 
 | Class | Responsibility |
 |-------|----------------|
-| `User` | Stores the user's personal information, accounts, loans, credit score, and login status. |
-| `Admin` |  Represents an administrator who inherits from User and is granted access to administrative menus and restricted functionality. |
+| `User` | Stores the user's personal information, `account`, `loan`, `creditScore`, and login status. |
+| `Admin` |  Represents an administrator who inherits from `User` and is granted access to administrative menus and restricted functionality. |
 | `Account` | `[...]` |
 | `SavingsAccount` | `[...]` |
 | `Transaction` | `[...]` |
@@ -149,12 +149,12 @@ A rough explanation of the main classes and objects in the source code.
 |-------|----------------|
 | `AccountService` | `[...]` |
 | `LoginService` |  Authenticates users, tracks failed login attempts, and locks accounts after repeated failed attempts. |
-| `UserService` | Creates and manages users, assigns user IDs, updates contact information, and calculates credit scores. |
+| `UserService` | Creates and manages users, assigns a `userId`, updates contact information, and calculates `creditScores`. |
 | `TransactionService` | `[...]` |
 | `LoanService` | Creates the `Loan` object and calculates the necessary values for the loan based on the amount, interest rate, and term. |
 | `NotificationService` | `[...]` |
 | `StatisticsService` | `[...]` |
-| `TopAccount` (inside `StatisticsService`) | `[...]` |
+| `TopAccount` (inside `StatisticsService`) |
 | `Scheduler` | `[...]` |
 
 ### Rules
@@ -212,9 +212,9 @@ A rough explanation of the main classes and objects in the source code.
 
 | Name | GitHub | Main responsibilities |
 |------|--------|-----------------------|
-| William Ekman | [@TheOakMan](https://github.com/theoakman) | Loans (`Loan`, `LoanRules`, `LoanService`), logo (`UserInterface`), menus (`AdminMenu`, `LoanMenu`), exchange rates (`ExchangeRate`) |
-| Daniél V | @danieelvergara-cmyk | `[...]` |
-| Rickard Idevall | rickardidevall-a11y | User, UserService, LogInService, UserInterface, Admin  |
+| William Ekman | [@TheOakMan](https://github.com/theoakman) | Loans (`Loan`, `LoanRules`, `LoanService`), logo (`UserInterface`), menus (`AdminMenu`, `LoanMenu`), `exchangeRate` |(`ExchangeRate`) |
+| Daniél V | [@danieelvergara-cmyk](https://github.com/danieelvergara-cmyk) | `[...]` |
+| Rickard Idevall | [@rickardidevall-a11y](https://github.com/rickardidevall-a11y) | Users (`User`, `UserService`, `LogInService`, , `Admin`), menu `UserInterface`  |
 | `[Name]` | `[@handle]` | `[...]` |
 
 ---
