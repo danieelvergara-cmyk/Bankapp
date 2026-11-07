@@ -60,6 +60,7 @@ namespace BankApp
         }
 
         public int TransactionId { get; set; } 
+        public Currency Currency { get; set; }//describes the currency of Transaction.Amount.
         public int FromAccountId { get; set; }
         public int ToAccountId { get; set; }
         public decimal Amount { get; set; }
