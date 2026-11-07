@@ -322,7 +322,8 @@ namespace BankApp
         {
             try
             {
-               
+                Console.Clear();
+
                 Console.Write("Från kontonummer: ");
                 string fromaccountIdInput = Console.ReadLine() ?? string.Empty;
 
