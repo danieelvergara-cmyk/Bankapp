@@ -7,9 +7,14 @@ namespace BankApp
     {
         static void Main(string[] args)
         {
-            // Services, created once and shared
+            // Rules and exchange rate, created once and shared
 
             ExchangeRate exchangeRate = new ExchangeRate();
+
+            LoanRules loanRules = new LoanRules();
+
+
+            // Services, created once and shared
 
             UserService userService = new UserService();
 
@@ -17,22 +22,25 @@ namespace BankApp
 
             AccountService accountService = new AccountService();
 
-            LoanRules loanRules = new LoanRules();
-
             LoanService loanService = new LoanService(loanRules, exchangeRate);
 
-            //TransactionService transactionService = new TransactionService(userService);
+            NotificationService notificationService = new NotificationService();
+
+            TransactionService transactionService = new TransactionService(userService, notificationService);
+
+            // Menus, created once and shared
 
             UserInterface userInterface = new UserInterface();
 
             AccountMenu accountMenu = new AccountMenu(accountService);
 
-            TransactionMenu transactionMenu = new TransactionMenu(userService);
+            TransactionMenu transactionMenu = new TransactionMenu(transactionService, notificationService);
 
             LoanMenu loanMenu = new LoanMenu(loanService, loanRules);
 
             AdminMenu adminMenu = new AdminMenu(userService, loanRules, exchangeRate);
 
+            // Start the scheduler to run in the background
 
             //Scheduler scheduler = new Scheduler(TransactionService);
             //_ = scheduler.RunAsync();
@@ -44,7 +52,7 @@ namespace BankApp
             userService.Users.Add(testUser);
 
             userInterface.ShowLogo();
-            userInterface.ShowMainMenu(user,accountMenu,transactionMenu,loanMenu);
+            userInterface.ShowMainMenu(loginService,accountMenu,transactionMenu,loanMenu);
         }
             
     }
