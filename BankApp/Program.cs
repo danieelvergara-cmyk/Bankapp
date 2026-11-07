@@ -21,7 +21,7 @@ namespace BankApp
 
             AccountService accountService = new AccountService();
 
-            LoanService loanService = new LoanService(loanRules, exchangeRate);
+            LoanService loanService = new LoanService(loanRules, exchangeRate, userService);
 
             NotificationService notificationService = new NotificationService();
 
@@ -56,7 +56,7 @@ namespace BankApp
             //adminMenu.ShowAdminMenu(admin); for quick testing of the admin menu without login.
             //userInterface.ShowUserMenu(testUser, accountMenu, transactionMenu, loanMenu); for quick testing of the user menu without login.
 
-            userInterface.ShowMainMenu(loginService,accountMenu,transactionMenu,loanMenu, adminMenu);
+            userInterface.ShowMainMenu(userService, loginService,accountMenu,transactionMenu,loanMenu, adminMenu);
         }
             
     }

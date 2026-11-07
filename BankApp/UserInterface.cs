@@ -11,6 +11,7 @@ namespace BankApp
 
         // Displays the main menu.
         public void ShowMainMenu(
+            UserService userService,
             LoginService loginService,
             AccountMenu accountMenu,
             TransactionMenu transactionMenu,
@@ -41,6 +42,7 @@ namespace BankApp
                 {
                     case "1":
                         ShowLoginMenu(
+                            userService,
                            loginService,
                            accountMenu,
                            transactionMenu,
@@ -65,6 +67,8 @@ namespace BankApp
         // Collects the login credentials
         // and sends them to LoginService.
         public void ShowLoginMenu(
+            
+            UserService userService,
             LoginService loginService,
             AccountMenu accountMenu,
             TransactionMenu transactionMenu,
@@ -106,6 +110,7 @@ namespace BankApp
 
                 ShowUserMenu(
                     loggedInUser,
+                    userService,
                     accountMenu,
                     transactionMenu,
                     loanMenu);
@@ -117,6 +122,7 @@ namespace BankApp
         // for a regular authenticated user.
         public void ShowUserMenu(
             User user,
+            UserService userService,
             AccountMenu accountMenu,
             TransactionMenu transactionMenu,
             LoanMenu loanMenu)
@@ -133,6 +139,7 @@ namespace BankApp
                 Console.WriteLine("\n1. Konton");
                 Console.WriteLine("2. Transaktioner");
                 Console.WriteLine("3. Lån");
+                Console.WriteLine("4. Uppdatera personliga uppgifter");
                 Console.WriteLine("0. Logga ut");
                 Console.Write("\nVälj ett alternativ:");
 
@@ -155,16 +162,46 @@ namespace BankApp
                         loanMenu.ShowLoanMenu(user);
                         break;
 
+                    case "4":
+                        ShowUpdateUserInfoMenu(
+                            user,
+                            userService);
+                        break;
+
                     case "0":
                         Console.WriteLine("Loggar ut...");
                         isLoggedIn = false;
                         break;
 
                     default:
-                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-3.";
+                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-4.";
                         break;
                 }
             }
+        }
+        // Allows the user to update their email address and phone number.
+        public void ShowUpdateUserInfoMenu(
+            User user,
+            UserService userService)
+        {
+            Console.Clear();
+            Console.WriteLine("UPPDATERA PERSONLIGA UPPGIFTER");
+
+            Console.Write("Skriv ny e-postadress: ");
+            string email =
+                Console.ReadLine() ?? string.Empty;
+
+            Console.Write("Skriv nytt telefonnummer: ");
+            string phone =
+                Console.ReadLine() ?? string.Empty;
+
+            userService.UpdateUserInfo(
+                user,
+                email,
+                phone);
+
+            Console.WriteLine(
+                "Tryck på valfri knapp för att fortsätta.");
         }
 
 
