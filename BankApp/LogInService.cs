@@ -35,8 +35,10 @@
             // Stops the login attempt if no user was found.
             if (foundUser == null)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(
-                    "Invalid username or password.");
+                    "Fel användarnamn eller lösenord.");
+                Console.ResetColor();
 
                 return null;
             }
@@ -44,8 +46,10 @@
             // Checks if the user account is already locked.
             if (CheckLockStatus(foundUser))
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(
-                    "Account is locked.");
+                    "Användarkontot är låst.");
+                Console.ResetColor();
 
                 return null;
             }
@@ -58,7 +62,7 @@
                 foundUser.ResetFailedLogin();
 
                 Console.WriteLine(
-                    "Login successful.");
+                    "Loggar in...");
 
                 return foundUser;
             }
@@ -67,8 +71,10 @@
             // when the entered password is incorrect.
             foundUser.IncrementFailedLogin();
 
-            Console.WriteLine(
-                "Invalid username or password.");
+            Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(
+                    "Fel användarnamn eller lösenord.");
+                Console.ResetColor();
 
             // Locks the account after three
             // unsuccessful login attempts.
@@ -76,9 +82,11 @@
             {
                 foundUser.LockAccount();
 
+            Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(
-                    "Account has been locked after " +
-                    "three failed login attempts.");
+                    "Användarkontot har låsts efter " +
+                    "tre misslyckade försök.");
+                Console.ResetColor();
             }
 
             return null;

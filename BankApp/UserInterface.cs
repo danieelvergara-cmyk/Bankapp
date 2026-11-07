@@ -92,6 +92,8 @@ namespace BankApp
 
             if (loggedInUser == null)
             {
+                Console.WriteLine("Tryck på valfri knapp för att fortsätta.");
+                Console.ReadKey();
                 return;
             }
 

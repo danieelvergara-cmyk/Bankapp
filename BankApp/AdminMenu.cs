@@ -41,14 +41,7 @@ namespace BankApp
                 Console.WriteLine("0. Logga ut");
 
                 // If there is a wrong input, show the error message at the bottom of the menu and clear it after showing it once.
-                if (errorMessage != "")
-                {
-                    Console.WriteLine();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(errorMessage);
-                    Console.ResetColor();
-                    errorMessage = "";
-                }
+                errorMessage = UserInterface.ShowErrorMessage(errorMessage);
 
 
                 string userInput = Console.ReadLine();
@@ -84,60 +77,74 @@ namespace BankApp
             string email;
             string phone;
 
-            Console.WriteLine();
-            Console.WriteLine("---- Skapa en ny användare ----");
+            
 
+            Console.Clear();
             do
             {
+                Console.WriteLine();
+                Console.WriteLine("==== Skapa en ny användare ====");
                 Console.Write("Skriv Användarnamn: ");
 
                 username = Console.ReadLine() ?? string.Empty;
 
                 if (string.IsNullOrWhiteSpace(username))
                 {
+                    Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Användarnamn kan inte vara tomt.");
                     Console.ResetColor();
                 }
             } while (string.IsNullOrWhiteSpace(username));
 
+            Console.Clear();
             do
             {
+                Console.WriteLine();
+                Console.WriteLine("==== Skapa en ny användare ====");
                 Console.Write("Skriv Lösenord: ");
 
                 password = Console.ReadLine() ?? string.Empty;
 
                 if (string.IsNullOrWhiteSpace(password))
                 {
+                    Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Lösenordet kan inte vara tomt.");
                     Console.ResetColor();
                 }
             } while (string.IsNullOrWhiteSpace(password));
 
-
+            Console.Clear();
             do
             {
+                Console.WriteLine();
+                Console.WriteLine("==== Skapa en ny användare ====");
                 Console.Write("Skriv Email: ");
 
                 email = Console.ReadLine() ?? string.Empty;
 
                 if (string.IsNullOrWhiteSpace(email) || !email.Contains("@"))
                 {
+                    Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Ogiltig email, den måste innehålla @.");
                     Console.ResetColor();
                 }
             } while (string.IsNullOrWhiteSpace(email) || !email.Contains("@"));
 
+            Console.Clear();
             do
             {
+                Console.WriteLine();
+                Console.WriteLine("==== Skapa en ny användare ====");
                 Console.Write("Skriv mobilnummer: ");
 
                 phone = Console.ReadLine() ?? string.Empty;
 
                 if (string.IsNullOrWhiteSpace(phone) || phone.Length < 8)
                 {
+                    Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Ogiltigt mobilnummer, det måste vara minst 8 tecken.");
                     Console.ResetColor();
@@ -153,7 +160,10 @@ namespace BankApp
 
             if (newUser != null)
             {
+                Console.WriteLine("==============================================================\n");
                 Console.WriteLine($"Användaren {newUser.Username} har skapats med ID nummer: {newUser.UserId}.");
+                Console.WriteLine("\n==============================================================");
+
             }
 
             Console.WriteLine("\nTryck på valfri knapp för att gå tillbaka till menyn.");
@@ -186,14 +196,8 @@ namespace BankApp
                 Console.WriteLine("0. Tillbaka");
 
                 // If there is a wrong input, show the error message at the bottom of the menu and clear it after showing it once.
-                if (errorMessage != "")
-                {
-                    Console.WriteLine();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(errorMessage);
-                    Console.ResetColor();
-                    errorMessage = "";
-                }
+                errorMessage = UserInterface.ShowErrorMessage(errorMessage);
+
 
                 string userInput = Console.ReadLine();
 
@@ -289,14 +293,8 @@ namespace BankApp
                 Console.WriteLine("0. Tillbaka");
 
                 // If there is a wrong input, show the error message at the bottom of the menu and clear it after showing it once.
-                if (errorMessage != "")
-                {
-                    Console.WriteLine();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(errorMessage);
-                    Console.ResetColor();
-                    errorMessage = "";
-                }
+                errorMessage = UserInterface.ShowErrorMessage(errorMessage);
+
 
                 string userInput = Console.ReadLine();
 

@@ -36,14 +36,8 @@ namespace BankApp
                 Console.WriteLine("Välj ett alternativ:");
 
                 // If there is a wrong input, show the error message at the bottom of the menu and clear it after showing it once.
-                if (errorMessage != "")
-                {
-                    Console.WriteLine();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(errorMessage);
-                    Console.ResetColor();
-                    errorMessage = "";
-                }
+                errorMessage = UserInterface.ShowErrorMessage(errorMessage);
+
 
                 string userInput = Console.ReadLine();
 
