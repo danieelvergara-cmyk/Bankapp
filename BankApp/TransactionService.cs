@@ -47,48 +47,41 @@ namespace BankApp
 
 
 
-       
+
 
         // Creates a pending transfer that can be processed later.
         public void AddPendingTransfer(
-                  int fromAccountId,
-                  int toAccountId,
-                  decimal amount,
-                  bool sameUser,
-                  Currency currency)
+    User user,
+    int fromAccountId,
+    int toAccountId,
+    decimal amount,
+    bool sameUser,
+    Currency currency)
         {
+            Account? fromAccount = GetAccount(fromAccountId);
 
-            bool ownsFromAccount = false;  
-            
-            foreach (User user in userService.Users)
+            if (fromAccount == null)
             {
-                {
-                    foreach(Account account in user.Accounts)
-
-                    if (account.AccountId== fromAccountId)
-                    {
-                        ownsFromAccount = true;
-                        break;
-                    }
-                }
-                if (ownsFromAccount) break;
+                throw new InvalidOperationException(
+                    $"Kontot med ID {fromAccountId} finns inte.");
             }
-           
 
-            if ( !ownsFromAccount )
+            if (fromAccount.OwnerId != user.UserId)
             {
-                Console.WriteLine("fel konto: Du äger inte detta konto.");
-                Console.ReadKey();
-                return;
+                throw new InvalidOperationException(
+                    "Överföringen nekades eftersom kontot inte tillhör den inloggade användaren.");
             }
 
             if (amount <= 0)
             {
-                throw new Exception("Beloppet måste vara större än 0.");
+                throw new Exception(
+                    "Beloppet måste vara större än 0.");
             }
 
-            // Decide whether this is a transfer between the user's own accounts or to another user.
+            // Decide whether this is a transfer between
+            // the user's own accounts or to another user.
             TransactionType type;
+
             if (sameUser)
             {
                 type = TransactionType.OwnTransfer;
