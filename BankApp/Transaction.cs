@@ -21,13 +21,11 @@ namespace BankApp
         Failed
     }
 
-
-
-
     public class Transaction
     {
         // The first ID track and generate unique auto-incrementing identifiers 
         private static int _nextId = 0;
+
 
         public Transaction()
 
@@ -66,7 +64,8 @@ namespace BankApp
         public decimal Amount { get; set; }
         public TransactionStatus Status { get; set; } 
         public TransactionType Type { get; set; }
-        public DateTime Timestamp { get; set; } 
+        public DateTime Timestamp { get; set; }
+        public string FailureReason { get; set; } = string.Empty; // Property to hold the reason for a failed transaction, if applicable
 
     }
 }
