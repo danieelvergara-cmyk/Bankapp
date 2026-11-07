@@ -29,7 +29,7 @@ namespace BankApp
                 Console.WriteLine("    BankApp");
                 Console.WriteLine("================");
                 Console.WriteLine("1. Logga in");
-                Console.WriteLine("0. Avsluta Programet");
+                Console.WriteLine("0. Avsluta programmet");
                 Console.WriteLine("\nVälj ett alternativ:");
 
                 errorMessage = ShowErrorMessage(errorMessage);
@@ -54,7 +54,7 @@ namespace BankApp
                         break;
 
                     default:
-                        errorMessage = "\nOgiltig input. Skriv in ett tal mellan 0-1.";
+                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-1.";
                         break;
 
                 }
@@ -78,8 +78,6 @@ namespace BankApp
             Console.Write("Skriv användarnamn: ");
             string username =
                 Console.ReadLine() ?? string.Empty;
-
-            Console.Clear();
 
             Console.Write("Skriv lösenord: ");
             string password =
@@ -129,9 +127,9 @@ namespace BankApp
             {
                 Console.Clear();
                 Console.WriteLine();
-                Console.WriteLine($"Vällkomen {user.Username}!");
+                Console.WriteLine($"Välkommen {user.Username}!");
 
-                Console.WriteLine("\nAnvändar Meny");
+                Console.WriteLine("\nAnvändarmeny");
                 Console.WriteLine("\n1. Konton");
                 Console.WriteLine("2. Transaktioner");
                 Console.WriteLine("3. Lån");
@@ -163,7 +161,7 @@ namespace BankApp
                         break;
 
                     default:
-                        errorMessage = "\nOgiltig input. Skriv in ett tal mellan 0-3.";
+                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-3.";
                         break;
                 }
             }
