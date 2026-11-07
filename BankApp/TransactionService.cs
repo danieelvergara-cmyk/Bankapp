@@ -21,7 +21,7 @@ namespace BankApp
 
         private readonly UserService userService;
 
-        public TransactionService(UserService userService, ExchangeRate exchangeRate ) // constractor
+        public TransactionService(UserService userService, ExchangeRate exchangeRate ) // constructor
 
         {
             this.userService = userService;
@@ -55,10 +55,10 @@ namespace BankApp
                   int toAccountId,
                   decimal amount,
                   bool sameUser,
-                  Currency curency)
+                  Currency currency)
         {
 
-            bool ownsfromAccount = false;  
+            bool ownsFromAccount = false;  
             
             foreach (User user in userService.Users)
             {
@@ -67,15 +67,15 @@ namespace BankApp
 
                     if (account.AccountId== fromAccountId)
                     {
-                        ownsfromAccount = true;
+                        ownsFromAccount = true;
                         break;
                     }
                 }
-                if (ownsfromAccount) break;
+                if (ownsFromAccount) break;
             }
            
 
-            if ( !ownsfromAccount )
+            if ( !ownsFromAccount )
             {
                 Console.WriteLine("fel konto: Du äger inte detta konto.");
                 Console.ReadKey();
@@ -105,7 +105,7 @@ namespace BankApp
                 FromAccountId = fromAccountId,
                 ToAccountId = toAccountId,
                 Amount = amount,
-                Currency = curency,
+                Currency = currency,
                 Status = TransactionStatus.Pending,
                 Type = type
             };
@@ -210,7 +210,7 @@ namespace BankApp
                   // A user cannot transfer money to the same account.
                 if (fromAccount.AccountId == toAccount.AccountId)
                 {
-                    throw new InvalidOperationException($"kan inte övervföra till samma konto");
+                    throw new InvalidOperationException($"Kan inte överföra till samma konto");
                 }
 
 
@@ -334,7 +334,7 @@ namespace BankApp
             decimal amount,
             Currency currency)
         {
-            /* Lock so two transfers cannot change the same balances at the same time were it happend*/
+            /* Lock so two transfers cannot change the same balances at the same time*/
             lock (_bankLock) 
             {
                 
@@ -360,7 +360,7 @@ namespace BankApp
             decimal amount,
             Currency currency)
         {
-            /* Lock so two transfers cannot change the same balances at the same time were it happend*/
+            /* Lock so two transfers cannot change the same balances at the same time*/
             lock ( _bankLock) 
             {
                 return Transfer(

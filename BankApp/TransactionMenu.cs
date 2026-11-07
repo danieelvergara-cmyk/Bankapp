@@ -57,7 +57,7 @@ namespace BankApp
                     Console.Write("Välj 1, 2 eller 0:");
 
 
-                    string choice = Console.ReadLine() ?? string.Empty; // // pssible null value
+                    string choice = Console.ReadLine() ?? string.Empty; // // possible null value
 
 
                     switch (choice)
@@ -67,7 +67,7 @@ namespace BankApp
                             break;
 
                         case "2":
-                            TransfarTo(user);
+                            TransferTo(user);
                             break;
 
                         case "0":
@@ -84,7 +84,7 @@ namespace BankApp
                 
         }    }
 
-        public void TransfarTo(User user)
+        public void TransferTo(User user)
 
         {
             bool isValidChoice2 = true;
@@ -130,7 +130,7 @@ namespace BankApp
             }
         }
 
-        private Currency ChooseChurrency()
+        private Currency ChooseCurrency()
         {
             while (true)
            
@@ -188,18 +188,18 @@ namespace BankApp
                 return;
             }
 
-            bool OwenAccount = false;
+            bool ownsAccount = false;
             
             foreach (Account account in user.Accounts)
             {
                 if (account.AccountId == accountId)
                 {
-                    OwenAccount = true;
+                    ownsAccount = true;
                     break;
                 }
             }
 
-            if (!OwenAccount)
+            if (!ownsAccount)
             {
                 Console.WriteLine(" Fel konto");
                 Console.ReadKey();
@@ -282,7 +282,7 @@ namespace BankApp
                 }
 
 
-                Currency currency = ChooseChurrency();
+                Currency currency = ChooseCurrency();
 
             // Make the transfer
               transactionService.AddPendingTransfer(
@@ -348,7 +348,7 @@ namespace BankApp
                     return;
                   
                 }
-                Currency currency = ChooseChurrency();
+                Currency currency = ChooseCurrency();
 
                 // Make the transfer
                 transactionService.AddPendingTransfer(
@@ -363,7 +363,7 @@ namespace BankApp
 
                 decimal amountInSek = transactionService.ConvertToSek(amount,currency);
 
-                notificationService.TransactionNotification(user, amountInSek);// notification call after the transfer succeeds if the higlimt e
+                notificationService.TransactionNotification(user, amountInSek);// notification call if the amount is above the limit
             }
             catch (Exception error)
             {

@@ -27,7 +27,7 @@ namespace BankApp
         
         private void SendEmail(string email, string message)
         {
-            Console.WriteLine($"Notification skikat till  {email}: {message}");
+            Console.WriteLine($"Notifikation skickad till {email}: {message}");
         }
         private void  SendSms(string phoneNumber, string message)
         {
