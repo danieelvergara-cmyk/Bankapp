@@ -15,16 +15,28 @@ namespace BankApp
         // Creates an in-memory list  of all transfers: pending, completed, or failed.
         private readonly List<Transaction> transactions = new List<Transaction>();
 
+        private readonly NotificationService notificationService;
+
+
+
         // Lock used to protect accounts and the transaction list from concurrent changes
         private readonly object _bankLock = new object();  // "Lock" prevents data corruption and calculation errors 
 
         // Reference to the accounts managed by the bank.
-        private readonly List<Account> accounts; //Stores a reference to the account list supplied to the constructor.
+        //private readonly List<Account> accounts; //Stores a reference to the account list supplied to the constructor.
 
         // Constructor receives the account list when the service is created
-        public TransactionService(List<Account> accounts)
-        { 
-            this.accounts = accounts;
+        //public TransactionService(List<Account> accounts)
+        //{ 
+        //    this.accounts = accounts;
+        //}
+
+        private readonly UserService userService;
+
+        public TransactionService(UserService userService, NotificationService notificationService)
+        {
+            this.userService = userService;
+            this.notificationService = notificationService;
         }
         // Creates a pending transfer that can be processed later.
         public void AddPendingTransfer(
@@ -35,7 +47,7 @@ namespace BankApp
         {
             if (amount <= 0)
             {
-                throw new Exception(" Beloppet m[ste vara st;rre 'n 0.");
+                throw new Exception("Beloppet måste vara större än 0.");
             }
 
             // Decide whether this is a transfer between the user's own accounts or to another user.
@@ -72,12 +84,17 @@ namespace BankApp
          * Because null is possible, ? is used */
         private Account? GetAccount(int accountId)   
         {
-            foreach (Account account in accounts)
-            {
-                if (account.AccountId == accountId)
+            foreach (User user in userService.Users)
+
+            {     foreach (Account account in user.Accounts)
                 {
-                    return account;
+
+                    if (account.AccountId == accountId)
+                    {
+                        return account;
+                    }
                 }
+                  
             }
 
             return null;
@@ -242,12 +259,12 @@ namespace BankApp
 
                     catch (Exception error) 
                     {
-                        {// Mark the transaction as failed if the transfer cannot be completed.
+                        // Mark the transaction as failed if the transfer cannot be completed.
                             transaction.Status = TransactionStatus.Failed;
 
                             Console.WriteLine(
                               $"Transaktion{transaction.TransactionId} misslyckades:  {error.Message}");
-                        }
+                       
                     }
                 }
             }
