@@ -59,7 +59,7 @@ namespace BankApp
 
                     errorMessage = UserInterface.ShowErrorMessage(errorMessage);
 
-                string choice = Console.ReadLine() ?? string.Empty; // // possible null value
+                    string choice = Console.ReadLine() ?? string.Empty; // // possible null value
 
 
                     switch (choice)
@@ -220,9 +220,7 @@ namespace BankApp
 
             if (history.Count == 0)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Inga Transaktioner hittades. ");
-                Console.ResetColor();
+                Console.WriteLine("Inga transaktioner hittades.");
                 Console.ReadKey();
                 return;
 
@@ -290,7 +288,7 @@ namespace BankApp
                 if (!decimal.TryParse(amountInput, out decimal amount))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Ogiltigt belopp");
+                    Console.WriteLine("Ogiltigt belopp.");
                     Console.ResetColor();
                     Console.ReadKey();
                     return;
