@@ -320,12 +320,6 @@ namespace BankApp
             Console.ReadKey();
         }
 
-
-
-
-
-
-
         private void HandleOtherAccountTransfer(User user)
         {
             try

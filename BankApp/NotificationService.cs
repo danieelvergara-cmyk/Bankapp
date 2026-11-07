@@ -11,14 +11,10 @@ namespace BankApp
 
         public void TransactionNotification(User user, decimal transactionAmount)
         {
-         
-
             
             if (transactionAmount >= LargeTransactionLimit)
             {
-
-
-                string message = $"Stor transaktion på {transactionAmount} kr skedde {DateTime.Now}";
+                string message = $"En stor transaktion på {transactionAmount} SEK har påbörjats {DateTime.Now}";
 
                 SendEmail(user.Email, message);
                 SendSms(user.Phone, message);
