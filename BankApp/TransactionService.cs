@@ -15,7 +15,19 @@ namespace BankApp
         // Creates an in-memory list  of all transfers: pending, completed, or failed.
         private readonly List<Transaction> transactions = new List<Transaction>();
 
-        private readonly NotificationService notificationService;
+       
+        private readonly ExchangeRate exchangeRate;
+
+        private readonly UserService userService;
+
+        public TransactionService(UserService userService, ExchangeRate exchangeRate ) // constractor
+
+        {
+            this.userService = userService;
+            this.exchangeRate = exchangeRate;
+
+
+        }
 
 
 
@@ -31,19 +43,14 @@ namespace BankApp
         //    this.accounts = accounts;
         //}
 
-        private readonly UserService userService;
-
-        public TransactionService(UserService userService, NotificationService notificationService)
-        {
-            this.userService = userService;
-            this.notificationService = notificationService;
-        }
+        
         // Creates a pending transfer that can be processed later.
         public void AddPendingTransfer(
                   int fromAccountId,
                   int toAccountId,
                   decimal amount,
-                  bool sameUser)
+                  bool sameUser,
+                  Currency curency)
         {
             if (amount <= 0)
             {
@@ -68,6 +75,7 @@ namespace BankApp
                 FromAccountId = fromAccountId,
                 ToAccountId = toAccountId,
                 Amount = amount,
+                Currency = curency,
                 Status = TransactionStatus.Pending,
                 Type = type
             };
@@ -125,12 +133,19 @@ namespace BankApp
             return history;
         }
 
+
+        public decimal ConvertToSek(decimal amount, Currency currency)
+        {
+            return exchangeRate.Convert(amount, currency, Currency.SEK);
+        }
+
         // Performs the actual transfer.
         private decimal Transfer(
 
             int fromAccountId,
             int toAccountId,
             decimal amount,
+            Currency currency,
             TransactionType transactionType,
             bool sameUser,
             Transaction? existingTransaction = null)
@@ -183,18 +198,25 @@ namespace BankApp
                     throw new InvalidOperationException("Använd TransferToOwnAccount för egna konton.");
                 }
 
+            decimal amountToWithdraw = exchangeRate.Convert(amount, currency, fromAccount.Currency);
+            decimal amountToDeposit = exchangeRate.Convert(amount, currency, toAccount.Currency);
 
+            if (amountToWithdraw <= 0 || amountToDeposit <= 0)
+            {
+                throw new InvalidOperationException(" Beloppet är för litet efter valutaväxling.");
+            }
 
-                if (fromAccount.Balance < amount)
-                {
+            if ( fromAccount.Balance < amountToWithdraw)
+
+               {   
                     throw new InvalidOperationException(
                         "Betalningen misslyckades. Det finns inte tillräckligt med pengar på kontot.");
                 }
 
             /* Remove money from the sender
              * and add it to the receiver.*/
-                fromAccount.WithDraw(amount); 
-                toAccount.Deposit(amount);
+                fromAccount.WithDraw(amountToWithdraw); 
+                toAccount.Deposit(amountToDeposit);
 
 
 
@@ -205,6 +227,7 @@ namespace BankApp
                     FromAccountId = fromAccountId,
                     ToAccountId = toAccountId,
                     Amount = amount,
+                    Currency = currency,
                     Type = transactionType
 
                 };
@@ -251,6 +274,7 @@ namespace BankApp
                            transaction.FromAccountId,
                            transaction.ToAccountId,
                            transaction.Amount,
+                           transaction.Currency,
                            transaction.Type,
                            sameUser,
                            transaction);
@@ -277,7 +301,8 @@ namespace BankApp
         public decimal TransferToOwnAccount(
             int fromAccountId,
             int toAccountId, 
-            decimal amount)
+            decimal amount,
+            Currency currency)
         {
             /* Lock so two transfers cannot change the same balances at the same time were it happend*/
             lock (_bankLock) 
@@ -287,6 +312,7 @@ namespace BankApp
                   fromAccountId,
                   toAccountId,
                   amount,
+                  currency,
                   TransactionType.OwnTransfer,
                   sameUser: true);
 
@@ -295,11 +321,14 @@ namespace BankApp
             
         }
 
+
+
         // Transfers money to another user's account
         public decimal TransfertoOtherAccount(
             int fromAccountId,
             int toAccountId,
-            decimal amount)
+            decimal amount,
+            Currency currency)
         {
             /* Lock so two transfers cannot change the same balances at the same time were it happend*/
             lock ( _bankLock) 
@@ -308,6 +337,7 @@ namespace BankApp
                  fromAccountId,
                  toAccountId,
                  amount,
+                 currency,
                  TransactionType.TransferToOther,
                  sameUser: false);
 
