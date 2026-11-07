@@ -132,8 +132,8 @@ A rough explanation of the main classes and objects in the source code.
 
 | Class | Responsibility |
 |-------|----------------|
-| `User` | `[...]` |
-| `Admin` | `[...]` |
+| `User` | Stores the user's personal information, accounts, loans, credit score, and login status. |
+| `Admin` |  Represents an administrator who inherits from User and is granted access to administrative menus and restricted functionality. |
 | `Account` | `[...]` |
 | `SavingsAccount` | `[...]` |
 | `Transaction` | `[...]` |
@@ -148,8 +148,8 @@ A rough explanation of the main classes and objects in the source code.
 | Class | Responsibility |
 |-------|----------------|
 | `AccountService` | `[...]` |
-| `LoginService` | `[...]` |
-| `UserService` | `[...]` |
+| `LoginService` |  Authenticates users, tracks failed login attempts, and locks accounts after repeated failed attempts. |
+| `UserService` | Creates and manages users, assigns user IDs, updates contact information, and calculates credit scores. |
 | `TransactionService` | `[...]` |
 | `LoanService` | Creates the `Loan` object and calculates the necessary values for the loan based on the amount, interest rate, and term. |
 | `NotificationService` | `[...]` |
@@ -167,7 +167,7 @@ A rough explanation of the main classes and objects in the source code.
 
 | Class | Responsibility |
 |-------|----------------|
-| `UserInterface` | `[...]` |
+| `UserInterface` | Displays the main menus, collects user input, and directs users to the correct menus and services. |
 | `AccountMenu` | `[...]` |
 | `AdminMenu` | Admin menu for creating users, viewing statistics, and changing exchange rates and loan rules. |
 | `LoanMenu` | Menu for creating new loans and viewing existing ones. |
@@ -214,7 +214,7 @@ A rough explanation of the main classes and objects in the source code.
 |------|--------|-----------------------|
 | William Ekman | [@TheOakMan](https://github.com/theoakman) | Loans (`Loan`, `LoanRules`, `LoanService`), logo (`UserInterface`), menus (`AdminMenu`, `LoanMenu`), exchange rates (`ExchangeRate`) |
 | Daniél V | @danieelvergara-cmyk | `[...]` |
-| `[Name]` | `[@handle]` | `[...]` |
+| Rickard Idevall | rickardidevall-a11y | User, UserService, LogInService, UserInterface, Admin  |
 | `[Name]` | `[@handle]` | `[...]` |
 
 ---
