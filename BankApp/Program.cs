@@ -42,7 +42,7 @@ namespace BankApp
 
             // Start the scheduler to run in the background
 
-            //Scheduler scheduler = new Scheduler(TransactionService);
+            Scheduler scheduler = new Scheduler(transactionService);
             //_ = scheduler.RunAsync();
 
             // A Admin user pre-created and a test user for demonstration purposes.
