@@ -8,6 +8,8 @@ namespace BankApp
     {
         private readonly AccountService _accountService;
 
+        string errorMessage = "";
+
         public AccountMenu(AccountService accountService)
         {
             _accountService = accountService;
@@ -19,13 +21,17 @@ namespace BankApp
 
             while (isRunning)
             {
-                Console.WriteLine($"\n=== Konto-meny ({user.Username}) ===");
+                Console.Clear();
+
+                Console.WriteLine($"\n==== Konto-meny ({user.Username}) ====");
                 Console.WriteLine("1. Visa mina konton och saldon");
                 Console.WriteLine("2. Öppna vanligt konto");
                 Console.WriteLine("3. Öppna sparkonto");
                 Console.WriteLine("4. Sätt in pengar på sparkonto och visa ränta");
                 Console.WriteLine("0. Tillbaka");
-                Console.Write("Välj: ");
+                Console.Write("\nVälj ett alternativ:");
+
+                errorMessage = UserInterface.ShowErrorMessage(errorMessage);
 
                 string? choice = Console.ReadLine();
 
@@ -47,7 +53,7 @@ namespace BankApp
                         isRunning = false;
                         break;
                     default:
-                        Console.WriteLine("Välj ett av alternativen i menyn.");
+                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-4.";
                         break;
                 }
             }
@@ -55,29 +61,43 @@ namespace BankApp
 
         private static void ShowAccounts(User user)
         {
+            Console.Clear();
+            Console.WriteLine($"==== {user.Username}s Konton ====");
             Account.ShowAccounts(user);
+            Console.WriteLine("Tryck på valfri knapp för att fortsätta.");
+            Console.ReadKey();
         }
 
         private void OpenRegularAccount(User user)
         {
+            Console.Clear();
+            Console.WriteLine("=== Öppna nytt konto ===");
             string accountName = ReadRequiredText("Namn på kontot: ");
             Currency currency = ReadCurrency();
 
+            Console.Clear();
             Account account = _accountService.CreateAccount(user, accountName, currency);
             Console.WriteLine("Kontot öppnades:");
             account.PrintAccount();
+            Console.WriteLine("Tryck på valfri knapp för att fortsätta.");
+            Console.ReadKey();
         }
 
         private void OpenSavingsAccount(User user)
         {
+            Console.Clear();
+            Console.WriteLine("=== Öppna sparkonto ===");
             string accountName = ReadRequiredText("Namn på sparkontot: ");
             Currency currency = ReadCurrency();
 
             SavingsAccount savingsAccount = _accountService.CreateSavingsAccount(user, accountName, currency);
 
+            Console.Clear();
             Console.WriteLine("Sparkontot öppnades:");
             savingsAccount.PrintAccount();
             Console.WriteLine($"Årsränta: {savingsAccount.AnnualInterestRate}%");
+            Console.WriteLine("Tryck på valfri knapp för att fortsätta.");
+            Console.ReadKey();
         }
 
         private void DepositIntoSavingsAccount(User user)
@@ -85,20 +105,25 @@ namespace BankApp
             SavingsAccount? savingsAccount = ChooseSavingsAccount(user);
             if (savingsAccount == null) return;
 
+            Console.Clear();
+            savingsAccount.PrintAccount();
             decimal amount = ReadPositiveAmount("Hur mycket vill du sätta in? ");
             _accountService.DepositToSavingsAccount(savingsAccount, amount);
+            Console.WriteLine("Tryck på valfri knapp för att fortsätta.");
+            Console.ReadKey();
         }
 
-        private static SavingsAccount? ChooseSavingsAccount(User user)
+        private SavingsAccount? ChooseSavingsAccount(User user)
         {
             var savingsAccounts = user.Accounts.OfType<SavingsAccount>().ToList();
 
             if (savingsAccounts.Count == 0)
             {
-                Console.WriteLine("Du har inga sparkonton. Öppna ett sparkonto först.");
+                errorMessage = "Du har inga sparkonton. Öppna ett sparkonto först.";
                 return null;
             }
 
+            Console.Clear();
             Console.WriteLine("Välj sparkonto:");
             for (int i = 0; i < savingsAccounts.Count; i++)
             {
@@ -112,6 +137,7 @@ namespace BankApp
 
         private static Currency ReadCurrency()
         {
+            Console.Clear();
             while (true)
             {
                 Console.WriteLine("Välj valuta: 1. SEK  2. EUR  3. USD");
@@ -123,7 +149,10 @@ namespace BankApp
                     case "2": return Currency.EUR;
                     case "3": return Currency.USD;
                     default:
+                        Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Välj 1, 2 eller 3.");
+                        Console.ResetColor();
                         break;
                 }
             }
@@ -140,8 +169,10 @@ namespace BankApp
                 {
                     return value.Trim();
                 }
-
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Fältet får inte vara tomt.");
+                Console.ResetColor();
+
             }
         }
 
@@ -155,8 +186,10 @@ namespace BankApp
                 {
                     return amount;
                 }
-
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Ange ett belopp som är större än noll.");
+                Console.ResetColor();
             }
         }
         // Reads a number within a specified range. And if you put number outside the range it will ask you to put a number within the range.

@@ -39,16 +39,10 @@ namespace BankApp
                 Console.WriteLine("3. Ändra växelkurser");
                // Console.WriteLine("4. Visa statistik");
                 Console.WriteLine("0. Logga ut");
+                Console.Write("\nVälj ett alternativ:");
 
                 // If there is a wrong input, show the error message at the bottom of the menu and clear it after showing it once.
-                if (errorMessage != "")
-                {
-                    Console.WriteLine();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(errorMessage);
-                    Console.ResetColor();
-                    errorMessage = "";
-                }
+                errorMessage = UserInterface.ShowErrorMessage(errorMessage);
 
 
                 string userInput = Console.ReadLine();
@@ -71,7 +65,7 @@ namespace BankApp
                         isRunning = false;
                         break;
                     default:
-                        errorMessage = "Ogiltig input, skriv ett tall mellan 0-4."; // Set the error message to be shown in the next iteration of the loop.
+                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-4."; // Set the error message to be shown in the next iteration of the loop.
                         break;
                 }
             }
@@ -84,67 +78,81 @@ namespace BankApp
             string email;
             string phone;
 
-            Console.WriteLine();
-            Console.WriteLine("---- Skapa en ny användare ----");
+            
 
+            Console.Clear();
             do
             {
+                Console.WriteLine();
+                Console.WriteLine("==== Skapa en ny användare ====");
                 Console.Write("Skriv Användarnamn: ");
 
                 username = Console.ReadLine() ?? string.Empty;
 
                 if (string.IsNullOrWhiteSpace(username))
                 {
+                    Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Användarnamn kan inte vara tomt.");
                     Console.ResetColor();
                 }
             } while (string.IsNullOrWhiteSpace(username));
 
+            Console.Clear();
             do
             {
+                Console.WriteLine();
+                Console.WriteLine("==== Skapa en ny användare ====");
                 Console.Write("Skriv Lösenord: ");
 
                 password = Console.ReadLine() ?? string.Empty;
 
                 if (string.IsNullOrWhiteSpace(password))
                 {
+                    Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Lösenordet kan inte vara tomt.");
                     Console.ResetColor();
                 }
             } while (string.IsNullOrWhiteSpace(password));
 
-
+            Console.Clear();
             do
             {
+                Console.WriteLine();
+                Console.WriteLine("==== Skapa en ny användare ====");
                 Console.Write("Skriv Email: ");
 
                 email = Console.ReadLine() ?? string.Empty;
 
                 if (string.IsNullOrWhiteSpace(email) || !email.Contains("@"))
                 {
+                    Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Ogiltig email, den måste innehålla @.");
                     Console.ResetColor();
                 }
             } while (string.IsNullOrWhiteSpace(email) || !email.Contains("@"));
 
+            Console.Clear();
             do
             {
+                Console.WriteLine();
+                Console.WriteLine("==== Skapa en ny användare ====");
                 Console.Write("Skriv mobilnummer: ");
 
                 phone = Console.ReadLine() ?? string.Empty;
 
                 if (string.IsNullOrWhiteSpace(phone) || phone.Length < 8)
                 {
+                    Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Ogiltigt mobilnummer, det måste vara minst 8 tecken.");
                     Console.ResetColor();
                 }
             } while (string.IsNullOrWhiteSpace(phone) || phone.Length < 8);
 
-
+            Console.Clear();
             User? newUser = _userService.CreateUser(
                 username,
                 password,
@@ -153,7 +161,10 @@ namespace BankApp
 
             if (newUser != null)
             {
+                Console.WriteLine("==============================================================\n");
                 Console.WriteLine($"Användaren {newUser.Username} har skapats med ID nummer: {newUser.UserId}.");
+                Console.WriteLine("\n==============================================================");
+
             }
 
             Console.WriteLine("\nTryck på valfri knapp för att gå tillbaka till menyn.");
@@ -186,14 +197,8 @@ namespace BankApp
                 Console.WriteLine("0. Tillbaka");
 
                 // If there is a wrong input, show the error message at the bottom of the menu and clear it after showing it once.
-                if (errorMessage != "")
-                {
-                    Console.WriteLine();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(errorMessage);
-                    Console.ResetColor();
-                    errorMessage = "";
-                }
+                errorMessage = UserInterface.ShowErrorMessage(errorMessage);
+
 
                 string userInput = Console.ReadLine();
 
@@ -217,7 +222,7 @@ namespace BankApp
                         isRunning = false;
                         break;
                     default:
-                        errorMessage = "Ogiltig input, skriv 1 eller 0."; // Set the error message to be shown in the next iteration of the loop.
+                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-1."; // Set the error message to be shown in the next iteration of the loop.
                         break;
                 }
             }
@@ -289,14 +294,8 @@ namespace BankApp
                 Console.WriteLine("0. Tillbaka");
 
                 // If there is a wrong input, show the error message at the bottom of the menu and clear it after showing it once.
-                if (errorMessage != "")
-                {
-                    Console.WriteLine();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(errorMessage);
-                    Console.ResetColor();
-                    errorMessage = "";
-                }
+                errorMessage = UserInterface.ShowErrorMessage(errorMessage);
+
 
                 string userInput = Console.ReadLine();
 
@@ -312,7 +311,7 @@ namespace BankApp
                         isRunning = false;
                         break;
                     default:
-                        errorMessage = "Ogiltig input, skriv 1, 2 eller 0."; // Set the error message to be shown in the next iteration of the loop.
+                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-2."; // Set the error message to be shown in the next iteration of the loop.
                         break;
                 }
             }

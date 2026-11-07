@@ -29,21 +29,15 @@ namespace BankApp
             {
                 Console.Clear();
 
-                Console.WriteLine("--- Lån ---");
-                Console.WriteLine("Välj ett alternativ:");
+                Console.WriteLine("==== Lån ====");
                 Console.WriteLine("1. Skapa ett nytt lån");
                 Console.WriteLine("2. Visa mina lån");
-                Console.WriteLine("0. Tillbaka till Huvudmeny");
+                Console.WriteLine("0. Tillbaka");
+                Console.Write("\nVälj ett alternativ:");
 
                 // If there is a wrong input, show the error message at the bottom of the menu and clear it after showing it once.
-                if (errorMessage != "")
-                {
-                    Console.WriteLine();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(errorMessage);
-                    Console.ResetColor();
-                    errorMessage = "";
-                }
+                errorMessage = UserInterface.ShowErrorMessage(errorMessage);
+
 
                 string userInput = Console.ReadLine();
 
@@ -59,7 +53,7 @@ namespace BankApp
                         isRunning = false;
                         break;
                     default:
-                        errorMessage = "Ogiltig input, skriv 1, 2 eller 0."; // Set the error message to be shown in the next iteration of the loop.
+                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-2."; // Set the error message to be shown in the next iteration of the loop.
                         break;
                 }
                
@@ -132,25 +126,25 @@ namespace BankApp
             if (user.Loans.Count == 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("---------------");
+                Console.WriteLine("================");
                 Console.WriteLine("Du har inga lån");
-                Console.WriteLine("---------------");
+                Console.WriteLine("================");
                 Console.ResetColor();
             }
             else
             {
-                Console.WriteLine($"\n---{user.Username}'s lån---");
+                Console.WriteLine($"\n===={user.Username}s lån====");
 
                 foreach (Loan loan in user.Loans)
                 {
-                    Console.WriteLine("-----------------------------");
+                    Console.WriteLine("================================");
                     Console.WriteLine($"Lån Nr: {loan.LoanId}");
                     Console.WriteLine($"Datum: {loan.StartDate:yyyy-MM-dd}");
                     Console.WriteLine($"Belopp: {loan.Amount:F2} SEK, Löptid: {loan.TermMonths} månader");
                     Console.WriteLine($"Månadsbelopp: {loan.MonthlyPayment:F2} SEK");
                     Console.WriteLine($"Kvar att betala: {loan.RemainingBalance:F2} SEK");
                     Console.WriteLine($"Ränta: {loan.InterestRate}%");
-                    Console.WriteLine("-----------------------------");
+                    Console.WriteLine("================================");
                 }
 
             }
