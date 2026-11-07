@@ -301,6 +301,7 @@ namespace BankApp
 
             // Make the transfer
               transactionService.AddPendingTransfer(
+                  user,
                         fromAccountId,
                         toAccountId,
                         amount,
@@ -375,7 +376,7 @@ namespace BankApp
 
                 // Make the transfer
                 transactionService.AddPendingTransfer(
-                        
+                    user,
                     fromAccountId,
                     toAccountId,
                     amount,
