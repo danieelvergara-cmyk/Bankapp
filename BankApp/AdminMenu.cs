@@ -65,7 +65,7 @@ namespace BankApp
                         isRunning = false;
                         break;
                     default:
-                        errorMessage = "Ogiltig input, skriv ett tall mellan 0-4."; // Set the error message to be shown in the next iteration of the loop.
+                        errorMessage = "Ogiltig input, skriv ett tal mellan 0-4."; // Set the error message to be shown in the next iteration of the loop.
                         break;
                 }
             }
