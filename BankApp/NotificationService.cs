@@ -14,7 +14,7 @@ namespace BankApp
             
             if (transactionAmount >= LargeTransactionLimit)
             {
-                string message = $"En stor transaktion på {transactionAmount} SEK har påbörjats {DateTime.Now}";
+                string message = $"En stor transaktion på {transactionAmount:F2} SEK har påbörjats {DateTime.Now}";
 
                 SendEmail(user.Email, message);
                 SendSms(user.Phone, message);
