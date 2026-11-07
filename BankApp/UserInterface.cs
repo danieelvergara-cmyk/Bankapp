@@ -29,7 +29,7 @@ namespace BankApp
                 Console.WriteLine("    BankApp");
                 Console.WriteLine("================");
                 Console.WriteLine("1. Logga in");
-                Console.WriteLine("2. Avsluta Programet");
+                Console.WriteLine("0. Avsluta Programet");
                 Console.WriteLine("\nVälj ett alternativ:");
 
                 ShowErrorMessage(errorMessage);
@@ -54,21 +54,11 @@ namespace BankApp
                         break;
 
                     default:
-                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-1.";
+                        errorMessage = "\nOgiltig input. Skriv in ett tal mellan 0-1.";
                         break;
 
                 }
             }
-        }
-
-
-
-        // ShowRegisterUserMenu has been moved to AdminMenu.cs,
-        // as it requires admin privileges to create new users.
-        public void ShowRegisterUserMenu(
-            UserService userService)
-        {
-           
         }
 
 
@@ -81,6 +71,7 @@ namespace BankApp
             LoanMenu loanMenu,
             AdminMenu adminMenu)
         {
+            Console.Clear();
             Console.WriteLine();
             Console.WriteLine("LOG IN");
 
@@ -109,6 +100,8 @@ namespace BankApp
             }
             else
             {
+                ShowLogo();
+
                 ShowUserMenu(
                     loggedInUser,
                     accountMenu,
@@ -178,10 +171,11 @@ namespace BankApp
             Console.ResetColor();
             Console.WriteLine("\n==================");
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Welcome to BankApp");
+            Console.WriteLine("     BankApp");
             Console.ResetColor();
             Console.WriteLine("==================");
-
+            Console.WriteLine("\nTryck på valfri knapp för att fortsätta");
+            Console.ReadKey();
         }
 
         public void ShowErrorMessage(string errorMessage)

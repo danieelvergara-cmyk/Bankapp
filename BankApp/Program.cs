@@ -51,7 +51,6 @@ namespace BankApp
             userService.Users.Add(admin);
             userService.Users.Add(testUser);
 
-            userInterface.ShowLogo();
             userInterface.ShowMainMenu(loginService,accountMenu,transactionMenu,loanMenu, adminMenu);
         }
             
