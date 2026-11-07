@@ -142,6 +142,7 @@ namespace BankApp
         // Performs the actual transfer.
         private decimal Transfer(
 
+            User user,
             int fromAccountId,
             int toAccountId,
             decimal amount,
@@ -177,8 +178,17 @@ namespace BankApp
                     throw new InvalidOperationException($" Kontot med Id {toAccountId} finns inte");
 
                 }
-                  // A user cannot transfer money to the same account.
-                if (fromAccount.AccountId == toAccount.AccountId)
+
+            // Checks that the sender account belongs to the logged-in user.
+            
+            if (fromAccount.OwnerId != user.UserId)
+                {
+                    throw new InvalidOperationException(
+                        "Överföringen nekades eftersom kontot inte tillhör den inloggade användaren.");
+                }
+
+            // A user cannot transfer money to the same account.
+            if (fromAccount.AccountId == toAccount.AccountId)
                 {
                     throw new InvalidOperationException($"kan inte övervföra till samma konto");
                 }
@@ -299,6 +309,7 @@ namespace BankApp
 
         // Transfers money between two accounts owned by the same user
         public decimal TransferToOwnAccount(
+            User user,
             int fromAccountId,
             int toAccountId, 
             decimal amount,
@@ -309,6 +320,7 @@ namespace BankApp
             {
                 
                 return Transfer(
+                    user,
                   fromAccountId,
                   toAccountId,
                   amount,
@@ -325,6 +337,7 @@ namespace BankApp
 
         // Transfers money to another user's account
         public decimal TransfertoOtherAccount(
+            User user,
             int fromAccountId,
             int toAccountId,
             decimal amount,
@@ -334,6 +347,7 @@ namespace BankApp
             lock ( _bankLock) 
             {
                 return Transfer(
+                 user,
                  fromAccountId,
                  toAccountId,
                  amount,

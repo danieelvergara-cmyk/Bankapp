@@ -213,6 +213,7 @@ namespace BankApp
 
             // Make the transfer
                 decimal newBalance = transactionService.TransferToOwnAccount(
+                    user,
                         fromAccountId,
                         toAccountId,
                         amount);
@@ -268,7 +269,7 @@ namespace BankApp
 
                 // Make the transfer
                 decimal newBalance = transactionService.TransfertoOtherAccount(
-                        
+                        user,
                     fromAccountId,
                     toAccountId,
                     amount);
