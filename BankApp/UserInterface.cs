@@ -183,7 +183,7 @@ namespace BankApp
             Console.ReadKey();
         }
 
-        public string ShowErrorMessage(string errorMessage)
+        public static string ShowErrorMessage(string errorMessage)
         {
 
             // If there is a wrong input, show the error message at the bottom of the menu and clear it after showing it once.
