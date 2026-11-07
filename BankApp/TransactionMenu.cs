@@ -18,6 +18,8 @@ namespace BankApp
                It stores a reference to the service the menu will use (like a private toolbox).*/
         private readonly TransactionService transactionService;
 
+
+
         private readonly NotificationService notificationService;
 
 
@@ -42,17 +44,17 @@ namespace BankApp
 
             while (isValidChoice)
             {
-                {
+                
                     Console.Clear();
                     Console.WriteLine("              ");
                     Console.WriteLine("=====================");
                     Console.WriteLine("              ");
                     Console.WriteLine("1. Se en logg på alla överföringar");
                     Console.WriteLine("2. Överför pengar");
-                    Console.WriteLine("3. Exit ");
+                    Console.WriteLine("0. Exit ");
                     Console.WriteLine(" ----------------------- ");
                     Console.WriteLine("              ");
-                    Console.Write("Välj 1, 2 eller 3:");
+                    Console.Write("Välj 1, 2 eller 0:");
 
 
                     string choice = Console.ReadLine() ?? string.Empty; // // pssible null value
@@ -68,18 +70,18 @@ namespace BankApp
                             TransfarTo(user);
                             break;
 
-                        case "3":
+                        case "0":
                             isValidChoice = false;
                             return;
                             
 
                         default:
-                            Console.WriteLine("Ogiltigt val. Vänligen välj 1 eller 2.");
+                            Console.WriteLine("Ogiltigt val. Vänligen välj 1, 2 eller 0.");
                             Console.ReadKey();
                             break;
         
                     }
-                }
+                
         }    }
 
         public void TransfarTo(User user)
@@ -98,9 +100,9 @@ namespace BankApp
                     Console.WriteLine("Vill du överföra pengar till:");
                     Console.WriteLine("1. Eget konto");
                     Console.WriteLine("2. Annan person");
-                    Console.WriteLine("3.Exit ");
+                    Console.WriteLine("0.Exit ");
                     Console.WriteLine(" ");
-                    Console.Write("Välj 1, 2 eller 3:");
+                    Console.Write("Välj 1, 2 eller 0:");
 
 
                     string choice2 = Console.ReadLine() ?? string.Empty;
@@ -115,12 +117,12 @@ namespace BankApp
                             HandleOtherAccountTransfer(user);
                             break;
 
-                        case "3":
+                        case "0":
                             isValidChoice2 = false;
                             break;
 
                         default:
-                            Console.WriteLine("Ogiltigt val. Vänligen välj 1 eller 2.");
+                            Console.WriteLine("Ogiltigt val. Vänligen välj 1, 2 eller 0.");
                             Console.ReadKey();
                             break;
                     }
@@ -128,12 +130,55 @@ namespace BankApp
             }
         }
 
+        private Currency ChooseChurrency()
+        {
+            while (true)
+           
+    {
+                Console.WriteLine(" Välj valuta för beloppet:");
+                Console.WriteLine( "1. SEK ");
+                Console.WriteLine("2. EUR");
+                Console.WriteLine("3. USD ");
+                Console.WriteLine("  ");
+                Console.WriteLine("Ditt val: ");
+
+                string choice3 = Console.ReadLine() ?? string.Empty;
+                        
+                switch (choice3)
+                {
+
+                    case "1":
+                        return Currency.SEK;
+                        
+
+                    case "2":
+                        return Currency.EUR;
+
+                    case "3":
+                        return Currency.USD;
+
+                    default:
+                        Console.WriteLine("Ogiltigt val. Försök igen.");
+                        break;
+                }
+
+            }
+
+        }
+
+
+
+
+
+
+
         //Shows all transactions for one account
         private void ShowTransactionHistory(User user)
 
         {
             Console.Clear();
             Console.Write("Ange ditt kontonummer: "); 
+
            string accountIdInput = Console.ReadLine() ?? string.Empty;
 
             if (!int.TryParse(accountIdInput, out int accountId))
@@ -143,6 +188,24 @@ namespace BankApp
                 return;
             }
 
+            bool OwenAccount = false;
+            
+            foreach (Account account in user.Accounts)
+            {
+                if (account.AccountId == accountId)
+                {
+                    OwenAccount = true;
+                    break;
+                }
+            }
+
+            if (!OwenAccount)
+            {
+                Console.WriteLine(" Fel konto");
+                Console.ReadKey();
+                return;
+            }
+                
                 // Get all transactions where this account sent or received money
             List<Transaction> history = transactionService.GetTransactionHistory(accountId);
 
@@ -156,26 +219,34 @@ namespace BankApp
 
             }
 
-            Console.WriteLine(" Dina transaktioner är: ");
+            Console.WriteLine($" Transaktioner för konto {accountId}: ");
+            Console.WriteLine("-----------------------------------------");
                 // Print every transaction
             foreach (Transaction transaction in history)
             {
                 Console.WriteLine(
-                    $"{transaction.Timestamp} " +
-                    $": {transaction.Type}) " +
-                    $" {transaction.Amount} kr - " +
-                    $"{transaction.Status}");
+                    $"{transaction.Timestamp} | " +
+                    $" {transaction.Type} | " +
+                    $" {transaction.Amount :F2} | " +
+                    $"Status: {transaction.Status}");
                 
             }
-            Console.WriteLine("\nTryck på valfri tangent för att gå tillbaka...");
+            Console.WriteLine("Tryck på valfri tangent för att gå tillbaka.");
             Console.ReadKey();
         }
+
+
+          
+
+
+
 
         private void HandleOwnAccountTransfer(User user)
         {
             try
             {
                 Console.Clear();
+
                 Console.Write("Från kontonummer: ");
                 string fromaccountIdInput = Console.ReadLine() ?? string.Empty;
 
@@ -211,14 +282,20 @@ namespace BankApp
                 }
 
 
+                Currency currency = ChooseChurrency();
+
             // Make the transfer
-                decimal newBalance = transactionService.TransferToOwnAccount(
+              transactionService.AddPendingTransfer(
                         fromAccountId,
                         toAccountId,
-                        amount);
+                        amount,
+                        true,
+                        currency);
 
-                Console.WriteLine($"Överföringen lyckades. Nytt saldo: {newBalance}");
-                notificationService.TransactionNotification(user, amount);
+                Console.WriteLine("Överföringen har lagts i kö. Status: Pending.");
+
+                decimal amountInSek = transactionService.ConvertToSek(amount,currency);
+                notificationService.TransactionNotification(user, amountInSek);
             }
             catch (Exception error)
             {
@@ -226,6 +303,12 @@ namespace BankApp
             }
             Console.ReadKey();
         }
+
+
+
+
+
+
 
         private void HandleOtherAccountTransfer(User user)
         {
@@ -265,16 +348,22 @@ namespace BankApp
                     return;
                   
                 }
+                Currency currency = ChooseChurrency();
 
                 // Make the transfer
-                decimal newBalance = transactionService.TransfertoOtherAccount(
+                transactionService.AddPendingTransfer(
                         
                     fromAccountId,
                     toAccountId,
-                    amount);
+                    amount,
+                    false,
+                    currency);
      
-                Console.WriteLine($"Överföringen lyckades. Nytt saldo: {newBalance}");
-                notificationService.TransactionNotification(user, amount);// notification call after the transfer succeeds if the higlimt e
+                Console.WriteLine("Överföringen har lagts i kö. Status: Pending.");
+
+                decimal amountInSek = transactionService.ConvertToSek(amount,currency);
+
+                notificationService.TransactionNotification(user, amountInSek);// notification call after the transfer succeeds if the higlimt e
             }
             catch (Exception error)
             {

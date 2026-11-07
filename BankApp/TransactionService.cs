@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Principal;
 
 
 
@@ -37,13 +38,17 @@ namespace BankApp
         // Reference to the accounts managed by the bank.
         //private readonly List<Account> accounts; //Stores a reference to the account list supplied to the constructor.
 
-        // Constructor receives the account list when the service is created
+        //Constructor receives the account list when the service is created
         //public TransactionService(List<Account> accounts)
-        //{ 
+        //{
         //    this.accounts = accounts;
         //}
 
-        
+
+
+
+       
+
         // Creates a pending transfer that can be processed later.
         public void AddPendingTransfer(
                   int fromAccountId,
@@ -52,6 +57,31 @@ namespace BankApp
                   bool sameUser,
                   Currency curency)
         {
+
+            bool ownsfromAccount = false;  
+            
+            foreach (User user in userService.Users)
+            {
+                {
+                    foreach(Account account in user.Accounts)
+
+                    if (account.AccountId== fromAccountId)
+                    {
+                        ownsfromAccount = true;
+                        break;
+                    }
+                }
+                if (ownsfromAccount) break;
+            }
+           
+
+            if ( !ownsfromAccount )
+            {
+                Console.WriteLine("fel konto: Du äger inte detta konto.");
+                Console.ReadKey();
+                return;
+            }
+
             if (amount <= 0)
             {
                 throw new Exception("Beloppet måste vara större än 0.");

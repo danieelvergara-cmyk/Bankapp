@@ -26,7 +26,7 @@ namespace BankApp
 
             NotificationService notificationService = new NotificationService();
 
-            TransactionService transactionService = new TransactionService(userService, notificationService);
+            TransactionService transactionService = new TransactionService(userService,exchangeRate);
 
             // Menus, created once and shared
 
@@ -42,8 +42,11 @@ namespace BankApp
 
             // Start the scheduler to run in the background
 
+            CancellationToken cancellationToken = new CancellationToken();
+
+
             Scheduler scheduler = new Scheduler(transactionService);
-            //_ = scheduler.RunAsync();
+            _ = scheduler.RunAsync(cancellationToken);
 
             // A Admin user pre-created and a test user for demonstration purposes.
             Admin admin = new Admin { UserId = 0, Username = "admin", Password = "admin" };
