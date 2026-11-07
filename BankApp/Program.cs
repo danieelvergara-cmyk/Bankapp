@@ -25,6 +25,9 @@ namespace BankApp
 
             UserInterface userInterface = new UserInterface();
 
+            AccountMenu accountMenu = new AccountMenu(accountService);
+
+            TransactionMenu transactionMenu = new TransactionMenu(userService);
 
             LoanMenu loanMenu = new LoanMenu(loanService, loanRules);
 
