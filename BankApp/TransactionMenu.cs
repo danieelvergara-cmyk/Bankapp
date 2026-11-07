@@ -171,11 +171,6 @@ namespace BankApp
         }
 
 
-
-
-
-
-
         //Shows all transactions for one account
         private void ShowTransactionHistory(User user)
 
@@ -236,17 +231,20 @@ namespace BankApp
                     $" {transaction.Type} | " +
                     $" {transaction.Amount :F2} | " +
                     $"Status: {transaction.Status}");
-                
+
+                if (transaction.Status == TransactionStatus.Failed) // If the transaction failed, show the reason
+                {
+                    Console.WriteLine($"Orsak till misslyckad transaktion: ");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(transaction.FailureReason);
+                    Console.ResetColor();
+                }
+
+
             }
             Console.WriteLine("Tryck på valfri tangent för att gå tillbaka.");
             Console.ReadKey();
         }
-
-
-          
-
-
-
 
         private void HandleOwnAccountTransfer(User user)
         {
@@ -319,12 +317,6 @@ namespace BankApp
             }
             Console.ReadKey();
         }
-
-
-
-
-
-
 
         private void HandleOtherAccountTransfer(User user)
         {
