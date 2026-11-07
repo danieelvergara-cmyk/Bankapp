@@ -22,6 +22,7 @@ namespace BankApp
 
         private readonly NotificationService notificationService;
 
+        string errorMessage = "";
 
 
 
@@ -51,13 +52,14 @@ namespace BankApp
                     Console.WriteLine("              ");
                     Console.WriteLine("1. Se en logg på alla överföringar");
                     Console.WriteLine("2. Överför pengar");
-                    Console.WriteLine("0. Exit ");
+                    Console.WriteLine("0. Tillbaka");
                     Console.WriteLine(" ----------------------- ");
                     Console.WriteLine("              ");
-                    Console.Write("Välj 1, 2 eller 0:");
+                    Console.Write("\nVälj ett alternativ:");
 
+                    errorMessage = UserInterface.ShowErrorMessage(errorMessage);
 
-                    string choice = Console.ReadLine() ?? string.Empty; // // possible null value
+                string choice = Console.ReadLine() ?? string.Empty; // // possible null value
 
 
                     switch (choice)
@@ -76,8 +78,7 @@ namespace BankApp
                             
 
                         default:
-                            Console.WriteLine("Ogiltigt val. Vänligen välj 1, 2 eller 0.");
-                            Console.ReadKey();
+                            errorMessage = "Ogiltigt val. Vänligen välj 1, 2 eller 0.";
                             break;
         
                     }
@@ -102,8 +103,9 @@ namespace BankApp
                     Console.WriteLine("2. Annan person");
                     Console.WriteLine("0.Exit ");
                     Console.WriteLine(" ");
-                    Console.Write("Välj 1, 2 eller 0:");
+                    Console.Write("\nVälj ett alternativ:");
 
+                    errorMessage = UserInterface.ShowErrorMessage(errorMessage);
 
                     string choice2 = Console.ReadLine() ?? string.Empty;
 
@@ -122,8 +124,7 @@ namespace BankApp
                             break;
 
                         default:
-                            Console.WriteLine("Ogiltigt val. Vänligen välj 1, 2 eller 0.");
-                            Console.ReadKey();
+                            errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-2.";
                             break;
                     }
                 } 
@@ -140,7 +141,10 @@ namespace BankApp
                 Console.WriteLine("2. EUR");
                 Console.WriteLine("3. USD ");
                 Console.WriteLine("  ");
-                Console.WriteLine("Ditt val: ");
+                Console.Write("\nVälj ett alternativ:");
+
+                errorMessage = UserInterface.ShowErrorMessage(errorMessage);
+
 
                 string choice3 = Console.ReadLine() ?? string.Empty;
                         
@@ -158,7 +162,7 @@ namespace BankApp
                         return Currency.USD;
 
                     default:
-                        Console.WriteLine("Ogiltigt val. Försök igen.");
+                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 1-3.";
                         break;
                 }
 
@@ -183,7 +187,9 @@ namespace BankApp
 
             if (!int.TryParse(accountIdInput, out int accountId))
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Ogiltigt kontonummer. Ange bara siffror.");
+                Console.ResetColor();
                 Console.ReadKey();
                 return;
             }
@@ -201,7 +207,9 @@ namespace BankApp
 
             if (!ownsAccount)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(" Fel konto");
+                Console.ResetColor();
                 Console.ReadKey();
                 return;
             }
@@ -212,8 +220,9 @@ namespace BankApp
 
             if (history.Count == 0)
             {
-
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Inga Transaktioner hittades. ");
+                Console.ResetColor();
                 Console.ReadKey();
                 return;
 
@@ -253,7 +262,9 @@ namespace BankApp
                 if (!int.TryParse(fromaccountIdInput, out int fromAccountId))
                     
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Ogiltigt kontonummer");
+                    Console.ResetColor();
                     Console.ReadKey();
                     return;
                 }
@@ -265,7 +276,9 @@ namespace BankApp
                 if (!int.TryParse(toaccountInput, out int toAccountId))
 
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Ogiltigt kontonummer");
+                    Console.ResetColor();
                     Console.ReadKey();
                     return;
                 }
@@ -276,7 +289,9 @@ namespace BankApp
 
                 if (!decimal.TryParse(amountInput, out decimal amount))
                 {
-                    Console.WriteLine("Ogiltigt belopp.");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Ogiltigt belopp");
+                    Console.ResetColor();
                     Console.ReadKey();
                     return;
                 }
@@ -299,7 +314,9 @@ namespace BankApp
             }
             catch (Exception error)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"Överföringen misslyckades: {error.Message}");
+                Console.ResetColor();
             }
             Console.ReadKey();
         }
@@ -321,7 +338,9 @@ namespace BankApp
                 if (!int.TryParse(fromaccountIdInput, out int fromAccountId))
 
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Ogiltigt kontonummer");
+                    Console.ResetColor();
                     Console.ReadKey();
                     return;
                 }
@@ -333,7 +352,9 @@ namespace BankApp
                 if (!int.TryParse(toaccountInput, out int toAccountId))
 
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Ogiltigt kontonummer");
+                    Console.ResetColor();
                     Console.ReadKey();
                     return;
                 }
@@ -343,7 +364,9 @@ namespace BankApp
 
                 if (!decimal.TryParse(amountInput, out decimal amount))
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Ogiltigt belopp.");
+                    Console.ResetColor();
                     Console.ReadKey();
                     return;
                   
@@ -367,8 +390,10 @@ namespace BankApp
             }
             catch (Exception error)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"Överföringen misslyckades: {error.Message}");
-              
+                Console.ResetColor();
+
             }
             Console.ReadKey();
         }
