@@ -65,7 +65,7 @@ namespace BankApp
                         isRunning = false;
                         break;
                     default:
-                        errorMessage = "Ogiltig input, skriv ett tal mellan 0-4."; // Set the error message to be shown in the next iteration of the loop.
+                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-4."; // Set the error message to be shown in the next iteration of the loop.
                         break;
                 }
             }
@@ -222,7 +222,7 @@ namespace BankApp
                         isRunning = false;
                         break;
                     default:
-                        errorMessage = "Ogiltig input, skriv 1 eller 0."; // Set the error message to be shown in the next iteration of the loop.
+                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-1."; // Set the error message to be shown in the next iteration of the loop.
                         break;
                 }
             }
@@ -311,7 +311,7 @@ namespace BankApp
                         isRunning = false;
                         break;
                     default:
-                        errorMessage = "Ogiltig input, skriv 1, 2 eller 0."; // Set the error message to be shown in the next iteration of the loop.
+                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-2."; // Set the error message to be shown in the next iteration of the loop.
                         break;
                 }
             }

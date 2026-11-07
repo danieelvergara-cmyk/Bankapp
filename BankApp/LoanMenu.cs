@@ -32,7 +32,7 @@ namespace BankApp
                 Console.WriteLine("==== Lån ====");
                 Console.WriteLine("1. Skapa ett nytt lån");
                 Console.WriteLine("2. Visa mina lån");
-                Console.WriteLine("0. Tillbaka till Huvudmeny");
+                Console.WriteLine("0. Tillbaka");
                 Console.Write("\nVälj ett alternativ:");
 
                 // If there is a wrong input, show the error message at the bottom of the menu and clear it after showing it once.
@@ -53,7 +53,7 @@ namespace BankApp
                         isRunning = false;
                         break;
                     default:
-                        errorMessage = "Ogiltig input. Skriv ett tal mellab 0-2"; // Set the error message to be shown in the next iteration of the loop.
+                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-2."; // Set the error message to be shown in the next iteration of the loop.
                         break;
                 }
                
