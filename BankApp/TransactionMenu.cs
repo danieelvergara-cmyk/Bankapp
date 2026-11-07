@@ -44,9 +44,14 @@ namespace BankApp
             {
                 {
                     Console.Clear();
+                    Console.WriteLine("              ");
+                    Console.WriteLine("=====================");
+                    Console.WriteLine("              ");
                     Console.WriteLine("1. Se en logg på alla överföringar");
                     Console.WriteLine("2. Överför pengar");
                     Console.WriteLine("3. Exit ");
+                    Console.WriteLine(" ----------------------- ");
+                    Console.WriteLine("              ");
                     Console.Write("Välj 1, 2 eller 3:");
 
 
@@ -70,6 +75,7 @@ namespace BankApp
 
                         default:
                             Console.WriteLine("Ogiltigt val. Vänligen välj 1 eller 2.");
+                            Console.ReadKey();
                             break;
         
                     }
@@ -86,10 +92,14 @@ namespace BankApp
                 {
 
                     Console.Clear();
+                    Console.WriteLine("              ");
+                    Console.WriteLine("======= Överföring  =====");
+                    Console.WriteLine("              ");
                     Console.WriteLine("Vill du överföra pengar till:");
                     Console.WriteLine("1. Eget konto");
                     Console.WriteLine("2. Annan person");
                     Console.WriteLine("3.Exit ");
+                    Console.WriteLine(" ");
                     Console.Write("Välj 1, 2 eller 3:");
 
 
@@ -111,6 +121,7 @@ namespace BankApp
 
                         default:
                             Console.WriteLine("Ogiltigt val. Vänligen välj 1 eller 2.");
+                            Console.ReadKey();
                             break;
                     }
                 } 
@@ -123,40 +134,41 @@ namespace BankApp
         {
             Console.Clear();
             Console.Write("Ange ditt kontonummer: "); 
-            
-              string accountIdInput = Console.ReadLine() ?? string.Empty;
+           string accountIdInput = Console.ReadLine() ?? string.Empty;
 
             if (!int.TryParse(accountIdInput, out int accountId))
             {
                 Console.WriteLine("Ogiltigt kontonummer. Ange bara siffror.");
+                Console.ReadKey();
                 return;
             }
 
                 // Get all transactions where this account sent or received money
-                List<Transaction> history = transactionService.GetTransactionHistory(accountId);
+            List<Transaction> history = transactionService.GetTransactionHistory(accountId);
 
 
             if (history.Count == 0)
             {
 
                 Console.WriteLine("Inga Transaktioner hittades. ");
-                    return;
+                Console.ReadKey();
+                return;
 
             }
 
             Console.WriteLine(" Dina transaktioner är: ");
-
-
                 // Print every transaction
-                foreach (Transaction transaction in history)
-                {
-                    Console.WriteLine(
-                        $"{transaction.Timestamp} " +
-                        $": {transaction.Type}) " +
-                        $" {transaction.Amount} kr - " +
-                        $"{transaction.Status}");
+            foreach (Transaction transaction in history)
+            {
+                Console.WriteLine(
+                    $"{transaction.Timestamp} " +
+                    $": {transaction.Type}) " +
+                    $" {transaction.Amount} kr - " +
+                    $"{transaction.Status}");
                 
-                }
+            }
+            Console.WriteLine("\nTryck på valfri tangent för att gå tillbaka...");
+            Console.ReadKey();
         }
 
         private void HandleOwnAccountTransfer(User user)
@@ -171,6 +183,7 @@ namespace BankApp
                     
                 {
                     Console.WriteLine("Ogiltigt kontonummer");
+                    Console.ReadKey();
                     return;
                 }
 
@@ -182,6 +195,7 @@ namespace BankApp
 
                 {
                     Console.WriteLine("Ogiltigt kontonummer");
+                    Console.ReadKey();
                     return;
                 }
 
@@ -192,6 +206,8 @@ namespace BankApp
                 if (!decimal.TryParse(amountInput, out decimal amount))
                 {
                     Console.WriteLine("Ogiltigt belopp.");
+                    Console.ReadKey();
+                    return;
                 }
 
 
@@ -208,6 +224,7 @@ namespace BankApp
             {
                 Console.WriteLine($"Överföringen misslyckades: {error.Message}");
             }
+            Console.ReadKey();
         }
 
         private void HandleOtherAccountTransfer(User user)
@@ -222,6 +239,7 @@ namespace BankApp
 
                 {
                     Console.WriteLine("Ogiltigt kontonummer");
+                    Console.ReadKey();
                     return;
                 }
 
@@ -233,6 +251,7 @@ namespace BankApp
 
                 {
                     Console.WriteLine("Ogiltigt kontonummer");
+                    Console.ReadKey();
                     return;
                 }
                
@@ -242,6 +261,8 @@ namespace BankApp
                 if (!decimal.TryParse(amountInput, out decimal amount))
                 {
                     Console.WriteLine("Ogiltigt belopp.");
+                    Console.ReadKey();
+                    return;
                   
                 }
 
@@ -260,6 +281,7 @@ namespace BankApp
                 Console.WriteLine($"Överföringen misslyckades: {error.Message}");
               
             }
+            Console.ReadKey();
         }
 
     
