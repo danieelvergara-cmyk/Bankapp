@@ -101,7 +101,7 @@ namespace BankApp
                     Console.WriteLine("Vill du överföra pengar till:");
                     Console.WriteLine("1. Eget konto");
                     Console.WriteLine("2. Annan person");
-                    Console.WriteLine("0.Exit ");
+                    Console.WriteLine("0. Tillbaka");
                     Console.WriteLine(" ");
                     Console.Write("\nVälj ett alternativ:");
 
