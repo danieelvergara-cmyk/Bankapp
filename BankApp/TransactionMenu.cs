@@ -78,10 +78,10 @@ namespace BankApp
                             
 
                         default:
-                            errorMessage = "Ogiltigt val. Vänligen välj 1, 2 eller 0.";
+                            errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-2.";
                             break;
-        
-                    }
+
+                }
                 
         }    }
 
@@ -133,15 +133,15 @@ namespace BankApp
 
         private Currency ChooseCurrency()
         {
+            Console.WriteLine(" Välj valuta för beloppet:");
+            Console.WriteLine("1. SEK ");
+            Console.WriteLine("2. EUR");
+            Console.WriteLine("3. USD ");
+            Console.WriteLine("  ");
+            Console.Write("\nVälj ett alternativ:");
+
             while (true)
-           
-    {
-                Console.WriteLine(" Välj valuta för beloppet:");
-                Console.WriteLine( "1. SEK ");
-                Console.WriteLine("2. EUR");
-                Console.WriteLine("3. USD ");
-                Console.WriteLine("  ");
-                Console.Write("\nVälj ett alternativ:");
+            {
 
                 errorMessage = UserInterface.ShowErrorMessage(errorMessage);
 
