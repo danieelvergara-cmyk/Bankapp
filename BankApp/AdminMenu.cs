@@ -37,7 +37,7 @@ namespace BankApp
                 Console.WriteLine("1. Skapa ny användare");
                 Console.WriteLine("2. Ändra låneregler");
                 Console.WriteLine("3. Ändra växelkurser");
-                Console.WriteLine("4. Visa statistik");
+               // Console.WriteLine("4. Visa statistik");
                 Console.WriteLine("0. Logga ut");
 
                 // If there is a wrong input, show the error message at the bottom of the menu and clear it after showing it once.
