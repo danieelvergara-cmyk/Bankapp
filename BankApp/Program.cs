@@ -34,12 +34,14 @@ namespace BankApp
             //Scheduler scheduler = new Scheduler(TransactionService);
             //_ = scheduler.RunAsync();
 
-            // A Admin user pre-created 
+            // A Admin user pre-created and a test user for demonstration purposes.
             Admin admin = new Admin { UserId = 0, Username = "admin", Password = "admin" };
+            User testUser = new User { UserId = 256, Username = "user", Password = "user" };
             userService.Users.Add(admin);
+            userService.Users.Add(testUser);
 
             userInterface.ShowLogo();
-            userInterface.ShowMainMenu();
+            userInterface.ShowMainMenu(user,accountMenu,transactionMenu,loanMenu);
         }
             
     }
