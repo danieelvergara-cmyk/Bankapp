@@ -23,13 +23,13 @@ namespace BankApp
             {
                 Console.Clear();
 
-                Console.WriteLine($"\n=== Konto-meny ({user.Username}) ===");
+                Console.WriteLine($"\n==== Konto-meny ({user.Username}) ====");
                 Console.WriteLine("1. Visa mina konton och saldon");
                 Console.WriteLine("2. Öppna vanligt konto");
                 Console.WriteLine("3. Öppna sparkonto");
                 Console.WriteLine("4. Sätt in pengar på sparkonto och visa ränta");
                 Console.WriteLine("0. Tillbaka");
-                Console.WriteLine("\nVälj ett alternativ:");
+                Console.Write("\nVälj ett alternativ:");
 
                 errorMessage = UserInterface.ShowErrorMessage(errorMessage);
 

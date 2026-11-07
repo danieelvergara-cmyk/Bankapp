@@ -39,6 +39,7 @@ namespace BankApp
                 Console.WriteLine("3. Ändra växelkurser");
                // Console.WriteLine("4. Visa statistik");
                 Console.WriteLine("0. Logga ut");
+                Console.Write("\nVälj ett alternativ:");
 
                 // If there is a wrong input, show the error message at the bottom of the menu and clear it after showing it once.
                 errorMessage = UserInterface.ShowErrorMessage(errorMessage);
@@ -64,7 +65,7 @@ namespace BankApp
                         isRunning = false;
                         break;
                     default:
-                        errorMessage = "Ogiltig input, skriv ett tal mellan 0-4."; // Set the error message to be shown in the next iteration of the loop.
+                        errorMessage = "Ogiltig input, skriv ett tall mellan 0-4."; // Set the error message to be shown in the next iteration of the loop.
                         break;
                 }
             }

@@ -30,7 +30,7 @@ namespace BankApp
                 Console.WriteLine("================");
                 Console.WriteLine("1. Logga in");
                 Console.WriteLine("0. Avsluta programmet");
-                Console.WriteLine("\nVälj ett alternativ:");
+                Console.Write("\nVälj ett alternativ:");
 
                 errorMessage = ShowErrorMessage(errorMessage);
 
@@ -134,7 +134,7 @@ namespace BankApp
                 Console.WriteLine("2. Transaktioner");
                 Console.WriteLine("3. Lån");
                 Console.WriteLine("0. Logga ut");
-                Console.WriteLine("\nVälj ett alternativ:");
+                Console.Write("\nVälj ett alternativ:");
 
                 errorMessage = ShowErrorMessage(errorMessage);
 
