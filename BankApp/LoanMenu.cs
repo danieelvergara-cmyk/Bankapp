@@ -30,10 +30,10 @@ namespace BankApp
                 Console.Clear();
 
                 Console.WriteLine("--- Lån ---");
-                Console.WriteLine("Välj ett alternativ:");
                 Console.WriteLine("1. Skapa ett nytt lån");
                 Console.WriteLine("2. Visa mina lån");
                 Console.WriteLine("0. Tillbaka till Huvudmeny");
+                Console.WriteLine("Välj ett alternativ:");
 
                 // If there is a wrong input, show the error message at the bottom of the menu and clear it after showing it once.
                 if (errorMessage != "")

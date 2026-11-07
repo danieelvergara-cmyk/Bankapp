@@ -6,6 +6,9 @@ namespace BankApp
 {
     public class UserInterface
     {
+
+        string errorMessage = "";
+
         // Displays the main menu.
         public void ShowMainMenu(
             LoginService loginService,
@@ -14,15 +17,22 @@ namespace BankApp
             LoanMenu loanMenu,
             AdminMenu adminMenu)
         {
+
+
+
             bool isRunning = true;
 
             while (isRunning)
             {
-                Console.WriteLine();
-                Console.WriteLine("MAIN MENU");
-                Console.WriteLine("1. Log in");
-                Console.WriteLine("2. Exit");
-                Console.Write("Choose an option: ");
+                Console.Clear();
+                Console.WriteLine("\n================");
+                Console.WriteLine("    BankApp");
+                Console.WriteLine("================");
+                Console.WriteLine("1. Logga in");
+                Console.WriteLine("2. Avsluta Programet");
+                Console.WriteLine("\nVälj ett alternativ:");
+
+                ShowErrorMessage(errorMessage);
 
                 string choice =
                     Console.ReadLine() ?? string.Empty;
@@ -38,14 +48,15 @@ namespace BankApp
                            adminMenu);
                         break;
 
-                    case "2":
-                        Console.WriteLine("Closing BankApp.");
+                    case "0":
+                        Console.WriteLine("Avslutar BankApp.");
                         isRunning = false;
                         break;
 
                     default:
-                        Console.WriteLine("Invalid option.");
+                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-1.";
                         break;
+
                 }
             }
         }
@@ -173,7 +184,18 @@ namespace BankApp
 
         }
 
+        public void ShowErrorMessage(string errorMessage)
+        {
 
-
-    }
+            // If there is a wrong input, show the error message at the bottom of the menu and clear it after showing it once.
+            if (errorMessage != "")
+            {
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(errorMessage);
+                Console.ResetColor();
+                errorMessage = "";
+            }
+        }
+}
 }
