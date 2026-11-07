@@ -229,7 +229,7 @@ namespace BankApp
                 Console.WriteLine(
                     $"{transaction.Timestamp} | " +
                     $" {transaction.Type} | " +
-                    $" {transaction.Amount :F2} | " +
+                    $" {transaction.Amount :F2} {transaction.Currency} | " +
                     $"Status: {transaction.Status}");
 
                 if (transaction.Status == TransactionStatus.Failed) // If the transaction failed, show the reason
