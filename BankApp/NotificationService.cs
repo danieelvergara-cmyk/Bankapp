@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BankApp
 {
-    internal class NotificationService 
+    public class NotificationService 
     {
         // recall in main by  NotificationService notificationService = new NotificationService();
         private const decimal LargeTransactionLimit  = 15000.00m;
