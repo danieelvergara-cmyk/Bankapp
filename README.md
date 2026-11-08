@@ -126,7 +126,7 @@ A rough explanation of the main classes and objects in the source code.
 
 | Class | Responsibility |
 |-------|----------------|
-| `Program` | `[...]` |
+| `Program` | Has no business logic. It creates the services and menus, and starts the application by calling `UserInterface.ShowMainMenu()`. |
 
 ### Models
 
@@ -134,12 +134,12 @@ A rough explanation of the main classes and objects in the source code.
 |-------|----------------|
 | `User` | Stores the user's personal information, `account`, `loan`, `creditScore`, and login status. |
 | `Admin` |  Represents an administrator who inherits from `User` and is granted access to administrative menus and restricted functionality. |
-| `Account` | `[...]` |
-| `SavingsAccount` | `[...]` |
+| `Account` |  Represents a bank account with properties such as `AccountId`, `Balance`, and `Currency`. It provides methods for depositing and withdrawing money. |
+| `SavingsAccount` | Inherits from `Account` and adds an `InterestRate` property. It provides a method to calculate the interest earned over a year based on the current balance and interest rate. |
 | `Transaction` | Holds the history data for a money transfer as `TransactionId`, `FromAccountId`,  ` ToAccountId`,  `Amount `,  `Currency `,  `Timestamp `,  `Type `, and  `Status `  |
 | `Loan` | Stores a `Loan` object with details about the loan amount, interest rate, and monthly payment, as well as methods to calculate the total amount to be paid and the monthly payment based on the loan amount and interest rate. |
 | `ExchangeRate` | Stores the exchange rates for different currencies and provides methods to convert between them. |
-| `Currency` (enum) | `[...]` |
+| `Currency` (enum) | The supported currencies for the bank application, such as `USD`, `EUR`, and `SEK`. |
 | `TransactionType` (enum) | Categorizes the movement of money for exampl `OwenTransfer` or `TransferToOther` |
 | `TransactionStatus` (enum) | Tracks the transaction processing state whether `Pending` , `Completed` or `Failed` |
 
@@ -147,15 +147,13 @@ A rough explanation of the main classes and objects in the source code.
 
 | Class | Responsibility |
 |-------|----------------|
-| `AccountService` | `[...]` |
+| `AccountService` | Creates and manages accounts, deposits and withdraws money, and calculates interest for savings accounts. |
 | `LoginService` |  Authenticates users, tracks failed login attempts, and locks accounts after repeated failed attempts. |
 | `UserService` | Creates and manages users, assigns a `userId`, updates contact information, and calculates `creditScores`. |
 | `TransactionService` | Manages the queue, verification checks, and execution of transfers.|
 | `LoanService` | Creates the `Loan` object and calculates the necessary values for the loan based on the amount, interest rate, and term. |
 | `NotificationService` | Sends text and email alerts when a large money transfer occurs|
-| `StatisticsService` | `[...]` |
-| `TopAccount` (inside `StatisticsService`) |
-| `Scheduler` | `[...]` |
+| `Scheduler` | Processes the transaction queue every 15 minutes, executing pending transfers and updating their status. |
 
 ### Rules
 
@@ -168,7 +166,7 @@ A rough explanation of the main classes and objects in the source code.
 | Class | Responsibility |
 |-------|----------------|
 | `UserInterface` | Displays the main menus, collects user input, and directs users to the correct menus and services. |
-| `AccountMenu` | `[...]` |
+| `AccountMenu` | A menu for creating new accounts, viewing account balances, and depositing or withdrawing money. |
 | `AdminMenu` | Admin menu for creating users, viewing statistics, and changing exchange rates and loan rules. |
 | `LoanMenu` | Menu for creating new loans and viewing existing ones. |
 | `TransactionMenu` |	Displays options to send money to internal or external accounts and checks transaction histories|
@@ -212,9 +210,9 @@ A rough explanation of the main classes and objects in the source code.
 
 | Name | GitHub | Main responsibilities |
 |------|--------|-----------------------|
-| William Ekman | [@TheOakMan](https://github.com/theoakman) | Loans (`Loan`, `LoanRules`, `LoanService`), logo (`UserInterface`), menus (`AdminMenu`, `LoanMenu`), `exchangeRate` |(`ExchangeRate`) |
-| Daniél V | [@danieelvergara-cmyk](https://github.com/danieelvergara-cmyk) | `[...]` |
-| Rickard Idevall | [@rickardidevall-a11y](https://github.com/rickardidevall-a11y) | Users (`User`, `UserService`, `LogInService`, , `Admin`), menu `UserInterface`  |
+| William Ekman | [@TheOakMan](https://github.com/theoakman) | Loans (`Loan`, `LoanRules`, `LoanService`), logo (`UserInterface`), menus (`AdminMenu`, `LoanMenu`), exchange rate (`ExchangeRate`) |
+| Daniél V | [@danieelvergara-cmyk](https://github.com/danieelvergara-cmyk) | Accounts (`Account`, `SavingsAccount`, `AccountService`, `AccountMenu`), menus ( `AccountMenu`), scheduler (`Scheduler`) |
+| Rickard Idevall | [@rickardidevall-a11y](https://github.com/rickardidevall-a11y) | Users (`User`, `UserService`, `LogInService`, , `Admin`), menus `UserInterface`  |
 | Sabah Adam | [@DevTraveller](https://github.com/DevTraveller) | Transactions (`Transaction`, `TransactionService`, `TransactionMenu`, `Notification`), menus (`TransactionMenu`) |
 
 ---
