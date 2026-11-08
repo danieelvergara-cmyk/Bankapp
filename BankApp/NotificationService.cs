@@ -1,6 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+
+
+
+
+
 
 namespace BankApp
 {
@@ -8,17 +11,23 @@ namespace BankApp
     {
         // recall in main by  NotificationService notificationService = new NotificationService();
         private const decimal LargeTransactionLimit  = 15000.00m;
+        private readonly ExchangeRate exchangeRate;
 
-        public void TransactionNotification(User user, decimal transactionAmount)
+        // Inject the ExchangeRate service 
+        public NotificationService(ExchangeRate exchangeRate)
         {
-         
+            this.exchangeRate = exchangeRate;
+        }
+        public void TransactionNotification(User user, decimal amount, Currency currency)
+        {
 
+            decimal amountInsek = exchangeRate.Convert(amount, currency, Currency.SEK);
             
-            if (transactionAmount >= LargeTransactionLimit)
+            if (amountInsek >= LargeTransactionLimit)
             {
+                
 
-
-                string message = $"Stor transaktion på {transactionAmount} kr skedde {DateTime.Now}";
+                string message = $"Stor transaktion på {amountInsek:F2}  kr skedde {DateTime.Now}";
 
                 SendEmail(user.Email, message);
                 SendSms(user.Phone, message);
