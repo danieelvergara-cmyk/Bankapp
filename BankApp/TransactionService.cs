@@ -10,18 +10,22 @@ namespace BankApp
 {
     public class TransactionService
 
-    {
+    {    //=============================================================================//
+         //    Fields and Dependencies                                                                         //
+         //============================================================================//
 
         // Stores all transfers: pending, completed, and failed.
         private readonly List<Transaction> transactions = new List<Transaction>();
 
         // Protects accounts and transactions from concurrent changes.
-        private readonly object _bankLock = new object();
-
+        private readonly object _bankLock = new object();  
         private readonly NotificationService notificationService;
         private readonly ExchangeRate exchangeRate;
         private readonly UserService userService;
 
+        //==============================================================================//
+        //   constructor                                                                           //
+        //==============================================================================//
         public TransactionService(
             UserService userService,
             ExchangeRate exchangeRate,
@@ -33,10 +37,12 @@ namespace BankApp
             this.exchangeRate = exchangeRate;
 
         }
+        //=============================================================================//                                                                              
+        //                                                                                 
+        //=============================================================================//
 
 
-
-        // Creates a transfer that will be processed later.
+                                      // Creates a transfer that will be processed later.//
         public void AddPendingTransfer(
             User user,
             int fromAccountId,
@@ -46,21 +52,10 @@ namespace BankApp
             Currency currency)
         {
 
-
+            // Find both accounts in the account service.
             Account? fromAccount = GetAccount(fromAccountId);
             Account? toAccount = GetAccount(toAccountId);
-            // The logged-in user must own the account they transfer from
-            if (fromAccount == null)
-            {
-                throw new InvalidOperationException(
-                    $"Kontot med ID {fromAccountId} finns inte.");
-            }
-
-            //if (fromAccount.OwnerId != user.UserId)
-            //{
-            //    throw new InvalidOperationException(
-            //        "Överföringen nekades eftersom kontot inte tillhör den inloggade användaren.");
-            //}
+  
             if (fromAccount == null)
             {
                 throw new InvalidOperationException($" Kontot med Id {fromAccountId} finns inte");
@@ -72,7 +67,7 @@ namespace BankApp
 
             }
             // A user cannot transfer money to the same account.
-            if (fromAccount.AccountId == toAccount.AccountId)
+            if (fromAccount.AccountId == toAccount.AccountId)  
             {
                 throw new InvalidOperationException($"Kan inte överföra till samma konto");
             }
@@ -111,9 +106,6 @@ namespace BankApp
                 throw new InvalidOperationException(
                     "Betalningen misslyckades. Det finns inte tillräckligt med pengar på kontot.");
             }
-
-
-
 
             // Decide whether this is a transfer between
             // the user's own accounts or to another user.
@@ -172,6 +164,8 @@ namespace BankApp
 
 
         }
+        //======================================================
+
 
         // Returns all transactions where the account sent or received money.
         public List<Transaction> GetTransactionHistory(int accountId)
@@ -179,8 +173,6 @@ namespace BankApp
             List<Transaction> history = new List<Transaction>();
             lock (_bankLock)
             {
-
-
 
                 foreach (Transaction transaction in transactions)
                 {
@@ -195,11 +187,14 @@ namespace BankApp
             return history;
         }
 
+        //================================================
 
         public decimal ConvertToSek(decimal amount, Currency currency)
         {
             return exchangeRate.Convert(amount, currency, Currency.SEK);
         }
+
+        //===============================
 
         // Performs the actual transfer.
         private decimal Transfer(
@@ -217,14 +212,9 @@ namespace BankApp
                 throw new Exception(
                     "Beloppet måste vara större än 0.");
             }
-
-
-
-
-
-            // Find both accounts in the account service.
+           
             Account? fromAccount = GetAccount(fromAccountId);
-                Account? toAccount = GetAccount(toAccountId);
+            Account? toAccount = GetAccount(toAccountId);
 
 
             // Check that the receiving account exists
@@ -236,12 +226,10 @@ namespace BankApp
             if (toAccount == null)
             {
                 throw new InvalidOperationException($" Kontot med Id {toAccountId} finns inte");
-
             }
 
-
-            decimal amountToWithdraw = exchangeRate.Convert(amount, currency, fromAccount.Currency);
-            decimal amountToDeposit = exchangeRate.Convert(amount, currency, toAccount.Currency);
+             decimal amountToWithdraw = exchangeRate.Convert(amount, currency, fromAccount.Currency);
+             decimal amountToDeposit = exchangeRate.Convert(amount, currency, toAccount.Currency);
 
 
             /* Remove money from the sender
@@ -273,13 +261,9 @@ namespace BankApp
                 }
                 decimal newBalance = fromAccount.Balance;
                 return newBalance; // Return the sender's new balance
-
-
-
-        }
-
-
-
+        }  
+        
+        //==========================================
 
 
         // Processes all pending transfers and marks them completed or failed.
@@ -309,7 +293,7 @@ namespace BankApp
                            transaction.Type,
                            sameUser,
                            transaction);
-                        Notifysender(transaction);
+
                     }
 
                     catch (Exception error) 
@@ -327,20 +311,21 @@ namespace BankApp
                     // Notifiera endast efter en genomförd överföring.
                     if (transaction.Status == TransactionStatus.Completed)
                     {
-                     try
+                        try
                         {
                             Notifysender(transaction);
                         }
-
                         catch (Exception error)
                         {
                             Console.WriteLine($"Överföringen är genomförd, men notifikationen misslyckades: {error.Message}");
                         }
-                    }    
+                    }
                 }
             }
 
         }
+        //===========================
+
         private void Notifysender(Transaction transaction)
         {
             Account? fromAccount = GetAccount(transaction.FromAccountId);
@@ -355,6 +340,7 @@ namespace BankApp
             {
                 if (user.UserId == fromAccount.OwnerId)
                 {
+
                     notificationService.TransactionNotification(
                         user,
                         transaction.Amount,
