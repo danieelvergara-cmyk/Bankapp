@@ -31,6 +31,7 @@ public class AccountService
     public void DepositToRegularAccount(Account account, decimal amount)
     {
         account.Deposit(amount);
+        Console.WriteLine($"Insättning: {amount:F2} {account.Currency}");
     }
 
     public void DepositToSavingsAccount(SavingsAccount savingsAccount, decimal amount)
