@@ -55,10 +55,17 @@ namespace BankApp
             // Find both accounts in the account service.
             Account? fromAccount = GetAccount(fromAccountId);
             Account? toAccount = GetAccount(toAccountId);
-  
+
             if (fromAccount == null)
             {
                 throw new InvalidOperationException($" Kontot med Id {fromAccountId} finns inte");
+            }
+
+            // The logged-in user must own the account the money is sent from.
+            if (fromAccount.OwnerId != user.UserId)
+            {
+                throw new InvalidOperationException(
+                    "Överföringen nekades eftersom kontot inte tillhör den inloggade användaren.");
             }
 
             if (toAccount == null)
