@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace BankApp
@@ -110,6 +111,15 @@ namespace BankApp
 
                 return null;
             }
+            
+
+        }
+
+        public decimal GetInterestRateForUser(User user)
+        {
+            int creditScore = _userService.CalculateCreditScore(user);
+            decimal interestRate = _rules.CalculateInterestRate(creditScore);
+            return interestRate;
         }
     }
 }
