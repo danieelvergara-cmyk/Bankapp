@@ -32,6 +32,7 @@ public class AccountService
     {
         account.Deposit(amount);
         Console.WriteLine($"Insättning: {amount:F2} {account.Currency}");
+        Console.WriteLine($"Totalt saldo: {account.Balance:F2} {account.Currency}");
     }
 
     public void DepositToSavingsAccount(SavingsAccount savingsAccount, decimal amount)
