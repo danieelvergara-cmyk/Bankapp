@@ -48,6 +48,9 @@ namespace BankApp
                         OpenSavingsAccount(user);
                         break;
                     case "4":
+                        DepositIntoRegularAccount(user);
+                        break;
+                    case "5":
                         DepositIntoSavingsAccount(user);
                         break;
                     case "0":
