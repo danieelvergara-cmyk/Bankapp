@@ -33,10 +33,13 @@ The goal of the project is to practice object-oriented programming (OOP) princip
 ## Features
 
 - User login menu with authentication
+- User accounts get locked after 3 failed login attempts
+- Users can update their personal information (name, email, phone number)
 - Separate roles for **customers** and **admins**
 - Checking and savings accounts with balances
 - Multiple currencies and exchange rates
 - Transfers between accounts and between users
+- Notifications for large transfers (simulated text and email)
 - Queued transfers processed every 15 minutes
 - Transaction log / history
 - Loans with interest and monthly-payment calculation
@@ -45,8 +48,6 @@ The goal of the project is to practice object-oriented programming (OOP) princip
 - Admin functions:
   - Create new users
   - Change exchange rates and loan rules
-
-<!--and add anything missing. -->
 
 ---
 
@@ -70,7 +71,7 @@ dotnet run --project BankApp
 | Role     | Username | Password |
 |----------|----------|----------|
 | Admin    | `admin`  | `admin`  |
-| Customer | `user`  | `[user]`  |
+| Customer | `user`  | `user`  |
 
 
 ---
@@ -131,24 +132,24 @@ A rough explanation of the main classes and objects in the source code.
 | `User` | Stores the user's personal information, `account`, `loan`, `creditScore`, and login status. |
 | `Admin` |  Represents an administrator who inherits from `User` and is granted access to administrative menus and restricted functionality. |
 | `Account` |  Represents a bank account with properties such as `AccountId`, `Balance`, and `Currency`. It provides methods for depositing and withdrawing money. |
-| `SavingsAccount` | Inherits from `Account` and adds an `InterestRate` property. It provides a method to calculate the interest earned over a year based on the current balance and interest rate. |
+| `SavingsAccount` | Inherits from `Account` and adds an `AnnualInterestRate` property. It provides a method to calculate the interest earned over a year based on the current balance and interest rate. |
 | `Transaction` | Holds the history data for a money transfer as `TransactionId`, `FromAccountId`,  ` ToAccountId`,  `Amount `,  `Currency `,  `Timestamp `,  `Type `, and  `Status `  |
 | `Loan` | Stores a `Loan` object with details about the loan amount, interest rate, and monthly payment, as well as methods to calculate the total amount to be paid and the monthly payment based on the loan amount and interest rate. |
 | `ExchangeRate` | Stores the exchange rates for different currencies and provides methods to convert between them. |
 | `Currency` (enum) | The supported currencies for the bank application, such as `USD`, `EUR`, and `SEK`. |
-| `TransactionType` (enum) | Categorizes the movement of money for exampl `OwenTransfer` or `TransferToOther` |
+| `TransactionType` (enum) | Categorizes the movement of money for example `OwnTransfer` or `TransferToOther` |
 | `TransactionStatus` (enum) | Tracks the transaction processing state whether `Pending` , `Completed` or `Failed` |
 
 ### Services
 
 | Class | Responsibility |
 |-------|----------------|
-| `AccountService` | Creates and manages accounts, deposits and withdraws money, and calculates interest for savings accounts. |
+| `AccountService` | Creates and manages accounts, deposits money, and calculates interest for savings accounts. |
 | `LoginService` |  Authenticates users, tracks failed login attempts, and locks accounts after repeated failed attempts. |
 | `UserService` | Creates and manages users, assigns a `userId`, updates contact information, and calculates `creditScores`. |
 | `TransactionService` | Manages the queue, verification checks, and execution of transfers.|
 | `LoanService` | Creates the `Loan` object and calculates the necessary values for the loan based on the amount, interest rate, and term. |
-| `NotificationService` | Sends text and email alerts when a large money transfer occurs|
+| `NotificationService` | Sends simulated text and email alerts when a large money transfer occurs|
 | `Scheduler` | Processes the transaction queue every 15 minutes, executing pending transfers and updating their status. |
 
 ### Rules
@@ -162,7 +163,7 @@ A rough explanation of the main classes and objects in the source code.
 | Class | Responsibility |
 |-------|----------------|
 | `UserInterface` | Displays the main menus, collects user input, and directs users to the correct menus and services. |
-| `AccountMenu` | A menu for creating new accounts, viewing account balances, and depositing or withdrawing money. |
+| `AccountMenu` | A menu for creating new accounts, viewing account balances, and depositing money. |
 | `AdminMenu` | Admin menu for creating users, and changing exchange rates and loan rules. |
 | `LoanMenu` | Menu for creating new loans and viewing existing ones. |
 | `TransactionMenu` |	Displays options to send money to internal or external accounts and checks transaction histories|
@@ -208,7 +209,7 @@ A rough explanation of the main classes and objects in the source code.
 |------|--------|-----------------------|
 | William Ekman | [@TheOakMan](https://github.com/theoakman) | Loans (`Loan`, `LoanRules`, `LoanService`), logo (`UserInterface`), menus (`AdminMenu`, `LoanMenu`), exchange rate (`ExchangeRate`) |
 | Daniél V | [@danieelvergara-cmyk](https://github.com/danieelvergara-cmyk) | Accounts (`Account`, `SavingsAccount`, `AccountService`, `AccountMenu`), menus ( `AccountMenu`), scheduler (`Scheduler`) |
-| Rickard Idevall | [@rickardidevall-a11y](https://github.com/rickardidevall-a11y) | Users (`User`, `UserService`, `LogInService`, , `Admin`), menus `UserInterface`  |
-| Sabah Adam | [@DevTraveller](https://github.com/DevTraveller) | Transactions (`Transaction`, `TransactionService`, `TransactionMenu`, `Notification`), menus (`TransactionMenu`) |
+| Rickard Idevall | [@rickardidevall-a11y](https://github.com/rickardidevall-a11y) | Users (`User`, `UserService`, `LogInService`, `Admin`), menus `UserInterface`  |
+| Sabah Adam | [@DevTraveller](https://github.com/DevTraveller) | Transactions (`Transaction`, `TransactionService`, `TransactionMenu`, `NotificationService.`), menus (`TransactionMenu`) |
 
 ---
