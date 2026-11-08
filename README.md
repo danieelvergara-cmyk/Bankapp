@@ -44,7 +44,6 @@ The goal of the project is to practice object-oriented programming (OOP) princip
 - Credit score evaluation for loan applications
 - Admin functions:
   - Create new users
-  - View statistics (top accounts, total transferred, average transaction)
   - Change exchange rates and loan rules
 
 <!--and add anything missing. -->
@@ -105,7 +104,6 @@ Bankapp/
     ├── NotificationService.cs
     ├── SavingsAccount.cs
     ├── Scheduler.cs
-    ├── StatisticsService.cs
     ├── Transaction.cs
     ├── TransactionMenu.cs
     ├── TransactionService.cs
@@ -119,8 +117,6 @@ Bankapp/
 ## Classes Overview
 
 A rough explanation of the main classes and objects in the source code.
-
-<!-- Fill in one sentence per class you wrote: what it is responsible for. -->
 
 ### Program
 
@@ -167,7 +163,7 @@ A rough explanation of the main classes and objects in the source code.
 |-------|----------------|
 | `UserInterface` | Displays the main menus, collects user input, and directs users to the correct menus and services. |
 | `AccountMenu` | A menu for creating new accounts, viewing account balances, and depositing or withdrawing money. |
-| `AdminMenu` | Admin menu for creating users, viewing statistics, and changing exchange rates and loan rules. |
+| `AdminMenu` | Admin menu for creating users, and changing exchange rates and loan rules. |
 | `LoanMenu` | Menu for creating new loans and viewing existing ones. |
 | `TransactionMenu` |	Displays options to send money to internal or external accounts and checks transaction histories|
 
@@ -187,7 +183,7 @@ A rough explanation of the main classes and objects in the source code.
 1. The user is prompted to log in and is authenticated via the `LoginService`.
 2. Depending on the role:
    - A customer can view accounts, make transfers, open a savings account or apply for a loan.
-   - An admin can create new user accounts for customers, view statistics and manage rules and exchange rates.
+   - An admin can create new user accounts for customers and manage rules and exchange rates.
 3. New accounts and savings accounts are created via the `AccountService`. When the user deposits to a savings account, they are shown the expected interest after a year before the deposit is made.
 4. A loan application is evaluated based on the rules in `LoanRules` and either approved or denied.
 5. Transactions are created and managed via the `TransactionService`, which handles transfers and transaction history.

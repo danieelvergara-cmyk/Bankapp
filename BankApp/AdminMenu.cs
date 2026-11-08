@@ -9,18 +9,15 @@ namespace BankApp
         private readonly UserService _userService;
         private readonly LoanRules _loanRules;
         private readonly ExchangeRate _exchangeRate;
-        private readonly StatisticsService _statisticsService;
 
         string errorMessage = "";
 
         // This constructor initializes the AdminMenu with the provided UserService, LoanRules, and ExchangeRate instances.
-        // The StatisticsService is commented out for now, but can be added later.
-        public AdminMenu(UserService userService, LoanRules loanRules, ExchangeRate exchangeRate) //, StatisticsService statisticsService) add later
+        public AdminMenu(UserService userService, LoanRules loanRules, ExchangeRate exchangeRate) 
         {
             _userService = userService;
             _loanRules = loanRules;
             _exchangeRate = exchangeRate;
-            //_statisticsService = statisticsService;
         }
 
         public void ShowAdminMenu(User admin)
@@ -37,7 +34,6 @@ namespace BankApp
                 Console.WriteLine("1. Skapa ny användare");
                 Console.WriteLine("2. Ändra låneregler");
                 Console.WriteLine("3. Ändra växelkurser");
-               // Console.WriteLine("4. Visa statistik");
                 Console.WriteLine("0. Logga ut");
                 Console.Write("\nVälj ett alternativ:");
 
@@ -58,14 +54,11 @@ namespace BankApp
                     case "3":
                         ShowExchangeRateMenu();
                         break;
-                    case "4":
-                        ShowStatisticsMenu();
-                        break;
                     case "0":
                         isRunning = false;
                         break;
                     default:
-                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-4."; // Set the error message to be shown in the next iteration of the loop.
+                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-3."; // Set the error message to be shown in the next iteration of the loop.
                         break;
                 }
             }
@@ -349,10 +342,5 @@ namespace BankApp
 
         }
 
-        // Will be implemented later when the StatisticsService is implemented.
-        public void ShowStatisticsMenu()
-        {
-
-        }
     }
 }
