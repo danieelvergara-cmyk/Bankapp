@@ -20,7 +20,7 @@ namespace BankApp
 
 
 
-        private readonly NotificationService notificationService;
+        //private readonly NotificationService notificationService;
 
         string errorMessage = "";
 
@@ -29,13 +29,13 @@ namespace BankApp
         /*2.  A field that stores a TransactionService object. 
               The menu tells the program: "I cannot start without this service..*/
         public TransactionMenu(
-            TransactionService transactionService,
-            NotificationService notificationService)
+            TransactionService transactionService)
+            //NotificationService notificationService)
         {
             /* 3. We take the service that was just delivered to us (right side)
                  and lock it into our private toolbox (left side) so the rest of the menu can use it.*/
             this.transactionService = transactionService;
-            this.notificationService = notificationService;
+            //this.notificationService = notificationService;
 
         }
 
@@ -231,13 +231,26 @@ namespace BankApp
                 // Print every transaction
             foreach (Transaction transaction in history)
             {
+
+                string directionDetails = "";
+                if (transaction.FromAccountId == accountId)
+                {
+                   directionDetails = $"skickat till konto {transaction.FromAccountId}";
+                }
+                else if (transaction.ToAccountId == accountId)
+                {
+                    directionDetails = $"Mottaget från konto {transaction.FromAccountId}";
+                }
+
                 Console.WriteLine(
                     $"{transaction.Timestamp} | " +
                     $" {transaction.Type} | " +
-                    $" {transaction.Amount :F2} | " +
+                    $" {transaction.Amount :F2} {transaction.Currency}| " +
+                    $"  Mottaget från konto {directionDetails} "+
                     $"Status: {transaction.Status}");
                 
             }
+            Console.WriteLine("-------------------------------------------------------");
             Console.WriteLine("Tryck på valfri tangent för att gå tillbaka.");
             Console.ReadKey();
         }
@@ -252,7 +265,7 @@ namespace BankApp
         {
             try
             {
-                Console.Clear();
+                //Console.Clear();
 
                 Console.Write("Från kontonummer: ");
                 string fromaccountIdInput = Console.ReadLine() ?? string.Empty;
@@ -280,8 +293,8 @@ namespace BankApp
                     Console.ReadKey();
                     return;
                 }
+              
 
-                
                 Console.Write("Belopp: ");
                 string amountInput = Console.ReadLine() ?? string.Empty;
 
@@ -308,8 +321,8 @@ namespace BankApp
 
                 Console.WriteLine("Överföringen har lagts i kö. Status: Pending.");
 
-                decimal amountInSek = transactionService.ConvertToSek(amount,currency);
-                notificationService.TransactionNotification(user, amountInSek);
+                //decimal amountInSek = transactionService.ConvertToSek(amount,currency);
+                //notificationService.TransactionNotification(user, amountInSek);
             }
             catch (Exception error)
             {
@@ -380,12 +393,13 @@ namespace BankApp
                     amount,
                     false,
                     currency);
+                
      
                 Console.WriteLine("Överföringen har lagts i kö. Status: Pending.");
 
-                decimal amountInSek = transactionService.ConvertToSek(amount,currency);
+                //decimal amountInSek = transactionService.ConvertToSek(amount,currency);
 
-                notificationService.TransactionNotification(user, amountInSek);// notification call if the amount is above the limit
+                //notificationService.TransactionNotification(user, amountInSek);// notification call if the amount is above the limit
             }
             catch (Exception error)
             {
