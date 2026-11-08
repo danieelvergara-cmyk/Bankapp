@@ -2,8 +2,6 @@
 using System.Collections.Generic; // Gives access to List<T>
 
 
-/* to call in man Transaction_menu menu = new Transaction_menu(transactionService);
-        menu.RunTransferMenu();*/
 
 namespace BankApp
 {
@@ -18,24 +16,18 @@ namespace BankApp
                It stores a reference to the service the menu will use (like a private toolbox).*/
         private readonly TransactionService transactionService;
 
-
-
-        private readonly NotificationService notificationService;
-
         string errorMessage = "";
-
-
 
         /*2.  A field that stores a TransactionService object. 
               The menu tells the program: "I cannot start without this service..*/
         public TransactionMenu(
-            TransactionService transactionService,
-            NotificationService notificationService)
+            TransactionService transactionService)
+            //NotificationService notificationService)
         {
             /* 3. We take the service that was just delivered to us (right side)
                  and lock it into our private toolbox (left side) so the rest of the menu can use it.*/
             this.transactionService = transactionService;
-            this.notificationService = notificationService;
+            
 
         }
 
@@ -227,17 +219,33 @@ namespace BankApp
             }
 
             Console.WriteLine($" Transaktioner för konto {accountId}: ");
-            Console.WriteLine("-----------------------------------------");
+            Console.WriteLine("---------------------------------------------------------------------");
+            Console.WriteLine("    ");
+
                 // Print every transaction
             foreach (Transaction transaction in history)
             {
+
+                string directionDetails = "";
+                if (transaction.FromAccountId == accountId)
+                {
+                    directionDetails = $"skickat till konto {transaction.ToAccountId}";
+                }
+                else if (transaction.ToAccountId == accountId) 
+                {
+                    directionDetails = $"Mottaget från konto {transaction.FromAccountId}"; 
+                }
+
                 Console.WriteLine(
                     $"{transaction.Timestamp} | " +
                     $" {transaction.Type} | " +
-                    $" {transaction.Amount :F2} | " +
+                    $" {transaction.Amount :F2} {transaction.Currency}| " +
+                    $" {directionDetails} "+
                     $"Status: {transaction.Status}");
                 
             }
+            Console.WriteLine("            ");
+            Console.WriteLine("------------------------------------------------------------------------");
             Console.WriteLine("Tryck på valfri tangent för att gå tillbaka.");
             Console.ReadKey();
         }
@@ -252,7 +260,7 @@ namespace BankApp
         {
             try
             {
-                Console.Clear();
+                //Console.Clear();
 
                 Console.Write("Från kontonummer: ");
                 string fromaccountIdInput = Console.ReadLine() ?? string.Empty;
@@ -280,8 +288,8 @@ namespace BankApp
                     Console.ReadKey();
                     return;
                 }
+              
 
-                
                 Console.Write("Belopp: ");
                 string amountInput = Console.ReadLine() ?? string.Empty;
 
@@ -308,8 +316,6 @@ namespace BankApp
 
                 Console.WriteLine("Överföringen har lagts i kö. Status: Pending.");
 
-                decimal amountInSek = transactionService.ConvertToSek(amount,currency);
-                notificationService.TransactionNotification(user, amountInSek);
             }
             catch (Exception error)
             {
@@ -380,12 +386,11 @@ namespace BankApp
                     amount,
                     false,
                     currency);
+                
      
                 Console.WriteLine("Överföringen har lagts i kö. Status: Pending.");
 
-                decimal amountInSek = transactionService.ConvertToSek(amount,currency);
-
-                notificationService.TransactionNotification(user, amountInSek);// notification call if the amount is above the limit
+               
             }
             catch (Exception error)
             {
