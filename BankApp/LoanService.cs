@@ -27,9 +27,6 @@ namespace BankApp
         // The new Loan object is returned. If the user cannot borrow, null is returned.
         public Loan? CreateLoan(User user, decimal amount, int termMonths)
         {
-            // Calculates and updates the user's current credit score
-            int creditScore = _userService.CalculateCreditScore(user);
-
             decimal totalBalance = 0;
             decimal existingDebt = 0; // Used to stop users from borrowing more than they are allowed.
 
@@ -56,7 +53,7 @@ namespace BankApp
                 newLoan.TermMonths = termMonths;
                 newLoan.StartDate = DateTime.Now;
                 newLoan.Status = "Aktiv";
-                newLoan.InterestRate = _rules.CalculateInterestRate(creditScore); // Calculate interest rate based on the user's updated credit score
+                newLoan.InterestRate = GetInterestRateForUser(user); // Calculate the interest rate based on the user's credit score
                 newLoan.CalculateTotalInterest(); // Calculate total interest based on the above amount, interest rate and termMonths
                 newLoan.RemainingBalance = newLoan.Amount + newLoan.TotalInterest; // Set the remaining balance to the total amount owed
                 newLoan.MonthlyPayment = newLoan.CalculateMonthlyPayment(); // Calculate the monthly payment based on the total amount owed and termMonths
