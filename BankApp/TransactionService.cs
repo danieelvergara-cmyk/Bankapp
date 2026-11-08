@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Security.Principal;
+
 
 
 
@@ -12,71 +12,92 @@ namespace BankApp
 
     {
 
-
-        // Creates an in-memory list  of all transfers: pending, completed, or failed.
+        // Stores all transfers: pending, completed, and failed.
         private readonly List<Transaction> transactions = new List<Transaction>();
 
-       
-        private readonly ExchangeRate exchangeRate;
+        // Protects accounts and transactions from concurrent changes.
+        private readonly object _bankLock = new object();
 
+        private readonly NotificationService notificationService;
+        private readonly ExchangeRate exchangeRate;
         private readonly UserService userService;
 
-        public TransactionService(UserService userService, ExchangeRate exchangeRate ) // constructor
+        public TransactionService(
+            UserService userService,
+            ExchangeRate exchangeRate,
+            NotificationService notificationService) // constructor
 
         {
-            this.userService = userService;
+            this.userService = userService; 
+            this.notificationService = notificationService;
             this.exchangeRate = exchangeRate;
-
 
         }
 
 
 
-        // Lock used to protect accounts and the transaction list from concurrent changes
-        private readonly object _bankLock = new object();  // "Lock" prevents data corruption and calculation errors 
-
-        // Reference to the accounts managed by the bank.
-        //private readonly List<Account> accounts; //Stores a reference to the account list supplied to the constructor.
-
-        //Constructor receives the account list when the service is created
-        //public TransactionService(List<Account> accounts)
-        //{
-        //    this.accounts = accounts;
-        //}
-
-
-
-
-
-
-        // Creates a pending transfer that can be processed later.
+        // Creates a transfer that will be processed later.
         public void AddPendingTransfer(
-    User user,
-    int fromAccountId,
-    int toAccountId,
-    decimal amount,
-    bool sameUser,
-    Currency currency)
+            User user,
+            int fromAccountId,
+            int toAccountId,
+            decimal amount,
+            bool sameUser,
+            Currency currency)
         {
-            Account? fromAccount = GetAccount(fromAccountId);
-
-            if (fromAccount == null)
-            {
-                throw new InvalidOperationException(
-                    $"Kontot med ID {fromAccountId} finns inte.");
-            }
-
-            if (fromAccount.OwnerId != user.UserId)
-            {
-                throw new InvalidOperationException(
-                    "Överföringen nekades eftersom kontot inte tillhör den inloggade användaren.");
-            }
 
             if (amount <= 0)
             {
                 throw new Exception(
                     "Beloppet måste vara större än 0.");
             }
+
+            Account? fromAccount = GetAccount(fromAccountId);
+            Account? toAccount = GetAccount(toAccountId);
+            // The logged-in user must own the account they transfer from
+            if (fromAccount == null)
+            {
+                throw new InvalidOperationException(
+                    $"Kontot med ID {fromAccountId} finns inte.");
+            }
+
+            //if (fromAccount.OwnerId != user.UserId)
+            //{
+            //    throw new InvalidOperationException(
+            //        "Överföringen nekades eftersom kontot inte tillhör den inloggade användaren.");
+            //}
+            if (fromAccount == null)
+            {
+                throw new InvalidOperationException($" Kontot med Id {fromAccountId} finns inte");
+            }
+
+            if (toAccount == null)
+            {
+                throw new InvalidOperationException($" Kontot med Id {toAccountId} finns inte");
+
+            }
+            // A user cannot transfer money to the same account.
+            if (fromAccount.AccountId == toAccount.AccountId)
+            {
+                throw new InvalidOperationException($"Kan inte överföra till samma konto");
+            }
+
+
+            /*  For own transfers,
+             *  both accounts must belong to the same user */
+            if (sameUser && fromAccount.OwnerId != toAccount.OwnerId)
+            {
+                throw new InvalidOperationException($" kontona tillhör inte samma användare.");
+            }
+
+            /*  For transfers to another user, 
+             *  the accounts must not belong to the same user. */
+            if (!sameUser && fromAccount.OwnerId == toAccount.OwnerId)
+            {
+                throw new InvalidOperationException("Använd TransferToOwnAccount för egna konton.");
+            }
+
+
 
             // Decide whether this is a transfer between
             // the user's own accounts or to another user.
@@ -115,17 +136,19 @@ namespace BankApp
          * Because null is possible, ? is used */
         private Account? GetAccount(int accountId)   
         {
-            foreach (User user in userService.Users)
+            lock (_bankLock)
+            {
+                foreach (User user in userService.Users)
 
-            {     foreach (Account account in user.Accounts)
-                {
-
-                    if (account.AccountId == accountId)
+                {     foreach (Account account in user.Accounts)
                     {
-                        return account;
+
+                        if (account.AccountId == accountId)
+                        {
+                            return account;
+                        }
                     }
                 }
-                  
             }
 
             return null;
@@ -173,59 +196,43 @@ namespace BankApp
             bool sameUser,
             Transaction? existingTransaction = null)
         {
-
-
-
             if (amount <= 0)
             {
-                throw new ArgumentException("Beloppet måste vara större än 0.");
+                throw new Exception(
+                    "Beloppet måste vara större än 0.");
             }
 
 
 
 
-                // Find both accounts in the account service.
-                Account? fromAccount = GetAccount(fromAccountId);
+
+            // Find both accounts in the account service.
+            Account? fromAccount = GetAccount(fromAccountId);
                 Account? toAccount = GetAccount(toAccountId);
 
 
-                // Check that the receiving account exists
-                if (fromAccount == null)
-                {
-                    throw new InvalidOperationException($" Kontot med Id {fromAccountId} finns inte");
-                }
+            // Check that the receiving account exists
+            if (fromAccount == null)
+            {
+                throw new InvalidOperationException($" Kontot med Id {fromAccountId} finns inte");
+            }
 
-                if (toAccount == null)
-                {
-                    throw new InvalidOperationException($" Kontot med Id {toAccountId} finns inte");
+            if (toAccount == null)
+            {
+                throw new InvalidOperationException($" Kontot med Id {toAccountId} finns inte");
 
-                }
-                  // A user cannot transfer money to the same account.
-                if (fromAccount.AccountId == toAccount.AccountId)
-                {
-                    throw new InvalidOperationException($"Kan inte överföra till samma konto");
-                }
+            }
 
-
-            /*  For own transfers,
-             *  both accounts must belong to the same user */
-            if (sameUser && fromAccount.OwnerId != toAccount.OwnerId)
-                {
-                    throw new InvalidOperationException($" kontona tillhör inte samma användare.");
-                }
-
-            /*  For transfers to another user, 
-             *  the accounts must not belong to the same user. */
-            if (!sameUser && fromAccount.OwnerId == toAccount.OwnerId)
-                {
-                    throw new InvalidOperationException("Använd TransferToOwnAccount för egna konton.");
-                }
 
             decimal amountToWithdraw = exchangeRate.Convert(amount, currency, fromAccount.Currency);
-            decimal amountToDeposit = exchangeRate.Convert(amount, currency, toAccount.Currency);
+                decimal amountToDeposit = exchangeRate.Convert(amount, currency, toAccount.Currency);
 
-            if (amountToWithdraw <= 0 || amountToDeposit <= 0)
+            if (amount <= 0)
             {
+                throw new ArgumentException("Beloppet måste vara större än 0.");
+            }
+            if (amountToWithdraw <= 0 || amountToDeposit <= 0)
+               {
                 throw new InvalidOperationException(" Beloppet är för litet efter valutaväxling.");
             }
 
@@ -284,8 +291,9 @@ namespace BankApp
                 {
                     // Skip transactions that have already been processed.
                     if (transaction.Status != TransactionStatus.Pending)
+                    { 
                         continue;
-
+                    }
                     
 
                     try
@@ -311,63 +319,54 @@ namespace BankApp
 
                             Console.WriteLine(
                               $"Transaktion{transaction.TransactionId} misslyckades:  {error.Message}");
-                       
+                        continue;
                     }
+
+
+
+                    // Notifiera endast efter en genomförd överföring.
+                    if (transaction.Status == TransactionStatus.Completed)
+                    {
+                     try
+                        {
+                            Notifysender(transaction);
+                        }
+
+                        catch (Exception error)
+                        {
+                            Console.WriteLine($"Överföringen är genomförd, men notifikationen misslyckades: {error.Message}");
+                        }
+                    }    
                 }
             }
 
         }
-
-
-
-        // Transfers money between two accounts owned by the same user
-        public decimal TransferToOwnAccount(
-            int fromAccountId,
-            int toAccountId, 
-            decimal amount,
-            Currency currency)
+        private void Notifysender(Transaction transaction)
         {
-            /* Lock so two transfers cannot change the same balances at the same time*/
-            lock (_bankLock) 
+            Account? fromAccount = GetAccount(transaction.FromAccountId);
+            if (fromAccount == null)
             {
-                
-                return Transfer(
-                  fromAccountId,
-                  toAccountId,
-                  amount,
-                  currency,
-                  TransactionType.OwnTransfer,
-                  sameUser: true);
-
-                
+                return;
             }
-            
-        }
 
+            // Find the specific user who owns this account
+            foreach (User user in userService.Users)
 
-
-        // Transfers money to another user's account
-        public decimal TransfertoOtherAccount(
-            int fromAccountId,
-            int toAccountId,
-            decimal amount,
-            Currency currency)
-        {
-            /* Lock so two transfers cannot change the same balances at the same time*/
-            lock ( _bankLock) 
             {
-                return Transfer(
-                 fromAccountId,
-                 toAccountId,
-                 amount,
-                 currency,
-                 TransactionType.TransferToOther,
-                 sameUser: false);
+                if (user.UserId == fromAccount.OwnerId)
+                {
+                    notificationService.TransactionNotification(
+                        user,
+                        transaction.Amount,
+                        transaction.Currency);
 
-               
+                    return;
+                }
+
             }
 
         }
+
 
 
     }
