@@ -28,6 +28,11 @@ public class AccountService
         Console.WriteLine($"Uppskattad ränta efter ett år: {interest:F2} {savingsAccount.Currency}");
     }
 
+    public void Deposit(Account account, decimal amount)
+    {
+        account.Deposit(amount);
+    }
+
     public void DepositToSavingsAccount(SavingsAccount savingsAccount, decimal amount)
     {
         // Calculate the interest for the deposit amount
