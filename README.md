@@ -210,6 +210,6 @@ A rough explanation of the main classes and objects in the source code.
 | William Ekman | [@TheOakMan](https://github.com/theoakman) | Loans (`Loan`, `LoanRules`, `LoanService`), logo (`UserInterface`), menus (`AdminMenu`, `LoanMenu`), exchange rate (`ExchangeRate`) |
 | Daniél V | [@danieelvergara-cmyk](https://github.com/danieelvergara-cmyk) | Accounts (`Account`, `SavingsAccount`, `AccountService`, `AccountMenu`), menus ( `AccountMenu`), scheduler (`Scheduler`) |
 | Rickard Idevall | [@rickardidevall-a11y](https://github.com/rickardidevall-a11y) | Users (`User`, `UserService`, `LogInService`, `Admin`), menus `UserInterface`  |
-| Sabah Adam | [@DevTraveller](https://github.com/DevTraveller) | Transactions (`Transaction`, `TransactionService`, `TransactionMenu`, `NotificationService.`), menus (`TransactionMenu`) |
+| Sabah Adam | [@DevTraveller](https://github.com/DevTraveller) | Transactions (`Transaction`, `TransactionService`, `TransactionMenu`, `NotificationService`), menus (`TransactionMenu`) |
 
 ---
