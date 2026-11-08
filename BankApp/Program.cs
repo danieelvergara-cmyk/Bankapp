@@ -23,9 +23,9 @@ namespace BankApp
 
             LoanService loanService = new LoanService(loanRules, exchangeRate);
 
-            NotificationService notificationService = new NotificationService();
+            NotificationService notificationService = new NotificationService(exchangeRate);
 
-            TransactionService transactionService = new TransactionService(userService,exchangeRate);
+            TransactionService transactionService = new TransactionService(userService, exchangeRate, notificationService);
 
             // Menus, created once and shared
 
@@ -33,7 +33,7 @@ namespace BankApp
 
             AccountMenu accountMenu = new AccountMenu(accountService);
 
-            TransactionMenu transactionMenu = new TransactionMenu(transactionService, notificationService);
+            TransactionMenu transactionMenu = new TransactionMenu(transactionService);// notificationService);
 
             LoanMenu loanMenu = new LoanMenu(loanService, loanRules);
 

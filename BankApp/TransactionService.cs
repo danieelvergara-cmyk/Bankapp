@@ -46,11 +46,6 @@ namespace BankApp
             Currency currency)
         {
 
-            if (amount <= 0)
-            {
-                throw new Exception(
-                    "Beloppet måste vara större än 0.");
-            }
 
             Account? fromAccount = GetAccount(fromAccountId);
             Account? toAccount = GetAccount(toAccountId);
@@ -94,8 +89,29 @@ namespace BankApp
              *  the accounts must not belong to the same user. */
             if (!sameUser && fromAccount.OwnerId == toAccount.OwnerId)
             {
-                throw new InvalidOperationException("Använd TransferToOwnAccount för egna konton.");
+                throw new InvalidOperationException("Båda kontona tillhör dig." +
+                    " Välj alternativet 'Eget konto' i menyn för att göra denna överföring.");
             }
+
+            if (amount <= 0)
+            {
+                throw new ArgumentException("Beloppet måste vara större än 0.");
+            }
+            decimal amountToWithdraw = exchangeRate.Convert(amount, currency, fromAccount.Currency);
+            decimal amountToDeposit = exchangeRate.Convert(amount, currency, toAccount.Currency);
+
+            if (amountToWithdraw <= 0 || amountToDeposit <= 0)
+            {
+                throw new InvalidOperationException(" Beloppet är för litet efter valutaväxling.");
+            }
+
+            if (fromAccount.Balance < amountToWithdraw)
+
+            {
+                throw new InvalidOperationException(
+                    "Betalningen misslyckades. Det finns inte tillräckligt med pengar på kontot.");
+            }
+
 
 
 
@@ -225,29 +241,13 @@ namespace BankApp
 
 
             decimal amountToWithdraw = exchangeRate.Convert(amount, currency, fromAccount.Currency);
-                decimal amountToDeposit = exchangeRate.Convert(amount, currency, toAccount.Currency);
+            decimal amountToDeposit = exchangeRate.Convert(amount, currency, toAccount.Currency);
 
-            if (amount <= 0)
-            {
-                throw new ArgumentException("Beloppet måste vara större än 0.");
-            }
-            if (amountToWithdraw <= 0 || amountToDeposit <= 0)
-               {
-                throw new InvalidOperationException(" Beloppet är för litet efter valutaväxling.");
-            }
-
-            if ( fromAccount.Balance < amountToWithdraw)
-
-               {   
-                    throw new InvalidOperationException(
-                        "Betalningen misslyckades. Det finns inte tillräckligt med pengar på kontot.");
-                }
 
             /* Remove money from the sender
              * and add it to the receiver.*/
-                fromAccount.WithDraw(amountToWithdraw); 
-                toAccount.Deposit(amountToDeposit);
-
+            fromAccount.WithDraw(amountToWithdraw);
+            toAccount.Deposit(amountToDeposit);
 
 
             /* Reuse the pending transaction if one was supplied;
@@ -309,7 +309,7 @@ namespace BankApp
                            transaction.Type,
                            sameUser,
                            transaction);
-
+                        Notifysender(transaction);
                     }
 
                     catch (Exception error) 
@@ -319,7 +319,7 @@ namespace BankApp
 
                             Console.WriteLine(
                               $"Transaktion{transaction.TransactionId} misslyckades:  {error.Message}");
-                        continue;
+                            //continue
                     }
 
 

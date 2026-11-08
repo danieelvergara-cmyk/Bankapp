@@ -239,7 +239,7 @@ namespace BankApp
                 }
                 else if (transaction.ToAccountId == accountId)
                 {
-                    directionDetails = $"Mottaget från konto {transaction.FromAccountId}";
+                    directionDetails = $"Mottaget från konto {transaction.ToAccountId}";
                 }
 
                 Console.WriteLine(
