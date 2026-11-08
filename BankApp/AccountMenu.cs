@@ -84,6 +84,30 @@ namespace BankApp
             Console.ReadKey();
         }
 
+
+
+        private Account? ChooseRegularAccount(User user)
+        {
+            var accounts = user.Accounts.Where(a => !(a is SavingsAccount)).ToList();
+
+            if (accounts.Count == 0)
+            {
+                errorMessage = "Du har inga vanliga konton. Öppna ett konto först.";
+                return null;
+            }
+
+            Console.Clear();
+            Console.WriteLine("Välj konto:");
+            for (int i = 0; i < accounts.Count; i++)
+            {
+                Console.Write($"{i + 1}. ");
+                accounts[i].PrintAccount();
+            }
+
+            int choice = ReadNumberInRange("Välj nummer: ", 1, accounts.Count);
+            return accounts[choice - 1];
+        }
+
         private void OpenSavingsAccount(User user)
         {
             Console.Clear();
