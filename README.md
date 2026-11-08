@@ -34,7 +34,7 @@ The goal of the project is to practice object-oriented programming (OOP) princip
 
 - User login menu with authentication
 - User accounts get locked after 3 failed login attempts
-- Users can update their personal information (name, email, phone number)
+- Users can update their personal information (email and phone number)
 - Separate roles for **customers** and **admins**
 - Checking and savings accounts with balances
 - Multiple currencies and exchange rates
@@ -185,12 +185,11 @@ A rough explanation of the main classes and objects in the source code.
 2. Depending on the role:
    - A customer can view accounts, make transfers, open a savings account or apply for a loan.
    - An admin can create new user accounts for customers and manage rules and exchange rates.
-3. New accounts and savings accounts are created via the `AccountService`. When the user deposits to a savings account, they are shown the expected interest after a year before the deposit is made.
-4. A loan application is evaluated based on the rules in `LoanRules` and either approved or denied.
+3. New accounts and savings accounts are created via the `AccountService`. The user can deposit to both types of accounts, and the balance is updated accordingly. When depositing to a savings account, the user is also shown the estimated interest after one year, but the interest is not added to the balance.
+4. A loan application is evaluated based on the rules in `LoanRules` and either approved or denied. When creating a loan, the loan is stored in the user's list of loans, separate from the user's accounts.
 5. Transactions are created and managed via the `TransactionService`, which handles transfers and transaction history.
 6. All transfers are placed in a queue and executed all at once every 15 minutes by the `Scheduler` service.
-7. All transactions are saved in the transaction log.
-
+7. All transfers are saved in the transaction log.
 ---
 
 ## Our Workflow
