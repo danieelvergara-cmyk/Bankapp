@@ -27,7 +27,8 @@ namespace BankApp
                 Console.WriteLine("1. Visa mina konton och saldon");
                 Console.WriteLine("2. Öppna vanligt konto");
                 Console.WriteLine("3. Öppna sparkonto");
-                Console.WriteLine("4. Sätt in pengar på sparkonto och visa ränta");
+                Console.WriteLine("4. Sätt in pengar på vanligt konto");
+                Console.WriteLine("5. Sätt in pengar på sparkonto och visa ränta");
                 Console.WriteLine("0. Tillbaka");
                 Console.Write("\nVälj ett alternativ:");
 
@@ -53,7 +54,7 @@ namespace BankApp
                         isRunning = false;
                         break;
                     default:
-                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-4.";
+                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-5.";
                         break;
                 }
             }
