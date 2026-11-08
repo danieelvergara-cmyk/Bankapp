@@ -28,21 +28,26 @@ public class AccountService
         Console.WriteLine($"Uppskattad ränta efter ett år: {interest:F2} {savingsAccount.Currency}");
     }
 
+    public void DepositToRegularAccount(Account account, decimal amount)
+    {
+        account.Deposit(amount);
+        Console.WriteLine($"Insättning: {amount:F2} {account.Currency}");
+        Console.WriteLine($"Totalt saldo: {account.Balance:F2} {account.Currency}");
+    }
 
-// 
     public void DepositToSavingsAccount(SavingsAccount savingsAccount, decimal amount)
     {
-        // Beräkna räntan på insättningen
+        // Calculate the interest for the deposit amount
         decimal interest =
             savingsAccount.CalculateYearlyInterest(amount);
 
-        // Visa information innan insättningen genomförs
+        // Show the information to the user before making the deposit
         Console.WriteLine($"Insättning: {amount:F2} {savingsAccount.Currency}");
         Console.WriteLine($"Årsränta: {savingsAccount.AnnualInterestRate}%");
         Console.WriteLine($"Beräknad ränta efter ett år: {interest:F2} {savingsAccount.Currency}");
         Console.WriteLine($"Totalt efter ett år: {amount + interest:F2} {savingsAccount.Currency}");
 
-        // Sätt in pengarna
+        // Puts the deposit amount into the savings account
         savingsAccount.Deposit(amount);
     }
 }

@@ -27,7 +27,8 @@ namespace BankApp
                 Console.WriteLine("1. Visa mina konton och saldon");
                 Console.WriteLine("2. Öppna vanligt konto");
                 Console.WriteLine("3. Öppna sparkonto");
-                Console.WriteLine("4. Sätt in pengar på sparkonto och visa ränta");
+                Console.WriteLine("4. Sätt in pengar på vanligt konto");
+                Console.WriteLine("5. Sätt in pengar på sparkonto och visa ränta");
                 Console.WriteLine("0. Tillbaka");
                 Console.Write("\nVälj ett alternativ:");
 
@@ -47,13 +48,16 @@ namespace BankApp
                         OpenSavingsAccount(user);
                         break;
                     case "4":
+                        DepositIntoRegularAccount(user);
+                        break;
+                    case "5":
                         DepositIntoSavingsAccount(user);
                         break;
                     case "0":
                         isRunning = false;
                         break;
                     default:
-                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-4.";
+                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-5.";
                         break;
                 }
             }
@@ -81,6 +85,45 @@ namespace BankApp
             account.PrintAccount();
             Console.WriteLine("Tryck på valfri knapp för att fortsätta.");
             Console.ReadKey();
+        }
+
+        private void DepositIntoRegularAccount(User user)
+        {
+            Account? account = ChooseRegularAccount(user);
+            if (account == null)
+            {
+                return;
+            }
+
+            Console.Clear();
+            account.PrintAccount();
+            decimal amount = ReadPositiveAmount("Hur mycket vill du sätta in? ");
+            _accountService.DepositToRegularAccount(account, amount);
+
+            Console.WriteLine("Tryck på valfri knapp för att fortsätta.");
+            Console.ReadKey();
+        }
+
+        private Account? ChooseRegularAccount(User user)
+        {
+            var accounts = user.Accounts.Where(a => !(a is SavingsAccount)).ToList();
+
+            if (accounts.Count == 0)
+            {
+                errorMessage = "Du har inga vanliga konton. Öppna ett konto först.";
+                return null;
+            }
+
+            Console.Clear();
+            Console.WriteLine("Välj konto:");
+            for (int i = 0; i < accounts.Count; i++)
+            {
+                Console.Write($"{i + 1}. ");
+                accounts[i].PrintAccount();
+            }
+
+            int choice = ReadNumberInRange("Välj nummer: ", 1, accounts.Count);
+            return accounts[choice - 1];
         }
 
         private void OpenSavingsAccount(User user)
