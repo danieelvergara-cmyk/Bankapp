@@ -136,12 +136,12 @@ A rough explanation of the main classes and objects in the source code.
 | `Admin` |  Represents an administrator who inherits from `User` and is granted access to administrative menus and restricted functionality. |
 | `Account` | `[...]` |
 | `SavingsAccount` | `[...]` |
-| `Transaction` | `[...]` |
+| `Transaction` | Holds the history data for a money transfer as `TransactionId`, `FromAccountId`,  ` ToAccountId`,  `Amount `,  `Currency `,  `Timestamp `,  `Type `, and  `Status `  |
 | `Loan` | Stores a `Loan` object with details about the loan amount, interest rate, and monthly payment, as well as methods to calculate the total amount to be paid and the monthly payment based on the loan amount and interest rate. |
 | `ExchangeRate` | Stores the exchange rates for different currencies and provides methods to convert between them. |
 | `Currency` (enum) | `[...]` |
-| `TransactionType` (enum) | `[...]` |
-| `TransactionStatus` (enum) | `[...]` |
+| `TransactionType` (enum) | Categorizes the movement of money for exampl `OwenTransfer` or `TransferToOther` |
+| `TransactionStatus` (enum) | Tracks the transaction processing state whether `Pending` , `Completed` or `Failed` |
 
 ### Services
 
@@ -150,9 +150,9 @@ A rough explanation of the main classes and objects in the source code.
 | `AccountService` | `[...]` |
 | `LoginService` |  Authenticates users, tracks failed login attempts, and locks accounts after repeated failed attempts. |
 | `UserService` | Creates and manages users, assigns a `userId`, updates contact information, and calculates `creditScores`. |
-| `TransactionService` | `[...]` |
+| `TransactionService` | Manages the queue, verification checks, and execution of transfers.|
 | `LoanService` | Creates the `Loan` object and calculates the necessary values for the loan based on the amount, interest rate, and term. |
-| `NotificationService` | `[...]` |
+| `NotificationService` | Sends text and email alerts when a large money transfer occurs|
 | `StatisticsService` | `[...]` |
 | `TopAccount` (inside `StatisticsService`) |
 | `Scheduler` | `[...]` |
@@ -171,7 +171,7 @@ A rough explanation of the main classes and objects in the source code.
 | `AccountMenu` | `[...]` |
 | `AdminMenu` | Admin menu for creating users, viewing statistics, and changing exchange rates and loan rules. |
 | `LoanMenu` | Menu for creating new loans and viewing existing ones. |
-| `TransactionMenu` | `[...]` |
+| `TransactionMenu` |	Displays options to send money to internal or external accounts and checks transaction histories|
 
 ### Relationships
 
@@ -215,6 +215,6 @@ A rough explanation of the main classes and objects in the source code.
 | William Ekman | [@TheOakMan](https://github.com/theoakman) | Loans (`Loan`, `LoanRules`, `LoanService`), logo (`UserInterface`), menus (`AdminMenu`, `LoanMenu`), `exchangeRate` |(`ExchangeRate`) |
 | Daniél V | [@danieelvergara-cmyk](https://github.com/danieelvergara-cmyk) | `[...]` |
 | Rickard Idevall | [@rickardidevall-a11y](https://github.com/rickardidevall-a11y) | Users (`User`, `UserService`, `LogInService`, , `Admin`), menu `UserInterface`  |
-| `[Name]` | `[@handle]` | `[...]` |
+| Sabah Adam | `[@handle]` | `Notification`, `Transaction`, `TransactionService`, och `TransactionMenu` |
 
 ---
