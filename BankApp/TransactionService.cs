@@ -300,10 +300,7 @@ namespace BankApp
                     {
                         // Mark the transaction as failed if the transfer cannot be completed.
                             transaction.Status = TransactionStatus.Failed;
-
-                            Console.WriteLine(
-                              $"Transaktion{transaction.TransactionId} misslyckades:  {error.Message}");
-                            //continue
+                            transaction.FailureReason = error.Message;
                     }
 
 
