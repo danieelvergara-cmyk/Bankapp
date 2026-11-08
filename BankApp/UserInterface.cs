@@ -6,47 +6,234 @@ namespace BankApp
 {
     public class UserInterface
     {
-        // This method is used to show the main menu of the application.
-        // The main menu is currently just a placeholder and will be replaced later
-        // The logic will be in another class later, but for now, it will just show a menu with 3 options.
-        public void ShowMainMenu()
+
+        string errorMessage = "";
+
+        // Displays the main menu.
+        public void ShowMainMenu(
+            UserService userService,
+            LoginService loginService,
+            AccountMenu accountMenu,
+            TransactionMenu transactionMenu,
+            LoanMenu loanMenu,
+            AdminMenu adminMenu)
         {
-            Console.WriteLine("Imagine a menu here: \n1.\n2.\n3.");
+
+
+
+            bool isRunning = true;
+
+            while (isRunning)
+            {
+                Console.Clear();
+                Console.WriteLine("\n================");
+                Console.WriteLine("    BankApp");
+                Console.WriteLine("================");
+                Console.WriteLine("1. Logga in");
+                Console.WriteLine("0. Avsluta programmet");
+                Console.Write("\nVälj ett alternativ:");
+
+                errorMessage = ShowErrorMessage(errorMessage);
+
+                string choice =
+                    Console.ReadLine() ?? string.Empty;
+
+                switch (choice)
+                {
+                    case "1":
+                        ShowLoginMenu(
+                            userService,
+                           loginService,
+                           accountMenu,
+                           transactionMenu,
+                           loanMenu,
+                           adminMenu);
+                        break;
+
+                    case "0":
+                        Console.WriteLine("Avslutar BankApp.");
+                        isRunning = false;
+                        break;
+
+                    default:
+                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-1.";
+                        break;
+
+                }
+            }
         }
 
-        // This method is used to show the login menu and get the username and password from the user. 
-        // It will then return the username and password to the caller.
-        // The username and password are currently just placeholders and will be replaced -
-        // with actual logic to get the username and password in a LoginService class later.
-        public void ShowLoginMenu()
+
+        // Collects the login credentials
+        // and sends them to LoginService.
+        public void ShowLoginMenu(
+            
+            UserService userService,
+            LoginService loginService,
+            AccountMenu accountMenu,
+            TransactionMenu transactionMenu,
+            LoanMenu loanMenu,
+            AdminMenu adminMenu)
         {
-            Console.WriteLine("Enter username:");
-            string username = Console.ReadLine();
+            Console.Clear();
+            Console.WriteLine();
+            Console.WriteLine("LOGGA IN");
 
-            Console.WriteLine("Enter password:");
-            string userPassword = Console.ReadLine();
+            Console.Write("Skriv användarnamn: ");
+            string username =
+                Console.ReadLine() ?? string.Empty;
 
+            Console.Write("Skriv lösenord: ");
+            string password =
+                Console.ReadLine() ?? string.Empty;
+
+            User? loggedInUser =
+                loginService.Authenticate(
+                    username,
+                    password);
+
+            if (loggedInUser == null)
+            {
+                Console.WriteLine("Tryck på valfri knapp för att fortsätta.");
+                Console.ReadKey();
+                return;
+            }
+
+            // Opens the correct menu based on the user role.
+            if (loggedInUser is Admin)
+            {
+                adminMenu.ShowAdminMenu(loggedInUser);
+            }
+            else
+            {
+                ShowLogo();
+
+                ShowUserMenu(
+                    loggedInUser,
+                    userService,
+                    accountMenu,
+                    transactionMenu,
+                    loanMenu);
+            }
         }
 
-        // This method is used to show the logo of the application.
-        // it will be called after the user has logged in successfully and will be displayed on the main menu.
+
+        // Displays the navigation menu
+        // for a regular authenticated user.
+        public void ShowUserMenu(
+            User user,
+            UserService userService,
+            AccountMenu accountMenu,
+            TransactionMenu transactionMenu,
+            LoanMenu loanMenu)
+        {
+            bool isLoggedIn = true;
+
+            while (isLoggedIn)
+            {
+                Console.Clear();
+                Console.WriteLine();
+                Console.WriteLine($"Välkommen {user.Username}!");
+
+                Console.WriteLine("\nAnvändarmeny");
+                Console.WriteLine("\n1. Konton");
+                Console.WriteLine("2. Transaktioner");
+                Console.WriteLine("3. Lån");
+                Console.WriteLine("4. Uppdatera personliga uppgifter");
+                Console.WriteLine("0. Logga ut");
+                Console.Write("\nVälj ett alternativ:");
+
+                errorMessage = ShowErrorMessage(errorMessage);
+
+                string choice =
+                    Console.ReadLine() ?? string.Empty;
+
+                switch (choice)
+                {
+                    case "1":
+                        accountMenu.ShowAccountMenu(user);
+                        break;
+
+                    case "2":
+                        transactionMenu.ShowTransactionMenu(user);
+                        break;
+
+                    case "3":
+                        loanMenu.ShowLoanMenu(user);
+                        break;
+
+                    case "4":
+                        ShowUpdateUserInfoMenu(
+                            user,
+                            userService);
+                        break;
+
+                    case "0":
+                        Console.WriteLine("Loggar ut...");
+                        isLoggedIn = false;
+                        break;
+
+                    default:
+                        errorMessage = "Ogiltig input. Skriv in ett tal mellan 0-4.";
+                        break;
+                }
+            }
+        }
+        // Allows the user to update their email address and phone number.
+        public void ShowUpdateUserInfoMenu(
+            User user,
+            UserService userService)
+        {
+            Console.Clear();
+            Console.WriteLine("UPPDATERA PERSONLIGA UPPGIFTER");
+
+            Console.Write("Skriv ny e-postadress: ");
+            string email =
+                Console.ReadLine() ?? string.Empty;
+
+            Console.Write("Skriv nytt telefonnummer: ");
+            string phone =
+                Console.ReadLine() ?? string.Empty;
+
+            userService.UpdateUserInfo(
+                user,
+                email,
+                phone);
+
+            Console.WriteLine(
+                "Tryck på valfri knapp för att fortsätta.");
+        }
+
+
+        // Displays the application logo.
         public void ShowLogo()
         {
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\r\n               _.----------.               \r\n           ,-''    ,ooo.    `--.           \r\n        ,-'       _¥$$$£..      `-.        \r\n      ,'      ,_o$$$''$$$$o_       `.      \r\n    ,'      ,o$$$$,o$$$$o.88o.       `.    \r\n   /       ,$$$,d$$$$¥¥$$$£888£.       \\   \r\n  /        d$£d$$$¥'    ¥$£d888'        \\  \r\n ;         ¥$$$$$.      '\"'88£'          : \r\n ;          ¥$'¥$$o_     '¥£'            : \r\n;            '¥8¥$$$£.                    :\r\n|              `\"'¥$$$$o.                 |\r\n:                  '`¥$$$$o.              ;\r\n :                    '`¥$$$.            ; \r\n :           _.          '$$£.           ; \r\n  \\        _.88.        ,$$$££          /  \r\n   \\      ,88._8£oooooo$$$£'8£         /   \r\n    `.    '¥888.$$$$$$$$£'88£        ,'    \r\n      `.    `\"'8'',o.o.'8£\"'       ,'      \r\n        `-.     ''Y888£         ,-'        \r\n           `--.    ¥££'     _.-'           \r\n               `----------''               \r\n");
-            Console.WriteLine("Welcome to BankApp");
+            Console.ResetColor();
+            Console.WriteLine("\n==================");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("     BankApp");
+            Console.ResetColor();
+            Console.WriteLine("==================");
+            Console.WriteLine("\nTryck på valfri knapp för att fortsätta");
+            Console.ReadKey();
         }
 
-        // This method is used to set the color of the console text.
-        // It takes a ConsoleColor as a parameter and sets the ForegroundColor of the console to that color.
-        public void SetColors(ConsoleColor color) 
+        public static string ShowErrorMessage(string errorMessage)
         {
-            Console.ForegroundColor = color;
+
+            // If there is a wrong input, show the error message at the bottom of the menu and clear it after showing it once.
+            if (errorMessage != "")
+            {
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(errorMessage);
+                Console.ResetColor();
+            }
+
+            // Always return an empty string so the caller can clear its errorMessage.
+            return "";
         }
-
-        public void ShowError(string message) 
-        {
-
-        }
-
-    }
+}
 }

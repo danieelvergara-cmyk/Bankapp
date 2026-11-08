@@ -1,154 +1,122 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace BankApp
 {
     public class LoanService
     {
-        private List<Loan> loans = new List<Loan>(); // List to store all loans (placeholder until the User class is accessible)
-        private LoanRules rules; // Field to hold the loan rules for the service
+        private readonly LoanRules _rules; // Field to hold the loan rules for the service
+        private readonly UserService _userService;
+        private readonly ExchangeRate _exchangeRate; // Field to hold the exchange rate service for currency conversion
         private int nextLoanId = 1000; // Starting loan ID for new loans
 
 
-        // Constructor to initialize the LoanService with the provided LoanRules
-        public LoanService(LoanRules rules)
+        // Constructor to initialize the LoanService with the provided LoanRules and ExchangeRate services
+        public LoanService(LoanRules rules, ExchangeRate exchangeRate, UserService userService)
         {
-            this.rules = rules;
+            _rules = rules;
+            _exchangeRate = exchangeRate;
+            _userService = userService;
         }
 
-        // String user is a placeholder until the User class is accessible
-        // decimal totalBalance is a placeholder until the User class is accessible
 
         // Checks if the user can borrow the requested amount based on the LoanRules and if the termMonths is greater than 0
         // If the user can borrow, a new Loan object is created with the specified amount, termMonths, and other relevant details.
         // The new Loan object is returned. If the user cannot borrow, null is returned.
-
-        public Loan? CreateLoan(string user, decimal amount, int termMonths, decimal totalBalance)
+        public Loan? CreateLoan(User user, decimal amount, int termMonths)
         {
-           if (rules.CanBorrow(amount, totalBalance) && termMonths > 0)
+            decimal totalBalance = 0;
+            decimal existingDebt = 0; // Used to stop users from borrowing more than they are allowed.
+
+            // Gather the total balance of all the user's accounts to check against the borrowing rules
+            foreach (Account account in user.Accounts)
+            {
+                totalBalance += _exchangeRate.Convert(account.Balance, account.Currency, Currency.SEK); // Convert each account balance to SEK for comparison
+            }
+
+            // Gather the total existing debt from all the user's loans to check against the borrowing rules
+            foreach (Loan loan in user.Loans)
+            {
+                existingDebt += loan.RemainingBalance;
+            }
+
+            decimal canBorrowAmount = _rules.CalculateMaxLoan(totalBalance) - existingDebt; // Calculate the maximum amount the user can borrow based on their total balance and existing debt
+
+
+            if (_rules.CanBorrow(amount + existingDebt, totalBalance) && termMonths > 0)
             {
                 Loan newLoan = new Loan();
                 newLoan.LoanId = nextLoanId++; // Assign a unique loan ID and increment for the next loan
                 newLoan.Amount = amount;
                 newLoan.TermMonths = termMonths;
                 newLoan.StartDate = DateTime.Now;
-                newLoan.Status = "Active";
-                newLoan.InterestRate = rules.BaseInterestRate; 
+                newLoan.Status = "Aktiv";
+                newLoan.InterestRate = GetInterestRateForUser(user); // Calculate the interest rate based on the user's credit score
                 newLoan.CalculateTotalInterest(); // Calculate total interest based on the above amount, interest rate and termMonths
-                newLoan.RemainingBalance = newLoan.Amount + newLoan.TotalInterest; // Set the remaining balance to the total amount owed 
-                
-                loans.Add(newLoan); // Add the new loan to the list of loans
-                return newLoan;
+                newLoan.RemainingBalance = newLoan.Amount + newLoan.TotalInterest; // Set the remaining balance to the total amount owed
+                newLoan.MonthlyPayment = newLoan.CalculateMonthlyPayment(); // Calculate the monthly payment based on the total amount owed and termMonths
 
+                user.Loans.Add(newLoan); // Add the new loan to the user's list of loans
+
+
+                Console.WriteLine($"Du har lånat {amount:F2} SEK under {termMonths} månader, med ränta på {newLoan.InterestRate}%");
+                Console.WriteLine($"Ditt månadsbelopp kommer bli {newLoan.MonthlyPayment:F2} SEK");
+                Console.WriteLine($"Räntan du kommer behöva betala är {newLoan.TotalInterest:F2} SEK, och den totala mängden är {newLoan.RemainingBalance:F2} SEK");
+
+
+                return newLoan;
             }
 
-            // Loan denied due to insufficient balance, invalid term or invalid amount
+            // Loan denied due to insufficient balance, invalid term, invalid amount or existing debt.
             else
             {
                 if (amount <= 0)
                 {
-                    Console.WriteLine("Loan denied: Amount must be greater than 0.");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Lån nekat: Beloppet måste vara högre än 0.");
+                    Console.ResetColor();
                     return null;
                 }
 
                 if (termMonths <= 0)
                 {
-                    Console.WriteLine("Loan denied: Term must be greater than 0.");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Lån nekat: Måste vara högre än 0 månader.");
+                    Console.ResetColor();
                     return null;
                 }
 
-                if (!rules.CanBorrow(amount, totalBalance))
+                if (canBorrowAmount <= 0)
                 {
-                    Console.WriteLine("Loan denied: Insufficient balance to borrow the requested amount.");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Lån nekat: Du har nått din lånegräns.");
+                    Console.ResetColor();
+                    return null;
+                }
+
+                // If the users allready has a loan and is trying to borrow more than they are allowed, this will catch it and deny the loan.
+                if (!_rules.CanBorrow(amount + existingDebt, totalBalance))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Lån nekat: Otillräckligt saldo för att låna det begärda beloppet.");
+                    Console.WriteLine($"Du kan låna som mest {canBorrowAmount:F2} SEK.");
+                    Console.ResetColor();
                     return null;
                 }
 
                 return null;
             }
+            
+
         }
 
-
-        public Loan CalculateLoanOffer(string user, decimal amount, int termMonths)
+        public decimal GetInterestRateForUser(User user)
         {
-
-            return new Loan(); // Placeholder implementation
+            int creditScore = _userService.CalculateCreditScore(user);
+            decimal interestRate = _rules.CalculateInterestRate(creditScore);
+            return interestRate;
         }
-
-        public List<Loan> GetUserLoans(int userId) 
-        {
-            return new List<Loan>(); // Placeholder implementation
-        }
-
-        public void RepayLoan(int loanId, decimal amount)
-        {
-            // Looks for the user's loan id and if found, initializes the foundLoan variable with the loan object.
-            // If not found, it will print "Loan not found." and return from the method.
-            Loan? foundLoan = null;
-
-            foreach (Loan loan in loans)
-            {
-                if (loan.LoanId == loanId)
-                {
-                    foundLoan = loan;
-                    break;
-                }
-            }
-
-            // Error handling for the repayment process. If the loan is not found, if the loan is already paid off or if the repayment amount is zero or negative,
-            // it will print an appropriate message and return from the method.
-            if (foundLoan == null)
-            {
-                Console.WriteLine("Loan not found.");
-                return;
-            }
-
-            if (foundLoan.Status == "Paid")
-            {
-                Console.WriteLine("Loan is already paid off.");
-                return;
-            }
-
-            if (amount <= 0)
-            {
-                Console.WriteLine("Repayment amount cannot be zero or negative.");
-                return;
-            }
-
-            // If the repayment amount is greater than or equal to the remaining balance of the loan,
-            // it will adjust the repayment amount to the remaining balance if necessary.
-            if (amount >= foundLoan.RemainingBalance)
-            {
-                if (amount > foundLoan.RemainingBalance)
-                {
-                    amount = foundLoan.RemainingBalance; // Takes only what is left on the loan
-                    Console.WriteLine("Payment amount exceeds remaining balance. Adjusting payment to remaining balance.");
-                }
-                // -----------------------------------//
-                // Placeholder:                       //
-                //                                    //
-                // Withdraw the repayment amount      //
-                // from the user's account balance.   //
-                //                                    //
-                //------------------------------------//
-                foundLoan.RemainingBalance = 0;
-                foundLoan.Status = "Paid";
-                Console.WriteLine($"{amount} has been repaid and the loan is now paid off."); // Remember to add currency formatting later
-                return;
-            }
-
-            // Partial payment 
-            // -----------------------------------//
-            // Placeholder:                       //
-            //                                    //
-            // Withdraw the repayment amount      //
-            // from the user's account balance.   //
-            //                                    //
-            //------------------------------------//
-            foundLoan.RemainingBalance -= amount;
-            Console.WriteLine($"{amount} has been repaid. Remaining balance is now {foundLoan.RemainingBalance}."); // Remember to add currency formatting later
-
-        }
-
     }
 }
