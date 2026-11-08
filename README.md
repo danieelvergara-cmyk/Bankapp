@@ -71,7 +71,7 @@ dotnet run --project BankApp
 | Role     | Username | Password |
 |----------|----------|----------|
 | Admin    | `admin`  | `admin`  |
-| Customer | `[...]`  | `[...]`  |
+| Customer | `user`  | `[user]`  |
 
 
 ---
@@ -215,6 +215,6 @@ A rough explanation of the main classes and objects in the source code.
 | William Ekman | [@TheOakMan](https://github.com/theoakman) | Loans (`Loan`, `LoanRules`, `LoanService`), logo (`UserInterface`), menus (`AdminMenu`, `LoanMenu`), `exchangeRate` |(`ExchangeRate`) |
 | Daniél V | [@danieelvergara-cmyk](https://github.com/danieelvergara-cmyk) | `[...]` |
 | Rickard Idevall | [@rickardidevall-a11y](https://github.com/rickardidevall-a11y) | Users (`User`, `UserService`, `LogInService`, , `Admin`), menu `UserInterface`  |
-| Sabah Adam | `[@handle]` | `Notification`, `Transaction`, `TransactionService`, och `TransactionMenu` |
+| Sabah Adam | [@DevTraveller](https://github.com/DevTraveller) | Transactions (`Transaction`, `TransactionService`, `TransactionMenu`, `Notification`), menus (`TransactionMenu`) |
 
 ---
