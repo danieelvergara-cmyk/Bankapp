@@ -84,7 +84,22 @@ namespace BankApp
             Console.ReadKey();
         }
 
+        private void DepositIntoRegularAccount(User user)
+        {
+            Account? account = ChooseRegularAccount(user);
+            if (account == null)
+            {
+                return;
+            }
 
+            Console.Clear();
+            account.PrintAccount();
+            decimal amount = ReadPositiveAmount("Hur mycket vill du sätta in? ");
+            _accountService.DepositToRegularAccount(account, amount);
+
+            Console.WriteLine("Tryck på valfri knapp för att fortsätta.");
+            Console.ReadKey();
+        }
 
         private Account? ChooseRegularAccount(User user)
         {
