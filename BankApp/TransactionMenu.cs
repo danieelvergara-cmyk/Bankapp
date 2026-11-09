@@ -232,7 +232,8 @@ namespace BankApp
                 }
 
                 Console.WriteLine(
-                    $"{transaction.Timestamp} | " +
+                    $" Överförings ID {transaction.TransactionId}  | " +
+                    $" {transaction.Timestamp} | " +
                     $" {transaction.Type} | " +
                     $" {transaction.Amount :F2} {transaction.Currency}| " +
                     $" {directionDetails} "+
